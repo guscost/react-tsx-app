@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "lib": [ "es2019", "dom" ],
+        "module": "umd",
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "paths": {
+            "react/jsx-runtime": [ "./js/lib/types/jsx-runtime" ],
+            "react-dom": [ "./js/lib/types/react-dom" ]
+        }
+    },
+    "include": ["js/**/*.tsx"]
+}
