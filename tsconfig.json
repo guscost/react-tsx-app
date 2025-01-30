@@ -1,18 +1,20 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "inlineSourceMap": true,
         "jsx": "react-jsx",
         "lib": [ "es2019", "dom" ],
         "module": "amd",
         "noImplicitAny": true,
         "noEmitOnError": true,
+        "outDir": "www/js",
         "removeComments": false,
-        "inlineSourceMap": true,
         "target": "es5",
         "paths": {
-            "react/jsx-runtime": [ "./js/lib/types/jsx-runtime" ],
-            "react-dom": [ "./js/lib/types/react-dom" ],
-            "react": [ "./js/lib/types/react" ]
+            "react/jsx-runtime": [ "types/jsx-runtime" ],
+            "react-dom": [ "types/react-dom" ],
+            "react": [ "types/react" ]
         }
     },
-    "include": ["js/**/*.tsx"]
+    "include": ["src/**/*.tsx"]
 }
