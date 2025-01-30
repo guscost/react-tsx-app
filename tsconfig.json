@@ -10,7 +10,8 @@
         "target": "es5",
         "paths": {
             "react/jsx-runtime": [ "./js/lib/types/jsx-runtime" ],
-            "react-dom": [ "./js/lib/types/react-dom" ]
+            "react-dom": [ "./js/lib/types/react-dom" ],
+            "react": [ "./js/lib/types/react" ]
         }
     },
     "include": ["js/**/*.tsx"]

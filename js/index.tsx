@@ -1,7 +1,10 @@
-///<amd-module name='main'/>
+import { createRoot } from "react-dom";
+import Hero from "Hero";
 
-import * as ReactDOM from "react-dom";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <div>Hello World</div>,
+createRoot(document.getElementById("root")).render(
+  <div>
+    <Hero />
+    <br />
+    <em>Have a nice day!</em>
+  </div>,
 );

@@ -25,7 +25,7 @@ const define = (...args) => {
     factory = args[2];
   } else {
     if (__MODULE_CACHE__[__MODULE_MAIN__]) {
-      throw new Error("Only one main module is allowed.");
+      throw new Error("Add a ///<amd-module name='MyComponent'/> directive");
     } else {
       name = __MODULE_MAIN__;
       deps = args[0];
@@ -34,13 +34,16 @@ const define = (...args) => {
   }
 
   // Run the module factory with all deps, and add to the cache
+  // TypeScript AMD modules pass require and exports
   if (deps[0] === "require" && deps[1] === "exports") {
-    __MODULE_CACHE__[name] = factory.call(
+    const exports = {};
+    factory.call(
       this,
       require,
-      {},
+      exports,
       ...deps.slice(2).map((dep) => __MODULE_CACHE__[dep]),
     );
+    __MODULE_CACHE__[name] = exports;
   } else {
     __MODULE_CACHE__[name] = factory.call(
       this,
