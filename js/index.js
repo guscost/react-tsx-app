@@ -1,16 +1,6 @@
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "react/jsx-runtime", "react-dom"], factory);
-    }
-})(function (require, exports) {
+define("main", ["require", "exports", "react/jsx-runtime", "react-dom"], function (require, exports, jsx_runtime_1, ReactDOM) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var jsx_runtime_1 = require("react/jsx-runtime");
-    var ReactDOM = require("react-dom");
     ReactDOM.createRoot(document.getElementById("root")).render((0, jsx_runtime_1.jsx)("div", { children: "Hello World" }));
 });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0lBSUEsUUFBUSxDQUFDLFVBQVUsQ0FBQyxRQUFRLENBQUMsY0FBYyxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUMsTUFBTSxDQUFDLDBEQUFzQixDQUFDLENBQUMifQ==

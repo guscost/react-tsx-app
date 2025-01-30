@@ -2,11 +2,11 @@
     "compilerOptions": {
         "jsx": "react-jsx",
         "lib": [ "es2019", "dom" ],
-        "module": "umd",
+        "module": "amd",
         "noImplicitAny": true,
         "noEmitOnError": true,
         "removeComments": false,
-        "sourceMap": true,
+        "inlineSourceMap": true,
         "target": "es5",
         "paths": {
             "react/jsx-runtime": [ "./js/lib/types/jsx-runtime" ],
