@@ -12,8 +12,8 @@
         "target": "es5",
         "paths": {
             "react/jsx-runtime": [ "types/jsx-runtime" ],
-            "react-dom": [ "types/react-dom" ],
-            "react": [ "types/react" ]
+            "react": [ "types/react" ],
+            "react-dom": [ "types/react-dom" ]
         }
     },
     "include": ["src/**/*.tsx"]

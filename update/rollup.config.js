@@ -1,6 +1,6 @@
 // Based on https://github.com/lofcz/umd-react
 
-import { readFileSync, rmSync, mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import webpack from "webpack";
@@ -39,8 +39,8 @@ async function runWebpack(config) {
 
 async function generateEntryFile(tempDir) {
   const entryContent = `
-        import * as ReactDOM from 'react-dom';
-        import * as ReactDOMClient from 'react-dom/client';
+        import * as ReactDOM from "react-dom";
+        import * as ReactDOMClient from "react-dom/client";
 
         // export client methods
         ${reactDomClientMethods
@@ -151,9 +151,9 @@ const reactPlugin = {
         externals: {
           react: {
             root: "React", // <global>.React
-            commonjs: "react", // require('react')
-            commonjs2: "react", // require('react')
-            amd: "react", // define(['react'], ...)
+            commonjs: "react", // require("react")
+            commonjs2: "react", // require("react")
+            amd: "react", // define(["react"], ...)
           },
         },
         output: {
