@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "update": "rollup -c rollup.config.js && rm dist/virtual.js && mv dist/* ../www/js/lib && rm -r dist"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.26.3",
+    "babel-loader": "^9.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "webpack": "^5.97.1"
+  }
+}
