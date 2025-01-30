@@ -99,7 +99,7 @@ const reactPlugin = {
           path: tempDir,
           filename: "jsx-runtime.min.js",
           library: {
-            name: "JsxRuntime",
+            name: "react/jsx-runtime",
             type: "umd",
             umdNamedDefine: true,
           },
@@ -125,7 +125,7 @@ const reactPlugin = {
           path: tempDir,
           filename: "react.min.js",
           library: {
-            name: "React",
+            name: "react",
             type: "umd",
             umdNamedDefine: true,
           },
@@ -160,7 +160,7 @@ const reactPlugin = {
           path: tempDir,
           filename: "react-dom.min.js",
           library: {
-            name: "ReactDOM",
+            name: "react-dom",
             type: "umd",
             umdNamedDefine: true,
             export: undefined,
