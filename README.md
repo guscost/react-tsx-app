@@ -32,7 +32,7 @@ After transpiling with `tsc`, copy the contents of the `www` folder to a static 
 - `react`
 - `react-dom`
 - `lucide-react`
-- `@tailwindcss/browser`
+- `tailwindcss`
 - `@radix-ui/*`
 - Basic `shadcn` dependencies: `clsx`, `class-variance-authority`, `tailwind-merge`, etc
 
