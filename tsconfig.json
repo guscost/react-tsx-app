@@ -12,10 +12,8 @@
         "removeComments": false,
         "target": "es5",
         "paths": {
-            "@radix-ui/*": [ "types/@radix-ui/*" ],
             "react/jsx-runtime": [ "types/jsx-runtime" ],
-            "react": [ "types/react" ],
-            "react-dom": [ "types/react-dom" ]
+            "*": ["types/*"]
         }
     },
     "include": ["src/**/*.tsx"]

@@ -175,6 +175,9 @@ async function buildUmds() {
       },
     );
 
+    // Lucide Icons
+    await buildUmd(tempDir, "lucide-react", "lucide-react.min.js");
+
     // Aggregate all Radix UI modules into one big file
     const radixUiSources = readdirSync(
       path.join(__dirname, "update/node_modules/@radix-ui"),
@@ -214,13 +217,20 @@ async function buildUmds() {
 
 async function buildTypes() {
   try {
+
+    // Lucide type definitions
+    copyFileSync(
+      path.join(__dirname, "update/node_modules/lucide-react/dist/lucide-react.d.ts"),
+      path.join(__dirname, "types/lucide-react.d.ts"),
+    );
+
+    // Copy Radix type definitions
     rmSync(path.join(__dirname, "types/@radix-ui"), {
       recursive: true,
       force: true,
     });
     mkdirSync(path.join(__dirname, "types/@radix-ui"));
 
-    // Copy Radix type definitions
     const radixUiFolders = readdirSync(
       path.join(__dirname, "update/node_modules/@radix-ui"),
       {
@@ -251,6 +261,7 @@ async function buildTypes() {
         );
       }
     }
+
   } catch (error) {
     console.error("Error during typedef build:", error);
     throw error;

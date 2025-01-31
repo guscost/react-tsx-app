@@ -1,7 +1,7 @@
 ///<amd-module name='Hero'/>
 import React, { useState } from "react";
 import * as Select from "@radix-ui/react-select";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 const SelectItem = React.forwardRef(
 	({ children, className, ...props }: Select.SelectItemProps, forwardedRef: React.Ref<HTMLDivElement>) => {
