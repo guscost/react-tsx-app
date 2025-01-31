@@ -161,7 +161,7 @@ async function buildUmds() {
     });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
 
-    // 2. Copy tailwind
+    // 2. Copy Tailwind
     copyFileSync(
       path.join(
         _root,
@@ -170,11 +170,11 @@ async function buildUmds() {
       path.join(_root, "www/js/lib/tailwind.min.js"),
     );
 
-    // 3. Build files
+    // 3. Build React and other dependencies
     await buildUmd(tempDir, "react", "react.min.js");
     await buildUmd(tempDir, "react/jsx-runtime", "react.min.js");
 
-    // React 19 added "ReactDomClient" which we need to merge back into "ReactDom"
+    // React 19 added react-dom/client which we need to merge back into react-dom
     await buildUmd(
       tempDir,
       "react-dom",
@@ -190,7 +190,7 @@ async function buildUmds() {
       },
     );
 
-    // Lucide Icons
+    // Lucide icons
     await buildUmd(tempDir, "lucide-react", "lucide-react.min.js");
 
     // Aggregate all Radix UI modules into one big file
@@ -222,6 +222,14 @@ async function buildUmds() {
         },
       );
     }
+
+    // Build shadcn deps
+    await buildUmd(tempDir, "clsx", "shadcn.min.js");
+    await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
+    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js");
+    await buildUmd(tempDir, "cmdk", "shadcn.min.js");
+    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js");
+    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js");
 
     rmSync(tempDir, { recursive: true, force: true });
   } catch (error) {
@@ -322,6 +330,50 @@ async function copyTypes() {
         );
       }
     }
+
+    // Copy shadcn dependency types
+    copyFileSync(
+      path.join(_root, "update/node_modules/clsx/clsx.d.ts"),
+      path.join(_root, "types/clsx.d.ts"),
+    );
+    copyFileSync(
+      path.join(_root, "update/node_modules/tailwind-merge/dist/types.d.ts"),
+      path.join(_root, "types/tailwind-merge.d.ts"),
+    );
+    copyFileSync(
+      path.join(_root, "update/node_modules/cmdk/dist/index.d.ts"),
+      path.join(_root, "types/cmdk.d.ts"),
+    );
+    appendFileSync(
+      path.join(_root, "types/react-day-picker.d.ts"),
+      'declare module "react-day-picker";',
+    );
+    appendFileSync(
+      path.join(_root, "types/react-resizable-panels.d.ts"),
+      'declare module "react-resizable-panels";',
+    );
+
+    const classVarianceAuthorityContent = readFileSync(
+      path.join(
+        _root,
+        "update/node_modules/class-variance-authority/dist/index.d.ts",
+      ),
+      "utf8",
+    );
+    const classVarianceAuthorityTypesContent = readFileSync(
+      path.join(
+        _root,
+        "update/node_modules/class-variance-authority/dist/types.d.ts",
+      ),
+      "utf8",
+    );
+    appendFileSync(
+      path.join(_root, "types/class-variance-authority.d.ts"),
+      classVarianceAuthorityContent.replace(
+        /import .* from "\.\/types";/,
+        classVarianceAuthorityTypesContent,
+      ) + "\n",
+    );
   } catch (error) {
     console.error("Error during typedef build:", error);
     throw error;

@@ -1,20 +1,21 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "esModuleInterop": true,
-        "inlineSourceMap": true,
-        "jsx": "react-jsx",
-        "lib": [ "es2019", "dom" ],
-        "module": "amd",
-        "noImplicitAny": true,
-        "noEmitOnError": true,
-        "outDir": "www/js",
-        "removeComments": false,
-        "target": "es5",
-        "paths": {
-            "react/jsx-runtime": [ "types/jsx-runtime" ],
-            "*": ["types/*"]
-        }
-    },
-    "include": ["src/**/*.tsx"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "inlineSourceMap": true,
+    "jsx": "react-jsx",
+    "lib": ["esnext", "dom"],
+    "module": "amd",
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "outDir": "www/js",
+    "removeComments": false,
+    "target": "es5",
+    "paths": {
+      "react/jsx-runtime": ["types/jsx-runtime"],
+      "@/*": ["src/*"],
+      "*": ["types/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

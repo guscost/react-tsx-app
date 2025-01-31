@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom";
-import Hero from "Hero";
+import Hero from "./components/Hero";
 
 createRoot(document.getElementById("root")).render(
   <div className="p-4">
