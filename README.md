@@ -21,7 +21,7 @@ Modules in `src` are transpiled as `amd`. All but the entrypoint should have a d
 /// <amd-module name="hooks/use-mobile"/>
 ```
 
-By convention, shadcn/ui component module names are prefixed with `ui/`, and application components are capitalized and not prefixed. Only one module may omit a name declaration, and by convention it should be the entrypoint of the app. It's a little bit clunky, but this whole architecture is more like "Previous.js" anyway.
+By convention, shadcn/ui component names are prefixed with `ui/`, and application components are capitalized and not prefixed. Only one module may omit a name declaration. It's a little bit clunky, but this whole architecture is more like "Previous.js" anyway.
 
 ## Deployment
 
@@ -38,7 +38,7 @@ After transpiling with `tsc`, copy the contents of the `www` folder to a static 
 
 ### Updating dependencies
 
-To update included dependencies, run `npm run update` in the `update` folder.
+To update included dependencies, set versions and run `npm run update` in the `update` folder.
 
 ## Wish list
 
@@ -52,7 +52,3 @@ Here are some things I'd like to add:
 - `react-day-picker`
 - `react-resizable-panels`
 - Missing components: Carousel, Chart, Data Table, Form, Input OTP, Sonner
-
-### Tailwind config
-- `tailwindcss-animate` plugin
-- Use generated `tailwind.config.ts`
