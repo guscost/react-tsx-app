@@ -162,6 +162,7 @@ async function buildUmds() {
       force: true,
     });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
 
     // 2. Copy Tailwind from CDN
     const tailwindResponse = await fetch(
