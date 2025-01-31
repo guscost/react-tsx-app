@@ -1,11 +1,13 @@
 {
   "type": "module",
   "scripts": {
-    "update": "rollup -c rollup.config.js && rm dist/virtual.js && mv dist/* ../www/js/lib && rm -r dist"
+    "update": "npm install && node update.js"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.26.3",
+    "@radix-ui/react-icons": "^1.3.2",
     "babel-loader": "^9.2.1",
+    "radix-ui": "^1.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "webpack": "^5.97.1"

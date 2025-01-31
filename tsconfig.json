@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "esModuleInterop": true,
         "inlineSourceMap": true,
         "jsx": "react-jsx",
         "lib": [ "es2019", "dom" ],
@@ -11,6 +12,7 @@
         "removeComments": false,
         "target": "es5",
         "paths": {
+            "@radix-ui/*": [ "types/@radix-ui/*" ],
             "react/jsx-runtime": [ "types/jsx-runtime" ],
             "react": [ "types/react" ],
             "react-dom": [ "types/react-dom" ]

@@ -1,3 +1,3 @@
 ## Updating React
 
-`npm i && npm run update`
+`npm run update`
