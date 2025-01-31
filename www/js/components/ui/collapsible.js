@@ -31,7 +31,8 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-define(["require", "exports", "@radix-ui/react-collapsible"], function (require, exports, CollapsiblePrimitive) {
+define("ui/collapsible", ["require", "exports", "@radix-ui/react-collapsible"], function (require, exports, CollapsiblePrimitive) {
+    /// <amd-module name="ui/collapsible"/>
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -44,4 +45,4 @@ define(["require", "exports", "@radix-ui/react-collapsible"], function (require,
     var CollapsibleContent = CollapsiblePrimitive.CollapsibleContent;
     exports.CollapsibleContent = CollapsibleContent;
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sbGFwc2libGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9jb2xsYXBzaWJsZS50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQUFBLFlBQVksQ0FBQzs7Ozs7SUFJYixJQUFNLFdBQVcsR0FBRyxvQkFBb0IsQ0FBQyxJQUFJLENBQUM7SUFNckMsa0NBQVc7SUFKcEIsSUFBTSxrQkFBa0IsR0FBRyxvQkFBb0IsQ0FBQyxrQkFBa0IsQ0FBQztJQUk3QyxnREFBa0I7SUFGeEMsSUFBTSxrQkFBa0IsR0FBRyxvQkFBb0IsQ0FBQyxrQkFBa0IsQ0FBQztJQUV6QixnREFBa0IifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sbGFwc2libGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9jb2xsYXBzaWJsZS50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQUFBLHVDQUF1QztJQUN2QyxZQUFZLENBQUM7Ozs7O0lBSWIsSUFBTSxXQUFXLEdBQUcsb0JBQW9CLENBQUMsSUFBSSxDQUFDO0lBTXJDLGtDQUFXO0lBSnBCLElBQU0sa0JBQWtCLEdBQUcsb0JBQW9CLENBQUMsa0JBQWtCLENBQUM7SUFJN0MsZ0RBQWtCO0lBRnhDLElBQU0sa0JBQWtCLEdBQUcsb0JBQW9CLENBQUMsa0JBQWtCLENBQUM7SUFFekIsZ0RBQWtCIn0=

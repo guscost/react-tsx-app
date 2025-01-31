@@ -53,7 +53,8 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-checkbox", "lucide-react", "utils"], function (require, exports, jsx_runtime_1, React, CheckboxPrimitive, lucide_react_1, utils_1) {
+define("ui/checkbox", ["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-checkbox", "lucide-react", "lib/utils"], function (require, exports, jsx_runtime_1, React, CheckboxPrimitive, lucide_react_1, utils_1) {
+    /// <amd-module name="ui/checkbox"/>
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -67,4 +68,4 @@ define(["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-che
     exports.Checkbox = Checkbox;
     Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hlY2tib3guanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9jaGVja2JveC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUFBQSxZQUFZLENBQUM7Ozs7OztJQVFiLElBQU0sUUFBUSxHQUFHLEtBQUssQ0FBQyxVQUFVLENBRy9CLFVBQUMsRUFBdUIsRUFBRSxHQUFHO1FBQTFCLElBQUEsU0FBUyxlQUFBLEVBQUssS0FBSyxjQUFyQixhQUF1QixDQUFGO1FBQVksT0FBQSxDQUNsQyx1QkFBQyxpQkFBaUIsQ0FBQyxJQUFJLGFBQ3JCLEdBQUcsRUFBRSxHQUFHLEVBQ1IsU0FBUyxFQUFFLElBQUEsVUFBRSxFQUNYLG9RQUFvUSxFQUNwUSxTQUFTLENBQ1YsSUFDRyxLQUFLLGNBRVQsdUJBQUMsaUJBQWlCLENBQUMsU0FBUyxJQUMxQixTQUFTLEVBQUUsSUFBQSxVQUFFLEVBQUMsK0NBQStDLENBQUMsWUFFOUQsdUJBQUMsb0JBQUssSUFBQyxTQUFTLEVBQUMsU0FBUyxHQUFHLEdBQ0QsSUFDUCxDQUMxQixDQUFBO0tBQUEsQ0FBQyxDQUFDO0lBR00sNEJBQVE7SUFGakIsUUFBUSxDQUFDLFdBQVcsR0FBRyxpQkFBaUIsQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hlY2tib3guanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9jaGVja2JveC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUFBQSxvQ0FBb0M7SUFDcEMsWUFBWSxDQUFDOzs7Ozs7SUFRYixJQUFNLFFBQVEsR0FBRyxLQUFLLENBQUMsVUFBVSxDQUcvQixVQUFDLEVBQXVCLEVBQUUsR0FBRztRQUExQixJQUFBLFNBQVMsZUFBQSxFQUFLLEtBQUssY0FBckIsYUFBdUIsQ0FBRjtRQUFZLE9BQUEsQ0FDbEMsdUJBQUMsaUJBQWlCLENBQUMsSUFBSSxhQUNyQixHQUFHLEVBQUUsR0FBRyxFQUNSLFNBQVMsRUFBRSxJQUFBLFVBQUUsRUFDWCxvUUFBb1EsRUFDcFEsU0FBUyxDQUNWLElBQ0csS0FBSyxjQUVULHVCQUFDLGlCQUFpQixDQUFDLFNBQVMsSUFDMUIsU0FBUyxFQUFFLElBQUEsVUFBRSxFQUFDLCtDQUErQyxDQUFDLFlBRTlELHVCQUFDLG9CQUFLLElBQUMsU0FBUyxFQUFDLFNBQVMsR0FBRyxHQUNELElBQ1AsQ0FDMUIsQ0FBQTtLQUFBLENBQUMsQ0FBQztJQUdNLDRCQUFRO0lBRmpCLFFBQVEsQ0FBQyxXQUFXLEdBQUcsaUJBQWlCLENBQUMsSUFBSSxDQUFDLFdBQVcsQ0FBQyJ9

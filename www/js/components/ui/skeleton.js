@@ -20,7 +20,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "utils"], function (require, exports, jsx_runtime_1, utils_1) {
+define("ui/skeleton", ["require", "exports", "react/jsx-runtime", "lib/utils"], function (require, exports, jsx_runtime_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Skeleton = Skeleton;
@@ -29,4 +29,4 @@ define(["require", "exports", "react/jsx-runtime", "utils"], function (require, 
         return ((0, jsx_runtime_1.jsx)("div", __assign({ className: (0, utils_1.cn)("animate-pulse rounded-md bg-primary/10", className) }, props)));
     }
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2tlbGV0b24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9za2VsZXRvbi50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQWNTLDRCQUFRO0lBWmpCLFNBQVMsUUFBUSxDQUFDLEVBR3FCO1FBRnJDLElBQUEsU0FBUyxlQUFBLEVBQ04sS0FBSyxjQUZRLGFBR2pCLENBRFM7UUFFUixPQUFPLENBQ0wseUNBQ0UsU0FBUyxFQUFFLElBQUEsVUFBRSxFQUFDLHdDQUF3QyxFQUFFLFNBQVMsQ0FBQyxJQUM5RCxLQUFLLEVBQ1QsQ0FDSCxDQUFDO0lBQ0osQ0FBQyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2tlbGV0b24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9za2VsZXRvbi50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQWVTLDRCQUFRO0lBWmpCLFNBQVMsUUFBUSxDQUFDLEVBR3FCO1FBRnJDLElBQUEsU0FBUyxlQUFBLEVBQ04sS0FBSyxjQUZRLGFBR2pCLENBRFM7UUFFUixPQUFPLENBQ0wseUNBQ0UsU0FBUyxFQUFFLElBQUEsVUFBRSxFQUFDLHdDQUF3QyxFQUFFLFNBQVMsQ0FBQyxJQUM5RCxLQUFLLEVBQ1QsQ0FDSCxDQUFDO0lBQ0osQ0FBQyJ9

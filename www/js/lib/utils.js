@@ -1,4 +1,4 @@
-define("utils", ["require", "exports", "clsx", "tailwind-merge"], function (require, exports, clsx_1, tailwind_merge_1) {
+define("lib/utils", ["require", "exports", "clsx", "tailwind-merge"], function (require, exports, clsx_1, tailwind_merge_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.cn = cn;

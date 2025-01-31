@@ -31,7 +31,8 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-define(["require", "exports", "@radix-ui/react-aspect-ratio"], function (require, exports, AspectRatioPrimitive) {
+define("ui/aspect-ratio", ["require", "exports", "@radix-ui/react-aspect-ratio"], function (require, exports, AspectRatioPrimitive) {
+    /// <amd-module name="ui/aspect-ratio"/>
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -40,4 +41,4 @@ define(["require", "exports", "@radix-ui/react-aspect-ratio"], function (require
     var AspectRatio = AspectRatioPrimitive.Root;
     exports.AspectRatio = AspectRatio;
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXNwZWN0LXJhdGlvLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vc3JjL2NvbXBvbmVudHMvdWkvYXNwZWN0LXJhdGlvLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0lBQUEsWUFBWSxDQUFDOzs7OztJQUliLElBQU0sV0FBVyxHQUFHLG9CQUFvQixDQUFDLElBQUksQ0FBQztJQUVyQyxrQ0FBVyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXNwZWN0LXJhdGlvLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vc3JjL2NvbXBvbmVudHMvdWkvYXNwZWN0LXJhdGlvLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0lBQUEsd0NBQXdDO0lBQ3hDLFlBQVksQ0FBQzs7Ozs7SUFJYixJQUFNLFdBQVcsR0FBRyxvQkFBb0IsQ0FBQyxJQUFJLENBQUM7SUFFckMsa0NBQVcifQ==

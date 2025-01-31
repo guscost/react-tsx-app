@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define("Hero", ["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-select", "lucide-react", "button"], function (require, exports, jsx_runtime_1, react_1, Select, lucide_react_1, button_1) {
+define("Hero", ["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-select", "lucide-react", "ui/button"], function (require, exports, jsx_runtime_1, react_1, Select, lucide_react_1, button_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Hero;

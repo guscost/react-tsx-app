@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define("button", ["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-slot", "class-variance-authority", "utils"], function (require, exports, jsx_runtime_1, React, react_slot_1, class_variance_authority_1, utils_1) {
+define("ui/button", ["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-slot", "class-variance-authority", "lib/utils"], function (require, exports, jsx_runtime_1, React, react_slot_1, class_variance_authority_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.buttonVariants = exports.Button = void 0;
