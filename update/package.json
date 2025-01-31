@@ -5,6 +5,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.26.3",
+    "@tailwindcss/browser": "^4.0.1",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "babel-loader": "^9.2.1",

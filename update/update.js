@@ -151,10 +151,8 @@ async function buildUmds() {
     mkdirSync(tempDir, { recursive: true });
 
     // 1. Clean up old files
+    rmSync(path.join(_root, "www/js/lib/tailwind.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/react.min.js"), { force: true });
-    rmSync(path.join(_root, "www/js/lib/jsx-runtime.min.js"), {
-      force: true,
-    });
     rmSync(path.join(_root, "www/js/lib/react-dom.min.js"), {
       force: true,
     });
@@ -163,9 +161,18 @@ async function buildUmds() {
     });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
 
-    // 2. Build files
+    // 2. Copy tailwind
+    copyFileSync(
+      path.join(
+        _root,
+        "update/node_modules/@tailwindcss/browser/dist/index.global.js",
+      ),
+      path.join(_root, "www/js/lib/tailwind.min.js"),
+    );
+
+    // 3. Build files
     await buildUmd(tempDir, "react", "react.min.js");
-    await buildUmd(tempDir, "react/jsx-runtime", "jsx-runtime.min.js");
+    await buildUmd(tempDir, "react/jsx-runtime", "react.min.js");
 
     // React 19 added "ReactDomClient" which we need to merge back into "ReactDom"
     await buildUmd(
