@@ -1,5 +1,4 @@
 // Based on https://github.com/lofcz/umd-react
-
 import {
   appendFileSync,
   copyFileSync,
@@ -49,39 +48,28 @@ const commonConfig = {
   },
 };
 
-// Determine React version
-const __dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+// Determine package versions
+const _root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const reactVersion = JSON.parse(
-  readFileSync(path.join(__dirname, "update/node_modules/react/package.json")),
+  readFileSync(path.join(_root, "update/node_modules/react/package.json")),
 ).version;
 const radixVersion = JSON.parse(
+  readFileSync(path.join(_root, "update/node_modules/radix-ui/package.json")),
+).version;
+const lucideVersion = JSON.parse(
   readFileSync(
-    path.join(__dirname, "update/node_modules/radix-ui/package.json"),
+    path.join(_root, "update/node_modules/lucide-react/package.json"),
   ),
 ).version;
 const packageVersions = {
-  "jsx-runtime": reactVersion,
   react: reactVersion,
   "react-dom": reactVersion,
+  "jsx-runtime": reactVersion,
+  "lucide-react": lucideVersion,
   "radix-ui": radixVersion,
 };
 
-async function runWebpack(config) {
-  return new Promise((resolve, reject) => {
-    webpack(config, (err, stats) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      if (stats.hasErrors()) {
-        reject(new Error(stats.toString()));
-        return;
-      }
-      resolve(stats);
-    });
-  });
-}
-
+// Helper methods for building UMD bundles
 async function generateReactDomEntryFile(tempDir) {
   const entryContent = `
         import * as ReactDOM from "react-dom";
@@ -101,6 +89,22 @@ async function generateReactDomEntryFile(tempDir) {
   const entryFile = path.join(tempDir, "react-dom-entry.js");
   appendFileSync(entryFile, entryContent);
   return entryFile;
+}
+
+async function runWebpack(config) {
+  return new Promise((resolve, reject) => {
+    webpack(config, (err, stats) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (stats.hasErrors()) {
+        reject(new Error(stats.toString()));
+        return;
+      }
+      resolve(stats);
+    });
+  });
 }
 
 async function buildUmd(tempDir, moduleName, fileName, entry, externals) {
@@ -134,32 +138,36 @@ async function buildUmd(tempDir, moduleName, fileName, entry, externals) {
   const version = packageVersions[fileName.split(".")[0]];
 
   appendFileSync(
-    path.join(__dirname, "www/js/lib", fileName),
+    path.join(_root, "www/js/lib", fileName),
     content.replace(/^\/\*\!.*\*\//, `/*! ${fileName} v${version} */`) + "\n",
   );
 }
 
+// Build all UMD bundles for the project
 async function buildUmds() {
   try {
-    const tempDir = path.join(__dirname, "update", "temp");
+    const tempDir = path.join(_root, "update/temp");
     rmSync(tempDir, { recursive: true, force: true });
     mkdirSync(tempDir, { recursive: true });
 
-    // 1. clean up old files
-    rmSync(path.join(__dirname, "www/js/lib/jsx-runtime.min.js"), {
+    // 1. Clean up old files
+    rmSync(path.join(_root, "www/js/lib/react.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/jsx-runtime.min.js"), {
       force: true,
     });
-    rmSync(path.join(__dirname, "www/js/lib/react.min.js"), { force: true });
-    rmSync(path.join(__dirname, "www/js/lib/react-dom.min.js"), {
+    rmSync(path.join(_root, "www/js/lib/react-dom.min.js"), {
       force: true,
     });
-    rmSync(path.join(__dirname, "www/js/lib/radix-ui.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
+      force: true,
+    });
+    rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
 
-    // 1. build files
-    await buildUmd(tempDir, "react/jsx-runtime", "jsx-runtime.min.js");
+    // 2. Build files
     await buildUmd(tempDir, "react", "react.min.js");
+    await buildUmd(tempDir, "react/jsx-runtime", "jsx-runtime.min.js");
 
-    // react 19 added "ReactDomClient" which we need to merge back into "ReactDom"
+    // React 19 added "ReactDomClient" which we need to merge back into "ReactDom"
     await buildUmd(
       tempDir,
       "react-dom",
@@ -180,7 +188,7 @@ async function buildUmds() {
 
     // Aggregate all Radix UI modules into one big file
     const radixUiSources = readdirSync(
-      path.join(__dirname, "update/node_modules/@radix-ui"),
+      path.join(_root, "update/node_modules/@radix-ui"),
       {
         withFileTypes: true,
       },
@@ -215,36 +223,82 @@ async function buildUmds() {
   }
 }
 
-async function buildTypes() {
+// Copy all type definitions for the project
+async function copyTypes() {
   try {
+    rmSync(path.join(_root, "types"), { recursive: true, force: true });
+    mkdirSync(path.join(_root, "types"), { recursive: true });
 
-    // Lucide type definitions
+    // csstype
     copyFileSync(
-      path.join(__dirname, "update/node_modules/lucide-react/dist/lucide-react.d.ts"),
-      path.join(__dirname, "types/lucide-react.d.ts"),
+      path.join(_root, "update/node_modules/csstype/index.d.ts"),
+      path.join(_root, "types/csstype.d.ts"),
     );
 
-    // Copy Radix type definitions
-    rmSync(path.join(__dirname, "types/@radix-ui"), {
+    // react is a relative import in jsx-runtime, so rewrite that
+    copyFileSync(
+      path.join(_root, "update/node_modules/@types/react/global.d.ts"),
+      path.join(_root, "types/global.d.ts"),
+    );
+    copyFileSync(
+      path.join(_root, "update/node_modules/@types/react/index.d.ts"),
+      path.join(_root, "types/react.d.ts"),
+    );
+    const jsxRuntimeContent = readFileSync(
+      path.join(_root, "update/node_modules/@types/react/jsx-runtime.d.ts"),
+      "utf8",
+    );
+    appendFileSync(
+      path.join(_root, "types/jsx-runtime.d.ts"),
+      jsxRuntimeContent.replace(
+        /((import|export).* from )"\.\/";/g,
+        (_, g) => g + '"react";',
+      ),
+    );
+
+    // react-dom has types from both index and client, since we built them together
+    const reactDomContent = readFileSync(
+      path.join(_root, "update/node_modules/@types/react-dom/index.d.ts"),
+      "utf8",
+    );
+    const reactDomClientContent = readFileSync(
+      path.join(_root, "update/node_modules/@types/react-dom/client.d.ts"),
+      "utf8",
+    );
+    appendFileSync(
+      path.join(_root, "types/react-dom.d.ts"),
+      reactDomContent + "\n",
+    );
+    appendFileSync(
+      path.join(_root, "types/react-dom.d.ts"),
+      reactDomClientContent,
+    );
+
+    // Copy lucide-react types
+    copyFileSync(
+      path.join(
+        _root,
+        "update/node_modules/lucide-react/dist/lucide-react.d.ts",
+      ),
+      path.join(_root, "types/lucide-react.d.ts"),
+    );
+
+    // Copy all radix-ui types
+    rmSync(path.join(_root, "types/@radix-ui"), {
       recursive: true,
       force: true,
     });
-    mkdirSync(path.join(__dirname, "types/@radix-ui"));
+    mkdirSync(path.join(_root, "types/@radix-ui"));
 
     const radixUiFolders = readdirSync(
-      path.join(__dirname, "update/node_modules/@radix-ui"),
+      path.join(_root, "update/node_modules/@radix-ui"),
       {
         withFileTypes: true,
       },
     );
     for (const folder of radixUiFolders.filter((f) => f.isDirectory())) {
       const radixUiTypedefs = readdirSync(
-        path.join(
-          __dirname,
-          "update/node_modules/@radix-ui",
-          folder.name,
-          "dist",
-        ),
+        path.join(_root, "update/node_modules/@radix-ui", folder.name, "dist"),
         {
           withFileTypes: true,
         },
@@ -256,12 +310,11 @@ async function buildTypes() {
         copyFileSync(
           path.join(folder.parentPath, folder.name, "dist", file.name),
           "index.d.ts" === file.name
-            ? path.join(__dirname, "types/@radix-ui", `${folder.name}.d.ts`)
-            : path.join(__dirname, "types/@radix-ui", file.name),
+            ? path.join(_root, "types/@radix-ui", `${folder.name}.d.ts`)
+            : path.join(_root, "types/@radix-ui", file.name),
         );
       }
     }
-
   } catch (error) {
     console.error("Error during typedef build:", error);
     throw error;
@@ -269,4 +322,4 @@ async function buildTypes() {
 }
 
 buildUmds();
-buildTypes();
+copyTypes();

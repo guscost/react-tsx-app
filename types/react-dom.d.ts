@@ -1,13 +1,10 @@
-// Type definitions for ReactDOM v19
-// https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/ffe46d9382e765fc0f54530b4653e57e6ef0921c/types/react-dom/index.d.ts
-
 // NOTE: Users of the `experimental` builds of React should add a reference
 // to 'react-dom/experimental' in their project. See experimental.d.ts's top comment
 // for reference and documentation on how exactly to do it.
 
 export as namespace ReactDOM;
 
-import { Key, ReactNode, ReactPortal } from "./react";
+import { Key, ReactNode, ReactPortal } from "react";
 
 export function createPortal(
     children: ReactNode,
@@ -129,19 +126,15 @@ export function preinitModule(href: string, options?: PreinitModuleOptions): voi
 
 export function requestFormReset(form: HTMLFormElement): void;
 
-
-
-// https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/ffe46d9382e765fc0f54530b4653e57e6ef0921c/types/react-dom/client.d.ts
-
 /**
  * WARNING: This entrypoint is only available starting with `react-dom@18.0.0-rc.1`
  */
 
 // See https://github.com/facebook/react/blob/main/packages/react-dom/client.js to see how the exports are declared,
 
-import React = require("./react");
+import React = require("react");
 
-export { };
+export {};
 
 declare const REACT_FORM_STATE_SIGIL: unique symbol;
 export interface ReactFormState {
@@ -155,18 +148,18 @@ export interface HydrationOptions {
      */
     identifierPrefix?: string;
     onUncaughtError?:
-    | ((error: unknown, errorInfo: { componentStack?: string | undefined }) => void)
-    | undefined;
+        | ((error: unknown, errorInfo: { componentStack?: string | undefined }) => void)
+        | undefined;
     onRecoverableError?: (error: unknown, errorInfo: ErrorInfo) => void;
     onCaughtError?:
-    | ((
-        error: unknown,
-        errorInfo: {
-            componentStack?: string | undefined;
-            errorBoundary?: React.Component<unknown> | undefined;
-        },
-    ) => void)
-    | undefined;
+        | ((
+            error: unknown,
+            errorInfo: {
+                componentStack?: string | undefined;
+                errorBoundary?: React.Component<unknown> | undefined;
+            },
+        ) => void)
+        | undefined;
 }
 
 export interface RootOptions {
@@ -175,18 +168,18 @@ export interface RootOptions {
      */
     identifierPrefix?: string;
     onUncaughtError?:
-    | ((error: unknown, errorInfo: { componentStack?: string | undefined }) => void)
-    | undefined;
+        | ((error: unknown, errorInfo: { componentStack?: string | undefined }) => void)
+        | undefined;
     onRecoverableError?: (error: unknown, errorInfo: ErrorInfo) => void;
     onCaughtError?:
-    | ((
-        error: unknown,
-        errorInfo: {
-            componentStack?: string | undefined;
-            errorBoundary?: React.Component<unknown> | undefined;
-        },
-    ) => void)
-    | undefined;
+        | ((
+            error: unknown,
+            errorInfo: {
+                componentStack?: string | undefined;
+                errorBoundary?: React.Component<unknown> | undefined;
+            },
+        ) => void)
+        | undefined;
 }
 
 export interface ErrorInfo {
@@ -203,14 +196,14 @@ export interface Root {
  * App or library types should never augment this interface.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_CREATE_ROOT_CONTAINERS { }
+export interface DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_CREATE_ROOT_CONTAINERS {}
 
 export type Container =
     | Element
     | DocumentFragment
     | Document
     | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_CREATE_ROOT_CONTAINERS[
-    keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_CREATE_ROOT_CONTAINERS
+        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_CREATE_ROOT_CONTAINERS
     ];
 
 /**

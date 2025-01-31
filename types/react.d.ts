@@ -1,13 +1,10 @@
-// Type definitions for React v19
-// https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/ffe46d9382e765fc0f54530b4653e57e6ef0921c/types/react/index.d.ts
-
 // NOTE: Users of the `experimental` builds of React should add a reference
 // to 'react/experimental' in their project. See experimental.d.ts's top comment
 // for reference and documentation on how exactly to do it.
 
-/// <reference path="./global.d.ts" />
+/// <reference path="global.d.ts" />
 
-import * as CSS from "./csstype";
+import * as CSS from "csstype";
 
 type NativeAnimationEvent = AnimationEvent;
 type NativeClipboardEvent = ClipboardEvent;
@@ -52,7 +49,7 @@ type AwaitedReactNode =
     | null
     | undefined
     | React.DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES[
-    keyof React.DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES
+        keyof React.DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES
     ];
 
 /**
@@ -137,7 +134,7 @@ declare namespace React {
             props: P,
         ) => ReactNode | Promise<ReactNode>)
         // constructor signature must match React.Component
-        | (new (props: P) => Component<any, any>);
+        | (new(props: P) => Component<any, any>);
 
     /**
      * Created by {@link createRef}, or {@link useRef} when passed `null`.
@@ -181,7 +178,7 @@ declare namespace React {
             | void
             | (() => VoidOrUndefinedOnly)
             | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[
-            keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES
+                keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES
             ];
     }["bivarianceHack"];
 
@@ -219,10 +216,10 @@ declare namespace React {
      */
     type ElementRef<
         C extends
-        | ForwardRefExoticComponent<any>
-        | { new(props: any): Component<any> }
-        | ((props: any) => ReactNode)
-        | keyof JSX.IntrinsicElements,
+            | ForwardRefExoticComponent<any>
+            | { new(props: any): Component<any> }
+            | ((props: any) => ReactNode)
+            | keyof JSX.IntrinsicElements,
     > = ComponentRef<C>;
 
     type ComponentState = any;
@@ -330,7 +327,7 @@ declare namespace React {
     interface ReactComponentElement<
         T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
         P = Pick<ComponentProps<T>, Exclude<keyof ComponentProps<T>, "key" | "ref">>,
-    > extends ReactElement<P, Exclude<T, number>> { }
+    > extends ReactElement<P, Exclude<T, number>> {}
 
     /**
      * @deprecated Use `ReactElement<P, React.FunctionComponent<P>>`
@@ -366,7 +363,8 @@ declare namespace React {
      * @deprecated Use `ReactElement<P, string>`
      */
     interface DOMElement<P extends HTMLAttributes<T> | SVGAttributes<T>, T extends Element>
-        extends ReactElement<P, string> {
+        extends ReactElement<P, string>
+    {
         /**
          * @deprecated Use `element.props.ref` instead.
          */
@@ -374,7 +372,7 @@ declare namespace React {
     }
 
     // ReactHTML for ReactHTMLElement
-    interface ReactHTMLElement<T extends HTMLElement> extends DetailedReactHTMLElement<AllHTMLAttributes<T>, T> { }
+    interface ReactHTMLElement<T extends HTMLElement> extends DetailedReactHTMLElement<AllHTMLAttributes<T>, T> {}
 
     interface DetailedReactHTMLElement<P extends HTMLAttributes<T>, T extends HTMLElement> extends DOMElement<P, T> {
         type: HTMLElementType;
@@ -393,7 +391,7 @@ declare namespace React {
      * Different release channels declare additional types of ReactNode this particular release channel accepts.
      * App or library types should never augment this interface.
      */
-    interface DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES { }
+    interface DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES {}
 
     /**
      * Represents all of the things React can render.
@@ -436,7 +434,7 @@ declare namespace React {
         | null
         | undefined
         | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES[
-        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES
+            keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES
         ]
         | Promise<AwaitedReactNode>;
 
@@ -894,7 +892,7 @@ declare namespace React {
     type ReactInstance = Component<any> | Element;
 
     // Base component for plain JS classes
-    interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> { }
+    interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {}
     class Component<P, S> {
         /**
          * If set, `this.context` will be set at runtime to the current value of the given Context.
@@ -960,7 +958,7 @@ declare namespace React {
         state: Readonly<S>;
     }
 
-    class PureComponent<P = {}, S = {}, SS = any> extends Component<P, S, SS> { }
+    class PureComponent<P = {}, S = {}, SS = any> extends Component<P, S, SS> {}
 
     /**
      * @deprecated Use `ClassicComponent` from `create-react-class`
@@ -1155,7 +1153,7 @@ declare namespace React {
      */
     type ClassType<P, T extends Component<P, ComponentState>, C extends ComponentClass<P>> =
         & C
-        & (new (props: P) => T);
+        & (new(props: P) => T);
 
     //
     // Component Specs and Lifecycle
@@ -1452,7 +1450,7 @@ declare namespace React {
      */
     type ComponentPropsWithRef<T extends ElementType> = T extends JSXElementConstructor<infer Props>
         // If it's a class i.e. newable we're dealing with a class component
-        ? T extends abstract new (args: any) => any ? PropsWithoutRef<Props> & RefAttributes<InstanceType<T>>
+        ? T extends abstract new(args: any) => any ? PropsWithoutRef<Props> & RefAttributes<InstanceType<T>>
         : Props
         : ComponentProps<T>;
     /**
@@ -1473,7 +1471,7 @@ declare namespace React {
      */
     type CustomComponentPropsWithRef<T extends ComponentType> = T extends JSXElementConstructor<infer Props>
         // If it's a class i.e. newable we're dealing with a class component
-        ? T extends abstract new (args: any) => any ? PropsWithoutRef<Props> & RefAttributes<InstanceType<T>>
+        ? T extends abstract new(args: any) => any ? PropsWithoutRef<Props> & RefAttributes<InstanceType<T>>
         : Props
         : never;
 
@@ -1556,7 +1554,8 @@ declare namespace React {
     ): MemoExoticComponent<T>;
 
     interface LazyExoticComponent<T extends ComponentType<any>>
-        extends ExoticComponent<CustomComponentPropsWithRef<T>> {
+        extends ExoticComponent<CustomComponentPropsWithRef<T>>
+    {
         readonly _result: T;
     }
 
@@ -1964,7 +1963,7 @@ declare namespace React {
      * This might be a child element to the element on which the event listener is registered.
      * If you thought this should be `EventTarget & T`, see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/11508#issuecomment-256045682
      */
-    interface SyntheticEvent<T = Element, E = Event> extends BaseSyntheticEvent<E, EventTarget & T, EventTarget> { }
+    interface SyntheticEvent<T = Element, E = Event> extends BaseSyntheticEvent<E, EventTarget & T, EventTarget> {}
 
     interface ClipboardEvent<T = Element> extends SyntheticEvent<T, NativeClipboardEvent> {
         clipboardData: DataTransfer;
@@ -2149,8 +2148,8 @@ declare namespace React {
     interface SVGProps<T> extends SVGAttributes<T>, ClassAttributes<T> {
     }
 
-    interface SVGLineElementAttributes<T> extends SVGProps<T> { }
-    interface SVGTextElementAttributes<T> extends SVGProps<T> { }
+    interface SVGLineElementAttributes<T> extends SVGProps<T> {}
+    interface SVGTextElementAttributes<T> extends SVGProps<T> {}
 
     interface DOMAttributes<T> {
         children?: ReactNode | undefined;
@@ -2538,17 +2537,17 @@ declare namespace React {
          * @see aria-atomic.
          */
         "aria-relevant"?:
-        | "additions"
-        | "additions removals"
-        | "additions text"
-        | "all"
-        | "removals"
-        | "removals additions"
-        | "removals text"
-        | "text"
-        | "text additions"
-        | "text removals"
-        | undefined;
+            | "additions"
+            | "additions removals"
+            | "additions text"
+            | "all"
+            | "removals"
+            | "removals additions"
+            | "removals text"
+            | "text"
+            | "text additions"
+            | "text removals"
+            | undefined;
         /** Indicates that user input is required on the element before a form may be submitted. */
         "aria-required"?: Booleanish | undefined;
         /** Defines a human-readable, author-localized description for the role of an element. */
@@ -2758,19 +2757,19 @@ declare namespace React {
      * Different release channels declare additional types of ReactNode this particular release channel accepts.
      * App or library types should never augment this interface.
      */
-    interface DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS { }
+    interface DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS {}
 
     interface AllHTMLAttributes<T> extends HTMLAttributes<T> {
         // Standard HTML Attributes
         accept?: string | undefined;
         acceptCharset?: string | undefined;
         action?:
-        | string
-        | undefined
-        | ((formData: FormData) => void | Promise<void>)
-        | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
-        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
-        ];
+            | string
+            | undefined
+            | ((formData: FormData) => void | Promise<void>)
+            | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
+                keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
+            ];
         allowFullScreen?: boolean | undefined;
         allowTransparency?: boolean | undefined;
         alt?: string | undefined;
@@ -2800,12 +2799,12 @@ declare namespace React {
         encType?: string | undefined;
         form?: string | undefined;
         formAction?:
-        | string
-        | undefined
-        | ((formData: FormData) => void | Promise<void>)
-        | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
-        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
-        ];
+            | string
+            | undefined
+            | ((formData: FormData) => void | Promise<void>)
+            | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
+                keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
+            ];
         formEncType?: string | undefined;
         formMethod?: string | undefined;
         formNoValidate?: boolean | undefined;
@@ -2907,7 +2906,7 @@ declare namespace React {
         referrerPolicy?: HTMLAttributeReferrerPolicy | undefined;
     }
 
-    interface AudioHTMLAttributes<T> extends MediaHTMLAttributes<T> { }
+    interface AudioHTMLAttributes<T> extends MediaHTMLAttributes<T> {}
 
     interface AreaHTMLAttributes<T> extends HTMLAttributes<T> {
         alt?: string | undefined;
@@ -2934,12 +2933,12 @@ declare namespace React {
         disabled?: boolean | undefined;
         form?: string | undefined;
         formAction?:
-        | string
-        | ((formData: FormData) => void | Promise<void>)
-        | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
-        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
-        ]
-        | undefined;
+            | string
+            | ((formData: FormData) => void | Promise<void>)
+            | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
+                keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
+            ]
+            | undefined;
         formEncType?: string | undefined;
         formMethod?: string | undefined;
         formNoValidate?: boolean | undefined;
@@ -2999,12 +2998,12 @@ declare namespace React {
     interface FormHTMLAttributes<T> extends HTMLAttributes<T> {
         acceptCharset?: string | undefined;
         action?:
-        | string
-        | undefined
-        | ((formData: FormData) => void | Promise<void>)
-        | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
-        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
-        ];
+            | string
+            | undefined
+            | ((formData: FormData) => void | Promise<void>)
+            | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
+                keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
+            ];
         autoComplete?: string | undefined;
         encType?: string | undefined;
         method?: string | undefined;
@@ -3156,12 +3155,12 @@ declare namespace React {
         disabled?: boolean | undefined;
         form?: string | undefined;
         formAction?:
-        | string
-        | ((formData: FormData) => void | Promise<void>)
-        | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
-        keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
-        ]
-        | undefined;
+            | string
+            | ((formData: FormData) => void | Promise<void>)
+            | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS[
+                keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS
+            ]
+            | undefined;
         formEncType?: string | undefined;
         formMethod?: string | undefined;
         formNoValidate?: boolean | undefined;
@@ -3475,20 +3474,20 @@ declare namespace React {
         accumulate?: "none" | "sum" | undefined;
         additive?: "replace" | "sum" | undefined;
         alignmentBaseline?:
-        | "auto"
-        | "baseline"
-        | "before-edge"
-        | "text-before-edge"
-        | "middle"
-        | "central"
-        | "after-edge"
-        | "text-after-edge"
-        | "ideographic"
-        | "alphabetic"
-        | "hanging"
-        | "mathematical"
-        | "inherit"
-        | undefined;
+            | "auto"
+            | "baseline"
+            | "before-edge"
+            | "text-before-edge"
+            | "middle"
+            | "central"
+            | "after-edge"
+            | "text-after-edge"
+            | "ideographic"
+            | "alphabetic"
+            | "hanging"
+            | "mathematical"
+            | "inherit"
+            | undefined;
         allowReorder?: "no" | "yes" | undefined;
         alphabetic?: number | string | undefined;
         amplitude?: number | string | undefined;
@@ -3980,7 +3979,7 @@ declare namespace React {
         //  reduce the work of the type-checker.
         // TODO: Check impact of making React.ElementType<P = any> = React.JSXElementConstructor<P>
         type ElementType = string | React.JSXElementConstructor<any>;
-        interface Element extends React.ReactElement<any, any> { }
+        interface Element extends React.ReactElement<any, any> {}
         interface ElementClass extends React.Component<any> {
             render(): React.ReactNode;
         }
@@ -3996,12 +3995,12 @@ declare namespace React {
         type LibraryManagedAttributes<C, P> = C extends
             React.MemoExoticComponent<infer T> | React.LazyExoticComponent<infer T>
             ? T extends React.MemoExoticComponent<infer U> | React.LazyExoticComponent<infer U>
-            ? ReactManagedAttributes<U, P>
+                ? ReactManagedAttributes<U, P>
             : ReactManagedAttributes<T, P>
             : ReactManagedAttributes<C, P>;
 
-        interface IntrinsicAttributes extends React.Attributes { }
-        interface IntrinsicClassAttributes<T> extends React.ClassAttributes<T> { }
+        interface IntrinsicAttributes extends React.Attributes {}
+        interface IntrinsicClassAttributes<T> extends React.ClassAttributes<T> {}
 
         interface IntrinsicElements {
             // HTML
@@ -4198,9 +4197,9 @@ type InexactPartial<T> = { [K in keyof T]?: T[K] | undefined };
 // Wrap in an outer-level conditional type to allow distribution over props that are unions
 type Defaultize<P, D> = P extends any ? string extends keyof P ? P
     :
-    & Pick<P, Exclude<keyof P, keyof D>>
-    & InexactPartial<Pick<P, Extract<keyof P, keyof D>>>
-    & InexactPartial<Pick<D, Exclude<keyof D, keyof P>>>
+        & Pick<P, Exclude<keyof P, keyof D>>
+        & InexactPartial<Pick<P, Extract<keyof P, keyof D>>>
+        & InexactPartial<Pick<D, Exclude<keyof D, keyof P>>>
     : never;
 
 type ReactManagedAttributes<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D>
