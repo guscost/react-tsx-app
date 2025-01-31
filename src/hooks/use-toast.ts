@@ -1,3 +1,4 @@
+/// <amd-module name="hooks/use-toast"/>
 "use client";
 
 // Inspired by react-hot-toast library

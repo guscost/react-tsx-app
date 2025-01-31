@@ -1,3 +1,4 @@
+/// <amd-module name="ui/toast"/>
 "use client";
 
 import * as React from "react";

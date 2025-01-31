@@ -1,3 +1,4 @@
+/// <amd-module name="ui/toaster"/>
 "use client";
 
 import { useToast } from "src/hooks/use-toast";

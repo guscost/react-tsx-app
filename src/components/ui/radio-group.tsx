@@ -1,3 +1,4 @@
+/// <amd-module name="ui/radio-group"/>
 "use client";
 
 import * as React from "react";

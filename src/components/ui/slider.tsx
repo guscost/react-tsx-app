@@ -1,3 +1,4 @@
+/// <amd-module name="ui/slider"/>
 "use client";
 
 import * as React from "react";

@@ -1,3 +1,4 @@
+/// <amd-module name="ui/textarea"/>
 import * as React from "react";
 
 import { cn } from "src/lib/utils";

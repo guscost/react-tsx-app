@@ -1,3 +1,4 @@
+/// <amd-module name="ui/toggle-group"/>
 "use client";
 
 import * as React from "react";

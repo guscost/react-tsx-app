@@ -1,3 +1,4 @@
+/// <amd-module name="ui/dropdown-menu"/>
 "use client";
 
 import * as React from "react";

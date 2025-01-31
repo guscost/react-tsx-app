@@ -1,3 +1,4 @@
+/// <amd-module name="ui/context-menu"/>
 "use client";
 
 import * as React from "react";

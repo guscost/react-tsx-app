@@ -1,3 +1,4 @@
+/// <amd-module name="ui/table"/>
 import * as React from "react";
 
 import { cn } from "src/lib/utils";

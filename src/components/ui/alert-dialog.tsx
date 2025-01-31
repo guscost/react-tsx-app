@@ -1,3 +1,4 @@
+/// <amd-module name="ui/alert-dialog"/>
 "use client";
 
 import * as React from "react";

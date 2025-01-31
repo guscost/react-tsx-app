@@ -1,3 +1,4 @@
+/// <amd-module name="ui/skeleton"/>
 import { cn } from "src/lib/utils";
 
 function Skeleton({

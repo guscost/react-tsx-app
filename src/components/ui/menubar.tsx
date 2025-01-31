@@ -1,3 +1,4 @@
+/// <amd-module name="ui/menubar"/>
 "use client";
 
 import * as React from "react";

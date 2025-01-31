@@ -1,3 +1,4 @@
+/// <amd-module name="ui/accordion"/>
 "use client";
 
 import * as React from "react";

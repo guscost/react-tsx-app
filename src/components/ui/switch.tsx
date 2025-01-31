@@ -1,3 +1,4 @@
+/// <amd-module name="ui/switch"/>
 "use client";
 
 import * as React from "react";

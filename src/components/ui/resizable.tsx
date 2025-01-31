@@ -1,3 +1,4 @@
+/// <amd-module name="ui/resizable"/>
 "use client";
 
 import { GripVertical } from "lucide-react";

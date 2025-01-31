@@ -1,3 +1,4 @@
+/// <amd-module name="ui/hover-card"/>
 "use client";
 
 import * as React from "react";

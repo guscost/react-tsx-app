@@ -1,4 +1,4 @@
-///<amd-module name='Hero'/>
+/// <amd-module name="Hero"/>
 import React, { useState } from "react";
 import * as Select from "@radix-ui/react-select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";

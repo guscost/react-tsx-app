@@ -1,3 +1,4 @@
+/// <amd-module name="ui/sidebar"/>
 "use client";
 
 import * as React from "react";

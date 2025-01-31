@@ -1,3 +1,4 @@
+/// <amd-module name="ui/scroll-area"/>
 "use client";
 
 import * as React from "react";
