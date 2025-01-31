@@ -2,9 +2,10 @@ import { createRoot } from "react-dom";
 import Hero from "Hero";
 
 createRoot(document.getElementById("root")).render(
-  <div>
+  <div className="p-4">
     <Hero />
-    <br />
-    <em>Have a nice day!</em>
+    <div className="mt-2">
+      <em>Have a nice day!</em>
+    </div>
   </div>,
 );
