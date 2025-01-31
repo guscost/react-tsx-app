@@ -1,5 +1,5 @@
 // Based on https://github.com/lofcz/umd-react
-import {
+import fs, {
   appendFileSync,
   copyFileSync,
   mkdirSync,
@@ -8,6 +8,8 @@ import {
   rmSync,
 } from "fs";
 import path from "path";
+import { Readable } from "stream";
+import { finished } from "stream/promises";
 import { fileURLToPath } from "url";
 import webpack from "webpack";
 
@@ -161,13 +163,16 @@ async function buildUmds() {
     });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
 
-    // 2. Copy Tailwind
-    copyFileSync(
-      path.join(
-        _root,
-        "update/node_modules/@tailwindcss/browser/dist/index.global.js",
-      ),
+    // 2. Copy Tailwind from CDN
+    const tailwindResponse = await fetch(
+      "https://cdn.tailwindcss.com/?plugins=forms,typography,aspect-ratio,container-queries",
+    );
+    const tailwindFileStream = fs.createWriteStream(
       path.join(_root, "www/js/lib/tailwind.min.js"),
+      { flags: "wx" },
+    );
+    await finished(
+      Readable.fromWeb(tailwindResponse.body).pipe(tailwindFileStream),
     );
 
     // 3. Build React and other dependencies

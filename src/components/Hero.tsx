@@ -31,7 +31,7 @@ export default function Hero() {
     <div>
       <h1>Hello world x{count}</h1>
 
-      <Button onClick={() => setCount(count + 1)}>Again!</Button>
+      <Button className="mt-2" onClick={() => setCount(count + 1)}>Again!</Button>
 
       <Select.Root onValueChange={(value) => setCount(parseInt(value, 10))}>
         <Select.Trigger
@@ -44,11 +44,11 @@ export default function Hero() {
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Content className="rounded bg-white border-1">
+          <Select.Content className="rounded border p-2 bg-white">
             <Select.ScrollUpButton className="flex justify-center items-center">
               <ChevronUpIcon />
             </Select.ScrollUpButton>
-            <Select.Viewport className="p-2">
+            <Select.Viewport>
               <Select.Group>
                 <Select.Label className="text-xs">Small</Select.Label>
                 <SelectItem value="1">1</SelectItem>
