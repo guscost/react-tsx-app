@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import * as Select from "@radix-ui/react-select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const SelectItem = React.forwardRef(
   (
@@ -30,12 +31,7 @@ export default function Hero() {
     <div>
       <h1>Hello world x{count}</h1>
 
-      <button
-        className="p-2 mt-2 rounded border hover:bg-gray-100"
-        onClick={() => setCount(count + 1)}
-      >
-        Again!
-      </button>
+      <Button onClick={() => setCount(count + 1)}>Again!</Button>
 
       <Select.Root onValueChange={(value) => setCount(parseInt(value, 10))}>
         <Select.Trigger

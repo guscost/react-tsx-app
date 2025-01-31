@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "cmdk", "lucide-react", "src/lib/utils", "@/components/ui/dialog"], function (require, exports, jsx_runtime_1, React, cmdk_1, lucide_react_1, utils_1, dialog_1) {
+define(["require", "exports", "react/jsx-runtime", "react", "cmdk", "lucide-react", "utils", "@/components/ui/dialog"], function (require, exports, jsx_runtime_1, React, cmdk_1, lucide_react_1, utils_1, dialog_1) {
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });

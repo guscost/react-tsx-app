@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "src/lib/utils"], function (require, exports, jsx_runtime_1, React, utils_1) {
+define(["require", "exports", "react/jsx-runtime", "react", "utils"], function (require, exports, jsx_runtime_1, React, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.TableCaption = exports.TableCell = exports.TableRow = exports.TableHead = exports.TableFooter = exports.TableBody = exports.TableHeader = exports.Table = void 0;

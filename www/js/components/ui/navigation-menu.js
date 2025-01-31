@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-navigation-menu", "class-variance-authority", "lucide-react", "src/lib/utils"], function (require, exports, jsx_runtime_1, React, NavigationMenuPrimitive, class_variance_authority_1, lucide_react_1, utils_1) {
+define(["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-navigation-menu", "class-variance-authority", "lucide-react", "utils"], function (require, exports, jsx_runtime_1, React, NavigationMenuPrimitive, class_variance_authority_1, lucide_react_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NavigationMenuViewport = exports.NavigationMenuIndicator = exports.NavigationMenuLink = exports.NavigationMenuTrigger = exports.NavigationMenuContent = exports.NavigationMenuItem = exports.NavigationMenuList = exports.NavigationMenu = exports.navigationMenuTriggerStyle = void 0;

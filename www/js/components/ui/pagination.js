@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "lucide-react", "src/lib/utils", "@/components/ui/button"], function (require, exports, jsx_runtime_1, React, lucide_react_1, utils_1, button_1) {
+define(["require", "exports", "react/jsx-runtime", "react", "lucide-react", "utils", "button"], function (require, exports, jsx_runtime_1, React, lucide_react_1, utils_1, button_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PaginationEllipsis = exports.PaginationNext = exports.PaginationPrevious = exports.PaginationItem = exports.PaginationLink = exports.PaginationContent = exports.Pagination = void 0;

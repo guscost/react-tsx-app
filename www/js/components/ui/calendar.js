@@ -20,7 +20,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "lucide-react", "react-day-picker", "src/lib/utils", "@/components/ui/button"], function (require, exports, jsx_runtime_1, lucide_react_1, react_day_picker_1, utils_1, button_1) {
+define(["require", "exports", "react/jsx-runtime", "lucide-react", "react-day-picker", "utils", "button"], function (require, exports, jsx_runtime_1, lucide_react_1, react_day_picker_1, utils_1, button_1) {
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });

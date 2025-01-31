@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-separator", "src/lib/utils"], function (require, exports, jsx_runtime_1, React, SeparatorPrimitive, utils_1) {
+define(["require", "exports", "react/jsx-runtime", "react", "@radix-ui/react-separator", "utils"], function (require, exports, jsx_runtime_1, React, SeparatorPrimitive, utils_1) {
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });

@@ -20,7 +20,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "src/lib/utils"], function (require, exports, jsx_runtime_1, utils_1) {
+define(["require", "exports", "react/jsx-runtime", "utils"], function (require, exports, jsx_runtime_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Skeleton = Skeleton;

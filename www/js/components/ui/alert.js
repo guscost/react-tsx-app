@@ -53,7 +53,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-define(["require", "exports", "react/jsx-runtime", "react", "class-variance-authority", "src/lib/utils"], function (require, exports, jsx_runtime_1, React, class_variance_authority_1, utils_1) {
+define(["require", "exports", "react/jsx-runtime", "react", "class-variance-authority", "utils"], function (require, exports, jsx_runtime_1, React, class_variance_authority_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AlertDescription = exports.AlertTitle = exports.Alert = void 0;
