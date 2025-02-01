@@ -21,7 +21,7 @@ Modules in `src` are transpiled as `amd`. All but the entrypoint should have a d
 /// <amd-module name="hooks/use-mobile"/>
 ```
 
-By convention, shadcn/ui component names are prefixed with `ui/`, and application components are capitalized and not prefixed. Only one module may omit a name declaration. It's a little bit clunky, but this whole architecture is more like "Previous.js" anyway.
+By convention, shadcn/ui component names are prefixed with `ui/`, and application components are capitalized and not prefixed. Only one module may omit a name declaration. It's a little clunky, but this whole architecture is more like "Previous.js" anyway.
 
 ## Deployment
 
@@ -44,8 +44,7 @@ To update included dependencies, set versions and run `npm run update` in the `u
 
 Here are some things I'd like to add:
 
-### Asynchronous module loading
-- Allows circular references
+### Dynamic module loading
 - Removes need to embed every script in its own `<script>` tag
 
 ### Fully-typed shadcn dependencies

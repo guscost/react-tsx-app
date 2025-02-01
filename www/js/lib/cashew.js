@@ -1,5 +1,5 @@
 // Custom AMD-like shim script to provide `require` and `define`
-// Script load order matters, no circular dependencies yet
+// Script load order matters, no circular dependencies
 
 const __MODULE_CACHE__ = {};
 const __MODULE_MAIN__ = Symbol();
