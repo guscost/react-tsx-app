@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "inlineSourceMap": true,
+    "inlineSources": true,
     "jsx": "react-jsx",
     "lib": ["esnext", "dom"],
     "module": "amd",
