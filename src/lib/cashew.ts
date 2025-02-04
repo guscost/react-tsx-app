@@ -1,33 +1,21 @@
-// Custom AMD-like shim script to provide `require` and `define`
-// Script load order matters, no circular dependencies
-
+// Custom AMD-like shim script to load script modules
+// Does not support circular dependencies
 const __MODULES__: {
-  pending: { [name: string]: { unmetDeps: string[]; load: () => void } };
   cache: { [name: string]: any };
-  resolveDep: (dep: string, current: string) => string;
+  pending: { [name: string]: { unmetDeps: string[]; load: () => void } };
+  get: (name: string) => any;
+  set: (name: string, value: any) => void;
+  resolve: (dep: string, current: string) => string;
+  refresh: () => void;
 } = {
+  cache: {},
   pending: {},
-  cache: new Proxy(
-    {},
-    {
-      set(obj, prop, value) {
-        Reflect.set(obj, prop, value);
-        Object.entries(__MODULES__.pending).forEach(
-          ([key, { unmetDeps, load }]) => {
-            if (unmetDeps.every((name) => name in __MODULES__.cache)) {
-              delete __MODULES__.pending[key];
-              load();
-            }
-          },
-        );
-        return true;
-      },
-    },
-  ),
-  resolveDep: (dep: string, current: string) => {
-    if (/^\.\.?\//.test(dep)) {
+  get: (name: string) => __MODULES__.cache[name],
+  set: (name: string, value: any) => (__MODULES__.cache[name] = value),
+  resolve: (name: string, current: string) => {
+    if (/^\.\.?\//.test(name)) {
       const absolutePath = current.split("/").slice(0, -1);
-      const relativeDep = dep.split("/");
+      const relativeDep = name.split("/");
       while (relativeDep[0] === "..") {
         relativeDep.shift();
         absolutePath.pop();
@@ -35,16 +23,23 @@ const __MODULES__: {
       while (relativeDep[0] === ".") {
         relativeDep.shift();
       }
-      dep = [...absolutePath, ...relativeDep].join("/");
+      name = [...absolutePath, ...relativeDep].join("/");
     } else {
-      dep = dep.replace(/^@?\//, "/js/");
+      name = name.replace(/^@?\//, "/js/");
     }
-    return dep;
+    return name;
+  },
+  refresh: () => {
+    Object.entries(__MODULES__.pending).forEach(
+      ([key, { unmetDeps, load }]) => {
+        if (unmetDeps.every((name) => name in __MODULES__.cache)) {
+          delete __MODULES__.pending[key];
+          load();
+        }
+      },
+    );
   },
 };
-
-// Require is a simple lookup in the module cache, no async support yet
-const require = (name: string) => __MODULES__.cache[name];
 
 const define = (...args: any) => {
   let name: string, deps: Array<string>, factory: Function;
@@ -62,29 +57,27 @@ const define = (...args: any) => {
     factory = args[1];
   }
 
-  // Run the module factory with all deps, and add to the cache
-  // TypeScript AMD modules pass require and exports
   if ("require" === deps[0] && "exports" === deps[1]) {
+    // TypeScript AMD modules pass two extra arguments
     const moduleDeps = deps.slice(2);
     const unmetDeps = [];
 
     for (let dep of moduleDeps) {
-      dep = __MODULES__.resolveDep(dep, name);
-      if (
-        !__MODULES__.cache[dep] &&
+      dep = __MODULES__.resolve(dep, name);
+      !__MODULES__.get(dep) &&
         !Object.values(__MODULES__.pending).some(({ unmetDeps }) =>
           unmetDeps.includes(dep),
-        )
-      ) {
+        ) &&
         unmetDeps.push(dep);
-      }
     }
 
     const load = () => {
-      const e = {};
-      const r = (dep: string) => require(__MODULES__.resolveDep(dep, name));
-      factory.call(this, r, e, ...moduleDeps.map(r));
-      __MODULES__.cache[name] = e;
+      const require = (dep: string) =>
+        __MODULES__.get(__MODULES__.resolve(dep, name));
+      const exports = {};
+      factory.call(this, require, exports, ...moduleDeps.map(require));
+      __MODULES__.set(name, exports);
+      __MODULES__.refresh();
     };
 
     if (unmetDeps.length) {
@@ -99,7 +92,9 @@ const define = (...args: any) => {
       load();
     }
   } else {
-    __MODULES__.cache[name] = factory.call(this, ...deps.map(require));
+    // Webpack UMD modules take only dependencies and return exports
+    __MODULES__.set(name, factory.call(this, ...deps.map(__MODULES__.get)));
+    __MODULES__.refresh();
   }
 };
 
