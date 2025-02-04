@@ -1,11 +1,10 @@
-/// <amd-module name="ui/context-menu"/>
 "use client";
 
 import * as React from "react";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import { Check, ChevronRight, Circle } from "lucide-react";
 
-import { cn } from "src/lib/utils";
+import { cn } from "@/lib/utils";
 
 const ContextMenu = ContextMenuPrimitive.Root;
 

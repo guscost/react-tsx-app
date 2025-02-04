@@ -1,11 +1,10 @@
-/// <amd-module name="ui/calendar"/>
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, LucideProps } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 
-import { cn } from "src/lib/utils";
+import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
@@ -61,10 +60,16 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ className, ...props }: any) => (
+        IconLeft: ({
+          className,
+          ...props
+        }: Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>) => (
           <ChevronLeft className={cn("h-4 w-4", className)} {...props} />
         ),
-        IconRight: ({ className, ...props }: any) => (
+        IconRight: ({
+          className,
+          ...props
+        }: Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>) => (
           <ChevronRight className={cn("h-4 w-4", className)} {...props} />
         ),
       }}

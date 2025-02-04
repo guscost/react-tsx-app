@@ -1,4 +1,3 @@
-/// <amd-module name="Hero"/>
 import React, { useState } from "react";
 import * as Select from "@radix-ui/react-select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
@@ -31,7 +30,9 @@ export default function Hero() {
     <div>
       <h1>Hello world x{count}</h1>
 
-      <Button className="mt-2" onClick={() => setCount(count + 1)}>Again!</Button>
+      <Button className="mt-2" onClick={() => setCount(count + 1)}>
+        Again!
+      </Button>
 
       <Select.Root onValueChange={(value) => setCount(parseInt(value, 10))}>
         <Select.Trigger

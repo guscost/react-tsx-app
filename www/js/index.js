@@ -1,7 +1,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "react/jsx-runtime", "react-dom", "Hero"], function (require, exports, jsx_runtime_1, react_dom_1, Hero_1) {
+define(["require", "exports", "react/jsx-runtime", "react-dom", "./components/Hero"], function (require, exports, jsx_runtime_1, react_dom_1, Hero_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     Hero_1 = __importDefault(Hero_1);
