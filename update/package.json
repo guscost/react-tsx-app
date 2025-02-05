@@ -8,6 +8,9 @@
       "only": true,
       "resolve": true
     },
+    "external": [
+      "react"
+    ],
     "outDir": "temp"
   },
   "devDependencies": {
