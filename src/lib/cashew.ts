@@ -24,7 +24,7 @@ const __MODULES__: {
       }
       name = [...absolutePath, ...relativeDep].join("/");
     } else {
-      name = name.replace(/^@?\//, "/js/");
+      name = name.replace(/^@?\//, document.location.pathname + "js/");
     }
     return name;
   },
@@ -50,7 +50,7 @@ const define = (...args: any) => {
     factory = args[2];
   } else {
     name = (document.currentScript as HTMLScriptElement).src
-      .replace(window.location.origin, "")
+      .replace(document.location.origin, "")
       .replace(/\.js$/, "");
     deps = args[0];
     factory = args[1];
@@ -83,6 +83,7 @@ const define = (...args: any) => {
       ) {
         const dynamicScript = document.createElement("script");
         dynamicScript.src = dep + ".js";
+        dynamicScript.type = "text/javascript";
         document.body.appendChild(dynamicScript);
       }
     }
