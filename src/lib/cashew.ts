@@ -24,7 +24,10 @@ const __MODULES__: {
       }
       name = [...absolutePath, ...relativeDep].join("/");
     } else {
-      name = name.replace(/^@?\//, document.location.pathname + "js/");
+      name = name.replace(
+        /^@?\//,
+        document.location.pathname.split("/").slice(0, -1).join("/") + "/js/",
+      );
     }
     return name;
   },
