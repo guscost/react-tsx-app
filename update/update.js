@@ -186,14 +186,7 @@ async function buildUmds() {
       "react-dom",
       "react-dom.min.js",
       await generateReactDomEntryFile(tempDir),
-      {
-        react: {
-          root: "React",
-          commonjs: "react",
-          commonjs2: "react",
-          amd: "react",
-        },
-      },
+      "react",
     );
 
     // Lucide icons
@@ -213,18 +206,8 @@ async function buildUmds() {
         "radix-ui.min.js",
         null,
         {
-          react: {
-            root: "React",
-            commonjs: "react",
-            commonjs2: "react",
-            amd: "react",
-          },
-          "react-dom": {
-            root: "ReactDOM",
-            commonjs: "react-dom",
-            commonjs2: "react-dom",
-            amd: "react-dom",
-          },
+          react: "react",
+          "react-dom": "react-dom",
         },
       );
     }
@@ -234,8 +217,12 @@ async function buildUmds() {
     await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
     await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js");
     await buildUmd(tempDir, "cmdk", "shadcn.min.js");
-    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js");
+    await buildUmd(tempDir, "date-fns", "shadcn.min.js");
     await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js");
+    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", null, {
+      "date-fns": "date-fns",
+      react: "react",
+    });
 
     rmSync(tempDir, { recursive: true, force: true });
   } catch (error) {
@@ -305,10 +292,6 @@ async function copyTypes() {
     );
 
     // Copy all radix-ui types
-    rmSync(path.join(_root, "types/@radix-ui"), {
-      recursive: true,
-      force: true,
-    });
     mkdirSync(path.join(_root, "types/@radix-ui"));
 
     const radixUiFolders = readdirSync(
@@ -344,6 +327,45 @@ async function copyTypes() {
       }
     }
 
+    // Copy all date-fns types
+    mkdirSync(path.join(_root, "types/date-fns"));
+    mkdirSync(path.join(_root, "types/date-fns/fp"));
+    mkdirSync(path.join(_root, "types/date-fns/locale"));
+    mkdirSync(path.join(_root, "types/date-fns/parse"));
+    mkdirSync(path.join(_root, "types/date-fns/parse/_lib"));
+    mkdirSync(path.join(_root, "types/date-fns/_lib"));
+    mkdirSync(path.join(_root, "types/date-fns/_lib/format"));
+
+    const dateFnsFiles = readdirSync(
+      path.join(_root, "update/node_modules/date-fns"),
+      {
+        withFileTypes: true,
+        recursive: true,
+      },
+    );
+    for (const file of dateFnsFiles.filter(
+      (f) =>
+        f.isFile() &&
+        [
+          "date-fns",
+          "date-fns/fp",
+          "date-fns/locale",
+          "date-fns/parse",
+          "date-fns/parse/_lib",
+          "date-fns/_lib",
+          "date-fns/_lib/format",
+        ].some((p) => f.parentPath.endsWith(p)) &&
+        f.name.endsWith(".d.ts"),
+    )) {
+      copyFileSync(
+        path.join(file.parentPath, file.name),
+        path.join(
+          file.parentPath.replace("update/node_modules", "types"),
+          file.name,
+        ),
+      );
+    }
+
     // Copy shadcn dependency types
     copyFileSync(
       path.join(_root, "update/node_modules/clsx/clsx.d.ts"),
@@ -357,9 +379,9 @@ async function copyTypes() {
       path.join(_root, "update/node_modules/cmdk/dist/index.d.ts"),
       path.join(_root, "types/cmdk.d.ts"),
     );
-    appendFileSync(
+    copyFileSync(
+      path.join(_root, "update/react-day-picker.d.ts"),
       path.join(_root, "types/react-day-picker.d.ts"),
-      'declare module "react-day-picker";',
     );
     appendFileSync(
       path.join(_root, "types/react-resizable-panels.d.ts"),

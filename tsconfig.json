@@ -15,7 +15,7 @@
     "paths": {
       "react/jsx-runtime": ["types/jsx-runtime"],
       "@/*": ["src/*"],
-      "*": ["types/*"]
+      "*": ["types/*", "types/*/index"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
