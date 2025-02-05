@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "inlineSourceMap": true,
     "inlineSources": true,
     "jsx": "react-jsx",
@@ -11,7 +11,7 @@
     "noEmitOnError": true,
     "outDir": "www/js",
     "removeComments": false,
-    "target": "es5",
+    "target": "es2018",
     "paths": {
       "react/jsx-runtime": ["types/jsx-runtime"],
       "@/*": ["src/*"],

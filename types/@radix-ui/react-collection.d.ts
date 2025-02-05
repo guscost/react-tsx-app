@@ -1,5 +1,5 @@
 import * as _radix_ui_react_context from '@radix-ui/react-context';
-import React from 'react';
+import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 
 type SlotProps = React.ComponentPropsWithoutRef<typeof Slot>;

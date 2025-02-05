@@ -328,11 +328,18 @@ async function copyTypes() {
       for (const file of radixUiTypedefs.filter(
         (f) => f.isFile() && f.name.endsWith(".d.ts"),
       )) {
-        copyFileSync(
+        const radixUiTypedef = readFileSync(
           path.join(folder.parentPath, folder.name, "dist", file.name),
+          "utf8",
+        );
+        appendFileSync(
           "index.d.ts" === file.name
             ? path.join(_root, "types/@radix-ui", `${folder.name}.d.ts`)
             : path.join(_root, "types/@radix-ui", file.name),
+          radixUiTypedef.replace(
+            "import React from 'react';",
+            "import * as React from 'react';",
+          ),
         );
       }
     }

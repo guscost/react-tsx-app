@@ -1,5 +1,5 @@
 import * as _radix_ui_react_context from '@radix-ui/react-context';
-import React from 'react';
+import * as React from 'react';
 import { Primitive } from '@radix-ui/react-primitive';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { Toggle } from '@radix-ui/react-toggle';

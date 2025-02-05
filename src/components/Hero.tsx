@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { forwardRef, Ref, useState } from "react";
 import * as Select from "@radix-ui/react-select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const SelectItem = React.forwardRef(
+const SelectItem = forwardRef(
   (
     { children, className, ...props }: Select.SelectItemProps,
-    forwardedRef: React.Ref<HTMLDivElement>,
+    forwardedRef: Ref<HTMLDivElement>,
   ) => {
     return (
       <Select.Item
