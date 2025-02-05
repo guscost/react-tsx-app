@@ -98,15 +98,19 @@ const CUSTOM_COMPONENTS = {
 
 // shadcn calendar is updated for react-day-picker v9 and mobile sizing
 function Calendar({
-  className,
+  numberOfMonths = 1,
+  showOutsideDays = true,
+  captionLayout = "dropdown",
+  className = "w-fit",
   classNames,
   components,
-  showOutsideDays = true,
   ...props
 }: CalendarProps) {
   return (
     <DayPicker
-      hideNavigation={false}
+      mode={props.mode || "single"}
+      captionLayout={captionLayout}
+      numberOfMonths={numberOfMonths}
       showOutsideDays={showOutsideDays}
       className={className}
       classNames={{
