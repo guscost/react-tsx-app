@@ -327,44 +327,11 @@ async function copyTypes() {
       }
     }
 
-    // Copy all date-fns types
-    mkdirSync(path.join(_root, "types/date-fns"));
-    mkdirSync(path.join(_root, "types/date-fns/fp"));
-    mkdirSync(path.join(_root, "types/date-fns/locale"));
-    mkdirSync(path.join(_root, "types/date-fns/parse"));
-    mkdirSync(path.join(_root, "types/date-fns/parse/_lib"));
-    mkdirSync(path.join(_root, "types/date-fns/_lib"));
-    mkdirSync(path.join(_root, "types/date-fns/_lib/format"));
-
-    const dateFnsFiles = readdirSync(
-      path.join(_root, "update/node_modules/date-fns"),
-      {
-        withFileTypes: true,
-        recursive: true,
-      },
+    // Copy date-fns types
+    copyFileSync(
+      path.join(_root, "update/temp/index.d.cts"),
+      path.join(_root, "types/date-fns.d.ts"),
     );
-    for (const file of dateFnsFiles.filter(
-      (f) =>
-        f.isFile() &&
-        [
-          "date-fns",
-          "date-fns/fp",
-          "date-fns/locale",
-          "date-fns/parse",
-          "date-fns/parse/_lib",
-          "date-fns/_lib",
-          "date-fns/_lib/format",
-        ].some((p) => f.parentPath.endsWith(p)) &&
-        f.name.endsWith(".d.ts"),
-    )) {
-      copyFileSync(
-        path.join(file.parentPath, file.name),
-        path.join(
-          file.parentPath.replace("update/node_modules", "types"),
-          file.name,
-        ),
-      );
-    }
 
     // Copy shadcn dependency types
     copyFileSync(
@@ -415,5 +382,5 @@ async function copyTypes() {
   }
 }
 
+await copyTypes();
 buildUmds();
-copyTypes();
