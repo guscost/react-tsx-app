@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "update": "npm install && tsup node_modules/date-fns/index.js && node update.js"
+    "update": "npm install && node update.js"
   },
   "tsup": {
     "dts": {
@@ -11,10 +11,11 @@
     "external": [
       "react"
     ],
-    "outDir": "temp"
+    "outDir": "."
   },
   "devDependencies": {
     "@babel/preset-react": "7.26.3",
+    "@tanstack/react-table": "8.20.6",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "babel-loader": "9.2.1",

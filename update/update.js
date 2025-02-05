@@ -11,6 +11,9 @@ import path from "path";
 import { Readable } from "stream";
 import { finished } from "stream/promises";
 import { fileURLToPath } from "url";
+import util from "util";
+import proc from "child_process";
+
 import webpack from "webpack";
 
 // Get keys to load from react-dom and react-dom/client
@@ -23,6 +26,9 @@ const reactDomClientMethods = Object.keys(ReactDOMClient).filter(
 const reactDomMethods = Object.keys(ReactDOM).filter(
   (key) => key !== "default" && !reactDomClientMethods.includes(key),
 );
+
+// Execute a shell command as a promise
+const exec = util.promisify(proc.exec);
 
 // Common Webpack config
 const commonConfig = {
@@ -212,6 +218,18 @@ async function buildUmds() {
       );
     }
 
+    // Tanstack Data Table
+    await buildUmd(
+      tempDir,
+      "@tanstack/react-table",
+      "react-table.min.js",
+      null,
+      {
+        react: "react",
+        "react-dom": "react-dom",
+      },
+    );
+
     // Build shadcn deps
     await buildUmd(tempDir, "clsx", "shadcn.min.js");
     await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
@@ -231,8 +249,14 @@ async function buildUmds() {
   }
 }
 
+async function buildType(src, dest) {
+  await exec(`tsup ${src}`);
+  copyFileSync(path.join(_root, "update/index.d.cts"), dest);
+  rmSync(path.join(_root, "update/index.d.cts"));
+}
+
 // Copy all type definitions for the project
-async function copyTypes() {
+async function buildTypes() {
   try {
     rmSync(path.join(_root, "types"), { recursive: true, force: true });
     mkdirSync(path.join(_root, "types"), { recursive: true });
@@ -327,9 +351,17 @@ async function copyTypes() {
       }
     }
 
-    // Copy date-fns types
-    copyFileSync(
-      path.join(_root, "update/temp/index.d.cts"),
+    // Build types with tsup
+    mkdirSync(path.join(_root, "types/@tanstack"));
+    buildType(
+      path.join(
+        _root,
+        "update/node_modules/@tanstack/react-table/build/lib/index.js",
+      ),
+      path.join(_root, "types/@tanstack/react-table.d.ts"),
+    );
+    buildType(
+      path.join(_root, "update/node_modules/date-fns/index.js"),
       path.join(_root, "types/date-fns.d.ts"),
     );
 
@@ -382,5 +414,5 @@ async function copyTypes() {
   }
 }
 
-await copyTypes();
 buildUmds();
+buildTypes();
