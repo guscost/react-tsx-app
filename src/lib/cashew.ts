@@ -1,5 +1,4 @@
-// Custom AMD-like shim script to load script modules
-// Does not support circular dependencies
+// Custom AMD-like loader, does not support circular dependencies
 const __MODULES__: {
   cache: { [name: string]: any };
   pending: { [name: string]: { unmetDeps: string[]; load: () => void } };
@@ -12,9 +11,9 @@ const __MODULES__: {
   pending: {},
   get: (name: string) => __MODULES__.cache[name],
   set: (name: string, value: any) => (__MODULES__.cache[name] = value),
-  resolve: (name: string, current: string) => {
+  resolve: (name: string, from: string) => {
     if (/^\.\.?\//.test(name)) {
-      const absolutePath = current.split("/").slice(0, -1);
+      const absolutePath = from.split("/").slice(0, -1);
       const relativeDep = name.split("/");
       while (relativeDep[0] === "..") {
         relativeDep.shift();
@@ -30,21 +29,21 @@ const __MODULES__: {
     return name;
   },
   refresh: () => {
-    Object.entries(__MODULES__.pending).forEach(
-      ([key, { unmetDeps, load }]) => {
-        if (unmetDeps.every((name) => name in __MODULES__.cache)) {
-          delete __MODULES__.pending[key];
-          load();
-        }
-      },
-    );
+    for (const [key, { unmetDeps, load }] of Object.entries(
+      __MODULES__.pending,
+    )) {
+      if (unmetDeps.every((name) => name in __MODULES__.cache)) {
+        delete __MODULES__.pending[key];
+        load();
+      }
+    }
   },
 };
 
 const define = (...args: any) => {
   let name: string, deps: Array<string>, factory: Function;
 
-  // Parse the arguments for named or anonymous modules
+  // Webpack AMD modules are named, TypeScript AMD modules are not
   if ("string" === typeof args[0]) {
     name = args[0];
     deps = args[1];
@@ -57,44 +56,42 @@ const define = (...args: any) => {
     factory = args[1];
   }
 
+  // TypeScript AMD modules pass in require and exports
   if ("require" === deps[0] && "exports" === deps[1]) {
-    // TypeScript AMD modules pass two extra arguments
-    const moduleDeps = deps.slice(2);
-    const unmetDeps = [];
-
-    for (let dep of moduleDeps) {
-      dep = __MODULES__.resolve(dep, name);
-      !__MODULES__.get(dep) &&
-        !Object.values(__MODULES__.pending).some(({ unmetDeps }) =>
-          unmetDeps.includes(dep),
-        ) &&
-        unmetDeps.push(dep);
-    }
+    deps = deps.slice(2);
 
     const load = () => {
       const require = (dep: string) =>
         __MODULES__.get(__MODULES__.resolve(dep, name));
       const exports = {};
-      factory.call(this, require, exports, ...moduleDeps.map(require));
+      factory.call(this, require, exports, ...deps.map(require));
       __MODULES__.set(name, exports);
       __MODULES__.refresh();
     };
 
-    if (unmetDeps.length) {
-      __MODULES__.pending[name] = { unmetDeps, load };
+    const unmetDeps = [];
+    for (let dep of deps) {
+      dep = __MODULES__.resolve(dep, name);
+      !__MODULES__.get(dep) && unmetDeps.push(dep);
+    }
 
-      for (let dep of unmetDeps) {
+    for (let dep of unmetDeps) {
+      if (
+        !Object.values(__MODULES__.pending).some(({ unmetDeps }) =>
+          unmetDeps.includes(dep),
+        )
+      ) {
         const dynamicScript = document.createElement("script");
         dynamicScript.src = dep + ".js";
         document.body.appendChild(dynamicScript);
       }
-    } else {
-      load();
     }
-  } else {
-    // Webpack UMD modules take only dependencies and return exports
-    __MODULES__.set(name, factory.call(this, ...deps.map(__MODULES__.get)));
+
+    __MODULES__.pending[name] = { unmetDeps, load };
     __MODULES__.refresh();
+  } else {
+    // Webpack UMDs do not load dynamically, add these script tags in order
+    __MODULES__.set(name, factory.call(this, ...deps.map(__MODULES__.get)));
   }
 };
 
