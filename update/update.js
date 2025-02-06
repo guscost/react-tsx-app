@@ -167,6 +167,9 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
       force: true,
     });
+    rmSync(path.join(_root, "www/js/lib/embla-carousel-react.min.js"), {
+      force: true,
+    });
     rmSync(path.join(_root, "www/js/lib/react-table.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
@@ -218,6 +221,13 @@ async function buildUmds() {
         },
       );
     }
+
+    // Embla Carousel
+    await buildUmd(
+      tempDir,
+      "embla-carousel-react",
+      "embla-carousel-react.min.js",
+    );
 
     // Tanstack Data Table
     await buildUmd(
@@ -365,6 +375,13 @@ async function buildTypes() {
     buildType(
       path.join(_root, "update/node_modules/date-fns/index.js"),
       path.join(_root, "types/date-fns.d.ts"),
+    );
+    buildType(
+      path.join(
+        _root,
+        "update/node_modules/embla-carousel-react/index.d.ts",
+      ),
+      path.join(_root, "types/embla-carousel-react.d.ts"),
     );
 
     // Copy shadcn dependency types
