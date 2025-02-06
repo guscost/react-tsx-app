@@ -1,5 +1,5 @@
-// Based on https://github.com/lofcz/umd-react
-import fs, {
+// Inspired by https://github.com/lofcz/umd-react
+import {
   appendFileSync,
   copyFileSync,
   mkdirSync,
@@ -8,8 +8,6 @@ import fs, {
   rmSync,
 } from "fs";
 import path from "path";
-import { Readable } from "stream";
-import { finished } from "stream/promises";
 import { fileURLToPath } from "url";
 import util from "util";
 import proc from "child_process";
@@ -175,20 +173,22 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
       force: true,
     });
-    rmSync(path.join(_root, "www/js/lib/recharts.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/chart.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/form.min.js"), { force: true });
 
     // 2. Copy Tailwind from CDN
     const tailwindResponse = await fetch(
       "https://cdn.tailwindcss.com/?plugins=forms,typography,aspect-ratio,container-queries",
     );
-    const tailwindFileStream = fs.createWriteStream(
+    const tailwindContent = await tailwindResponse.text();
+    appendFileSync(
       path.join(_root, "www/js/lib/tailwind.min.js"),
-      { flags: "wx" },
-    );
-    await finished(
-      Readable.fromWeb(tailwindResponse.body).pipe(tailwindFileStream),
+      tailwindContent.replace(
+        /console.warn\("cdn.tailwindcss.com[^\)\;]*\)\;/,
+        "",
+      ),
     );
 
     // 3. Build React and other dependencies
@@ -229,6 +229,9 @@ async function buildUmds() {
     await buildUmd(tempDir, "input-otp", "shadcn.min.js");
     await buildUmd(tempDir, "next-themes", "shadcn.min.js");
     await buildUmd(tempDir, "sonner", "shadcn.min.js");
+    await buildUmd(tempDir, "vaul", "shadcn.min.js", {
+      "@radix-ui/react-dialog": "@radix-ui/react-dialog",
+    });
     await buildUmd(tempDir, "cmdk", "shadcn.min.js", null, {
       "@radix-ui/react-dialog": "@radix-ui/react-dialog",
       "@radix-ui/react-id": "@radix-ui/react-id",
@@ -236,7 +239,14 @@ async function buildUmds() {
     });
 
     // Recharts
-    await buildUmd(tempDir, "recharts", "recharts.min.js"); //clsx
+    await buildUmd(tempDir, "recharts", "chart.min.js"); //clsx
+
+    // Form
+    await buildUmd(tempDir, "zod", "form.min.js");
+    await buildUmd(tempDir, "react-hook-form", "form.min.js");
+    await buildUmd(tempDir, "@hookform/resolvers/zod", "form.min.js", {
+      "react-hook-form": "react-hook-form",
+    });
 
     rmSync(tempDir, { recursive: true, force: true });
   } catch (error) {
@@ -250,10 +260,10 @@ async function buildType(src, dest) {
   const outFile = path.basename(src).replace(/\.(j|t)sx?$/, ".d.cts");
   appendFileSync(
     dest,
-    readFileSync(path.join(_root, `update/${outFile}`), "utf8").replace(
-      "import React from 'react';",
-      "import * as React from 'react';",
-    ),
+    readFileSync(path.join(_root, `update/${outFile}`), "utf8")
+      .replace("import React from 'react';", "import * as React from 'react';")
+      .replace("import React__default from 'react';", "")
+      .replaceAll("React__default.", "React."),
   );
   rmSync(path.join(_root, `update/${outFile}`));
 }
@@ -376,8 +386,29 @@ async function buildTypes() {
       path.join(_root, "update/node_modules/sonner/dist/index.js"),
       path.join(_root, "types/sonner.d.ts"),
     );
+    await buildType(
+      path.join(_root, "update/node_modules/vaul/dist/index.js"),
+      path.join(_root, "types/vaul.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/zod/lib/index.d.ts"),
+      path.join(_root, "types/zod.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/react-hook-form/dist/index.d.ts"),
+      path.join(_root, "types/react-hook-form.d.ts"),
+    );
 
     // Copy shadcn dependency types
+    mkdirSync(path.join(_root, "types/@hookform"));
+    mkdirSync(path.join(_root, "types/@hookform/resolvers"));
+    copyFileSync(
+      path.join(
+        _root,
+        "update/node_modules/@hookform/resolvers/zod/src/types.ts",
+      ),
+      path.join(_root, "types/@hookform/resolvers/zod.d.ts"),
+    );
     copyFileSync(
       path.join(_root, "update/node_modules/clsx/clsx.d.ts"),
       path.join(_root, "types/clsx.d.ts"),

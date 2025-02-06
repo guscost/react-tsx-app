@@ -24,7 +24,8 @@ After transpiling with `tsc`, copy the contents of the `www` folder to a static 
 - `lucide-react`
 - `tailwindcss`
 - `@radix-ui/*`
-- Basic `shadcn` dependencies: `clsx`, `class-variance-authority`, `tailwind-merge`, etc
+- `shadcn` dependencies: `clsx`, `zod`, etc
+- `react-day-picker` v9 and custom calendar
 
 ### Updating dependencies
 
@@ -32,9 +33,8 @@ See `update/README.md` for instructions on updating the included dependencies.
 
 ## Wish list
 
-Here are some things I'd like to add:
+Here are some things I'd like to fix:
 
 ### Fully-typed shadcn dependencies
 
 - `react-resizable-panels`
-- Missing components: Drawer, Form
