@@ -37,7 +37,10 @@ const CUSTOM_COMPONENTS = {
     return (
       <PreviousMonthButton
         tabIndex={0}
-        className={cn(className, "focus:underline focus:underline-offset-2")}
+        className={cn(
+          className,
+          "focus:underline focus:underline-offset-2 -mx-0.5 sm:mx-0",
+        )}
         {...props}
       />
     );
@@ -50,7 +53,10 @@ const CUSTOM_COMPONENTS = {
     return (
       <NextMonthButton
         tabIndex={0}
-        className={cn(className, "focus:underline focus:underline-offset-2")}
+        className={cn(
+          className,
+          "focus:underline focus:underline-offset-2 -mx-0.5 sm:mx-0",
+        )}
         {...props}
       />
     );
@@ -74,7 +80,7 @@ const CUSTOM_COMPONENTS = {
           tabIndex={0}
           className={cn(
             NO_BORDER,
-            "focus:underline focus:underline-offset-2 pr-0 -mr-3 sm:-mr-2.5 h-7 [&>svg]:opacity-25 [&>svg]:-ml-0.5",
+            "focus:underline focus:underline-offset-2 pr-0 -mr-3 sm:-mr-2.5 h-7 [&>svg]:opacity-25",
           )}
         >
           <SelectValue>{selected?.label}</SelectValue>
