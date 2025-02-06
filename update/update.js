@@ -216,32 +216,10 @@ async function buildUmds() {
       });
     }
 
-    // Embla Carousel
-    await buildUmd(
-      tempDir,
-      "embla-carousel-react",
-      "embla-carousel-react.min.js",
-      "react",
-    );
-
-    // Tanstack Data Table
-    await buildUmd(tempDir, "@tanstack/react-table", "react-table.min.js", {
-      react: "react",
-      "react-dom": "react-dom",
-    });
-
     // Build shadcn deps
-    await buildUmd(tempDir, "clsx", "shadcn.min.js");
-    await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
     await buildUmd(tempDir, "date-fns", "shadcn.min.js");
-    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js", {
-      react: "react",
-      "react-dom": "react-dom",
-    });
-    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", {
-      react: "react",
-      "date-fns": "date-fns",
-    });
+    await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
+    await buildUmd(tempDir, "clsx", "shadcn.min.js");
     await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js", {
       clsx: "clsx",
     });
@@ -251,6 +229,21 @@ async function buildUmds() {
       "@radix-ui/react-dialog": "@radix-ui/react-dialog",
       "@radix-ui/react-id": "@radix-ui/react-id",
       "@radix-ui/react-primitive": "@radix-ui/react-primitive",
+    });
+    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js", {
+      react: "react",
+      "react-dom": "react-dom",
+    });
+    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", {
+      react: "react",
+      "date-fns": "date-fns",
+    });
+    await buildUmd(tempDir, "embla-carousel-react", "shadcn.min.js", {
+      react: "react",
+    });
+    await buildUmd(tempDir, "@tanstack/react-table", "shadcn.min.js", {
+      react: "react",
+      "react-dom": "react-dom",
     });
 
     rmSync(tempDir, { recursive: true, force: true });
