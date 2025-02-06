@@ -36,6 +36,5 @@ Here are some things I'd like to add:
 
 ### Fully-typed shadcn dependencies
 
-- `react-day-picker`
 - `react-resizable-panels`
-- Missing components: Carousel, Chart, Data Table, Form, Input OTP, Sonner
+- Missing components: Carousel, Chart, Form, Input OTP, Sonner

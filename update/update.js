@@ -143,11 +143,11 @@ async function buildUmd(tempDir, moduleName, fileName, entry, externals) {
   });
 
   const content = readFileSync(path.join(tempDir, fileName), "utf8");
-  const version = packageVersions[fileName.split(".")[0]];
+  const version = packageVersions[fileName.split(".")[0]] || "";
 
   appendFileSync(
     path.join(_root, "www/js/lib", fileName),
-    content.replace(/^\/\*\!.*\*\//, `/*! ${fileName} v${version} */`) + "\n",
+    content.replace(/^\/\*\!.*\*\//, `/*! ${fileName} ${version} */`) + "\n",
   );
 }
 
@@ -167,6 +167,7 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
       force: true,
     });
+    rmSync(path.join(_root, "www/js/lib/react-table.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
 
