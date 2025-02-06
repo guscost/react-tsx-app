@@ -251,8 +251,9 @@ async function buildUmds() {
 
 async function buildType(src, dest) {
   await exec(`tsup ${src}`);
-  copyFileSync(path.join(_root, "update/index.d.cts"), dest);
-  rmSync(path.join(_root, "update/index.d.cts"));
+  const outFile = path.basename(src).replace(/\.(j|t)sx?$/, ".d.cts");
+  copyFileSync(path.join(_root, `update/${outFile}`), dest);
+  rmSync(path.join(_root, `update/${outFile}`));
 }
 
 // Copy all type definitions for the project

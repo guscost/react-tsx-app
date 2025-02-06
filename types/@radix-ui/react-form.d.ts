@@ -28,8 +28,8 @@ type PrimitiveInputProps = React.ComponentPropsWithoutRef<typeof Primitive.input
 interface FormControlProps extends PrimitiveInputProps {
 }
 declare const FormControl: React.ForwardRefExoticComponent<FormControlProps & React.RefAttributes<HTMLInputElement>>;
-declare const validityMatchers: readonly ["badInput", "patternMismatch", "rangeOverflow", "rangeUnderflow", "stepMismatch", "tooLong", "tooShort", "typeMismatch", "valid", "valueMissing"];
-type ValidityMatcher = (typeof validityMatchers)[number];
+declare const _validityMatchers: readonly ["badInput", "patternMismatch", "rangeOverflow", "rangeUnderflow", "stepMismatch", "tooLong", "tooShort", "typeMismatch", "valid", "valueMissing"];
+type ValidityMatcher = (typeof _validityMatchers)[number];
 interface FormMessageProps extends Omit<FormMessageImplProps, 'name'> {
     match?: ValidityMatcher | CustomMatcher;
     forceMatch?: boolean;
