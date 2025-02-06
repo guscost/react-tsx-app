@@ -115,11 +115,19 @@ async function runWebpack(config) {
   });
 }
 
-async function buildUmd(tempDir, moduleName, fileName, externals, entry) {
+async function buildUmd(tempDir, moduleName, fileName, entry, externals) {
   await runWebpack({
     ...commonConfig,
     entry: entry || moduleName,
-    externals: externals || {},
+    externals: Object.fromEntries(
+      Object.entries({
+        clsx: "clsx",
+        react: "react",
+        "react-dom": "react-dom",
+        "date-fns": "date-fns",
+        ...externals,
+      }).filter(([k, _]) => k !== moduleName),
+    ),
     output: {
       path: tempDir,
       filename: fileName,
@@ -167,10 +175,7 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
       force: true,
     });
-    rmSync(path.join(_root, "www/js/lib/embla-carousel-react.min.js"), {
-      force: true,
-    });
-    rmSync(path.join(_root, "www/js/lib/react-table.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/recharts.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
 
@@ -195,7 +200,6 @@ async function buildUmds() {
       tempDir,
       "react-dom",
       "react-dom.min.js",
-      "react",
       await generateReactDomEntryFile(tempDir),
     );
 
@@ -210,41 +214,29 @@ async function buildUmds() {
       },
     );
     for (const folder of radixUiSources.filter((f) => f.isDirectory())) {
-      await buildUmd(tempDir, `@radix-ui/${folder.name}`, "radix-ui.min.js", {
-        react: "react",
-        "react-dom": "react-dom",
-      });
+      await buildUmd(tempDir, `@radix-ui/${folder.name}`, "radix-ui.min.js");
     }
 
     // Build shadcn deps
     await buildUmd(tempDir, "date-fns", "shadcn.min.js");
     await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
     await buildUmd(tempDir, "clsx", "shadcn.min.js");
-    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js", {
-      clsx: "clsx",
-    });
-    await buildUmd(tempDir, "cmdk", "shadcn.min.js", {
-      react: "react",
-      "react-dom": "react-dom",
+    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js"); //clsx
+    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js");
+    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js"); //date-fns
+    await buildUmd(tempDir, "embla-carousel-react", "shadcn.min.js");
+    await buildUmd(tempDir, "@tanstack/react-table", "shadcn.min.js");
+    await buildUmd(tempDir, "input-otp", "shadcn.min.js");
+    await buildUmd(tempDir, "next-themes", "shadcn.min.js");
+    await buildUmd(tempDir, "sonner", "shadcn.min.js");
+    await buildUmd(tempDir, "cmdk", "shadcn.min.js", null, {
       "@radix-ui/react-dialog": "@radix-ui/react-dialog",
       "@radix-ui/react-id": "@radix-ui/react-id",
       "@radix-ui/react-primitive": "@radix-ui/react-primitive",
     });
-    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js", {
-      react: "react",
-      "react-dom": "react-dom",
-    });
-    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", {
-      react: "react",
-      "date-fns": "date-fns",
-    });
-    await buildUmd(tempDir, "embla-carousel-react", "shadcn.min.js", {
-      react: "react",
-    });
-    await buildUmd(tempDir, "@tanstack/react-table", "shadcn.min.js", {
-      react: "react",
-      "react-dom": "react-dom",
-    });
+
+    // Recharts
+    await buildUmd(tempDir, "recharts", "recharts.min.js"); //clsx
 
     rmSync(tempDir, { recursive: true, force: true });
   } catch (error) {
@@ -256,7 +248,13 @@ async function buildUmds() {
 async function buildType(src, dest) {
   await exec(`tsup ${src}`);
   const outFile = path.basename(src).replace(/\.(j|t)sx?$/, ".d.cts");
-  copyFileSync(path.join(_root, `update/${outFile}`), dest);
+  appendFileSync(
+    dest,
+    readFileSync(path.join(_root, `update/${outFile}`), "utf8").replace(
+      "import React from 'react';",
+      "import * as React from 'react';",
+    ),
+  );
   rmSync(path.join(_root, `update/${outFile}`));
 }
 
@@ -281,34 +279,28 @@ async function buildTypes() {
       path.join(_root, "update/node_modules/@types/react/index.d.ts"),
       path.join(_root, "types/react.d.ts"),
     );
-    const jsxRuntimeContent = readFileSync(
-      path.join(_root, "update/node_modules/@types/react/jsx-runtime.d.ts"),
-      "utf8",
-    );
     appendFileSync(
       path.join(_root, "types/jsx-runtime.d.ts"),
-      jsxRuntimeContent.replace(
-        /((import|export).* from )"\.\/";/g,
-        (_, g) => g + '"react";',
-      ),
+      readFileSync(
+        path.join(_root, "update/node_modules/@types/react/jsx-runtime.d.ts"),
+        "utf8",
+      ).replace(/((import|export).* from )"\.\/";/g, (_, g) => g + '"react";'),
     );
 
     // react-dom has types from both index and client, since we built them together
-    const reactDomContent = readFileSync(
-      path.join(_root, "update/node_modules/@types/react-dom/index.d.ts"),
-      "utf8",
-    );
-    const reactDomClientContent = readFileSync(
-      path.join(_root, "update/node_modules/@types/react-dom/client.d.ts"),
-      "utf8",
+    appendFileSync(
+      path.join(_root, "types/react-dom.d.ts"),
+      readFileSync(
+        path.join(_root, "update/node_modules/@types/react-dom/index.d.ts"),
+        "utf8",
+      ) + "\n",
     );
     appendFileSync(
       path.join(_root, "types/react-dom.d.ts"),
-      reactDomContent + "\n",
-    );
-    appendFileSync(
-      path.join(_root, "types/react-dom.d.ts"),
-      reactDomClientContent,
+      readFileSync(
+        path.join(_root, "update/node_modules/@types/react-dom/client.d.ts"),
+        "utf8",
+      ),
     );
 
     // Copy lucide-react types
@@ -340,15 +332,14 @@ async function buildTypes() {
       for (const file of radixUiTypedefs.filter(
         (f) => f.isFile() && f.name.endsWith(".d.ts"),
       )) {
-        const radixUiTypedef = readFileSync(
-          path.join(folder.parentPath, folder.name, "dist", file.name),
-          "utf8",
-        );
         appendFileSync(
           "index.d.ts" === file.name
             ? path.join(_root, "types/@radix-ui", `${folder.name}.d.ts`)
             : path.join(_root, "types/@radix-ui", file.name),
-          radixUiTypedef.replace(
+          readFileSync(
+            path.join(folder.parentPath, folder.name, "dist", file.name),
+            "utf8",
+          ).replace(
             "import React from 'react';",
             "import * as React from 'react';",
           ),
@@ -358,20 +349,32 @@ async function buildTypes() {
 
     // Build types with tsup
     mkdirSync(path.join(_root, "types/@tanstack"));
-    buildType(
+    await buildType(
       path.join(
         _root,
         "update/node_modules/@tanstack/react-table/build/lib/index.js",
       ),
       path.join(_root, "types/@tanstack/react-table.d.ts"),
     );
-    buildType(
+    await buildType(
       path.join(_root, "update/node_modules/date-fns/index.js"),
       path.join(_root, "types/date-fns.d.ts"),
     );
-    buildType(
+    await buildType(
       path.join(_root, "update/node_modules/embla-carousel-react/index.d.ts"),
       path.join(_root, "types/embla-carousel-react.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/input-otp/dist/index.js"),
+      path.join(_root, "types/input-otp.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/next-themes/dist/index.js"),
+      path.join(_root, "types/next-themes.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/sonner/dist/index.js"),
+      path.join(_root, "types/sonner.d.ts"),
     );
 
     // Copy shadcn dependency types
@@ -388,7 +391,7 @@ async function buildTypes() {
       path.join(_root, "types/cmdk.d.ts"),
     );
     copyFileSync(
-      path.join(_root, "update/react-day-picker.d.ts"),
+      path.join(_root, "update/types/react-day-picker.d.ts"),
       path.join(_root, "types/react-day-picker.d.ts"),
     );
     appendFileSync(
@@ -416,6 +419,11 @@ async function buildTypes() {
         /import .* from "\.\/types";/,
         classVarianceAuthorityTypesContent,
       ) + "\n",
+    );
+
+    copyFileSync(
+      path.join(_root, "update/types/recharts.d.ts"),
+      path.join(_root, "types/recharts.d.ts"),
     );
   } catch (error) {
     console.error("Error during typedef build:", error);

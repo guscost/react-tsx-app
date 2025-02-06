@@ -1,3 +1,4 @@
+// Compiled types from react-day-picker 9.5.1
 import {
   Context,
   CSSProperties,
@@ -18,7 +19,6 @@ import {
 } from "react";
 //export { TZDate } from '@date-fns/tz';
 
-// Compiled types from react-day-picker 9.5.1
 /**
  * The UI elements composing DayPicker. These elements are mapped to
  * {@link CustomComponents}, the {@link ClassNames} and the {@link Styles} used by
@@ -760,10 +760,10 @@ interface ContextOptions<DateType extends Date> {
   in?: ContextFn<DateType> | undefined;
 }
 /**
-  /**
-   * The context function type. It's used to normalize the input arguments to
-   * a specific date instance, which is useful for extensions like [`TZDate`](https://github.com/date-fns/tz).
-   */
+    /**
+     * The context function type. It's used to normalize the input arguments to
+     * a specific date instance, which is useful for extensions like [`TZDate`](https://github.com/date-fns/tz).
+     */
 type ContextFn<DateType extends Date> = (value: DateArg<Date> & {}) => DateType;
 
 /**
