@@ -244,13 +244,19 @@ async function buildUmds() {
     // Build shadcn deps
     await buildUmd(tempDir, "clsx", "shadcn.min.js");
     await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
-    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js");
-    await buildUmd(tempDir, "cmdk", "shadcn.min.js");
     await buildUmd(tempDir, "date-fns", "shadcn.min.js");
     await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js");
     await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", null, {
       "date-fns": "date-fns",
       react: "react",
+    });
+    await buildUmd(tempDir, "cmdk", "shadcn.min.js", null, {
+      "@radix-ui/react-dialog": "@radix-ui/react-dialog",
+      "@radix-ui/react-id": "@radix-ui/react-id",
+      "@radix-ui/react-primitive": "@radix-ui/react-primitive",
+    });
+    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js", null, {
+      clsx: "clsx",
     });
 
     rmSync(tempDir, { recursive: true, force: true });
@@ -377,10 +383,7 @@ async function buildTypes() {
       path.join(_root, "types/date-fns.d.ts"),
     );
     buildType(
-      path.join(
-        _root,
-        "update/node_modules/embla-carousel-react/index.d.ts",
-      ),
+      path.join(_root, "update/node_modules/embla-carousel-react/index.d.ts"),
       path.join(_root, "types/embla-carousel-react.d.ts"),
     );
 

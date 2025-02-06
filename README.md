@@ -37,4 +37,4 @@ Here are some things I'd like to add:
 ### Fully-typed shadcn dependencies
 
 - `react-resizable-panels`
-- Missing components: Carousel, Chart, Form, Input OTP, Sonner
+- Missing components: Chart, Form, Input OTP, Sonner
