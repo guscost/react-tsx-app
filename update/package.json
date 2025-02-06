@@ -9,13 +9,7 @@
       "resolve": true
     },
     "external": [
-      "clsx",
-      "date-fns",
-      "react",
-      "react-dom",
-      "react-hook-form",
-      "@hookform/resolvers",
-      "@radix-ui/*"
+      "react"
     ],
     "outDir": "."
   },
