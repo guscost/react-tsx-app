@@ -115,7 +115,7 @@ async function runWebpack(config) {
   });
 }
 
-async function buildUmd(tempDir, moduleName, fileName, entry, externals) {
+async function buildUmd(tempDir, moduleName, fileName, externals, entry) {
   await runWebpack({
     ...commonConfig,
     entry: entry || moduleName,
@@ -195,8 +195,8 @@ async function buildUmds() {
       tempDir,
       "react-dom",
       "react-dom.min.js",
-      await generateReactDomEntryFile(tempDir),
       "react",
+      await generateReactDomEntryFile(tempDir),
     );
 
     // Lucide icons
@@ -210,16 +210,10 @@ async function buildUmds() {
       },
     );
     for (const folder of radixUiSources.filter((f) => f.isDirectory())) {
-      await buildUmd(
-        tempDir,
-        `@radix-ui/${folder.name}`,
-        "radix-ui.min.js",
-        null,
-        {
-          react: "react",
-          "react-dom": "react-dom",
-        },
-      );
+      await buildUmd(tempDir, `@radix-ui/${folder.name}`, "radix-ui.min.js", {
+        react: "react",
+        "react-dom": "react-dom",
+      });
     }
 
     // Embla Carousel
@@ -227,36 +221,36 @@ async function buildUmds() {
       tempDir,
       "embla-carousel-react",
       "embla-carousel-react.min.js",
+      "react",
     );
 
     // Tanstack Data Table
-    await buildUmd(
-      tempDir,
-      "@tanstack/react-table",
-      "react-table.min.js",
-      null,
-      {
-        react: "react",
-        "react-dom": "react-dom",
-      },
-    );
+    await buildUmd(tempDir, "@tanstack/react-table", "react-table.min.js", {
+      react: "react",
+      "react-dom": "react-dom",
+    });
 
     // Build shadcn deps
     await buildUmd(tempDir, "clsx", "shadcn.min.js");
     await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
     await buildUmd(tempDir, "date-fns", "shadcn.min.js");
-    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js");
-    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", null, {
-      "date-fns": "date-fns",
+    await buildUmd(tempDir, "react-resizable-panels", "shadcn.min.js", {
       react: "react",
+      "react-dom": "react-dom",
     });
-    await buildUmd(tempDir, "cmdk", "shadcn.min.js", null, {
+    await buildUmd(tempDir, "react-day-picker", "shadcn.min.js", {
+      react: "react",
+      "date-fns": "date-fns",
+    });
+    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js", {
+      clsx: "clsx",
+    });
+    await buildUmd(tempDir, "cmdk", "shadcn.min.js", {
+      react: "react",
+      "react-dom": "react-dom",
       "@radix-ui/react-dialog": "@radix-ui/react-dialog",
       "@radix-ui/react-id": "@radix-ui/react-id",
       "@radix-ui/react-primitive": "@radix-ui/react-primitive",
-    });
-    await buildUmd(tempDir, "class-variance-authority", "shadcn.min.js", null, {
-      clsx: "clsx",
     });
 
     rmSync(tempDir, { recursive: true, force: true });
