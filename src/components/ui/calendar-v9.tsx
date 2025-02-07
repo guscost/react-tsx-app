@@ -63,10 +63,8 @@ function Calendar({
               tabIndex={0}
               className={cn(
                 NO_BORDER,
-                compact
-                  ? "-mr-2.5 sm:-mr-2.5 [&>svg]:-ml-[1px]"
-                  : "-mr-2.5 text-md",
-                "focus:underline focus:underline-offset-2 h-7 pr-0 [&>svg]:opacity-15",
+                compact ? "[&>svg]:-ml-[1px]" : "text-md",
+                "focus:underline focus:underline-offset-2 h-7 -mr-2.5 pr-0 [&>svg]:opacity-15",
               )}
             >
               <SelectValue>{selected?.label}</SelectValue>
@@ -93,6 +91,7 @@ function Calendar({
   }, [compact, props.components]);
 
   const prevNextButtonSize = compact ? "h-5 w-5" : "h-6 w-6";
+  const isLabel = captionLayout === "label";
 
   return (
     <DayPicker
@@ -104,13 +103,13 @@ function Calendar({
       className={className}
       classNames={{
         months: "flex gap-4 relative",
-        month_grid: compact ? undefined : "mt-2",
+        month_grid: compact ? undefined : isLabel ? "mt-2.5" : "mt-2",
         month_caption: cn(
           "flex relative items-center font-medium",
-          compact ? "text-sm mt-1" : "text-md mt-0.5",
-          captionLayout === "label" ? "ml-1 mb-2" : "-ml-2 mb-1 mt-0",
+          compact ? "text-sm mt-1 ml-1 sm:ml-[5.5px]" : "text-md mt-0.5 ml-1.5",
+          isLabel ? "mb-2" : "-ml-2 sm:-ml-2 mb-1 mt-0",
         ),
-        dropdowns: "flex",
+        dropdowns: compact ? "flex sm:ml-0.5" : "flex ml-0.5",
         years_dropdown: "after:none",
         nav: "absolute right-0 z-50 flex items-center h-7",
         button_previous: cn(NO_BORDER, prevNextButtonSize, "group"),
