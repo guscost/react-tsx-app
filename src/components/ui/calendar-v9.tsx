@@ -90,7 +90,7 @@ function Calendar({
       : customComponents;
   }, [compact, props.components]);
 
-  const prevNextButtonSize = compact ? "h-5 w-5" : "h-6 w-6";
+  const btnSize = compact ? "h-5 w-5" : "h-6 w-6";
   const isLabel = captionLayout === "label";
 
   return (
@@ -112,11 +112,11 @@ function Calendar({
         dropdowns: compact ? "flex sm:ml-0.5" : "flex ml-0.5",
         years_dropdown: "after:none",
         nav: "absolute right-0 z-50 flex items-center h-7",
-        button_previous: cn(NO_BORDER, prevNextButtonSize, "group"),
-        button_next: cn(NO_BORDER, prevNextButtonSize, "group"),
+        button_previous: cn(NO_BORDER, btnSize, "group [&>svg]:fill-primary"),
+        button_next: cn(NO_BORDER, btnSize, "group [&>svg]:fill-primary"),
         chevron: cn(
           "border-b border-transparent group-focus:border-current",
-          prevNextButtonSize,
+          btnSize,
         ),
         weeks: "w-full border-collapse space-y-1",
         week: "flex w-full mt-2",
