@@ -1,4 +1,4 @@
-# react-tsx-app
+# water-bear
 
 React & TSX webapp with no package management or bundling
 
