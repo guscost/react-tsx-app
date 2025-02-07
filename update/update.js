@@ -173,6 +173,7 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
       force: true,
     });
+    rmSync(path.join(_root, "www/js/lib/zustand.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/chart.min.js"), { force: true });
@@ -206,6 +207,9 @@ async function buildUmds() {
     // Lucide icons
     await buildUmd(tempDir, "lucide-react", "lucide-react.min.js");
 
+    // Zustand
+    await buildUmd(tempDir, "zustand", "zustand.min.js");
+
     // Aggregate all Radix UI modules into one big file
     const radixUiSources = readdirSync(
       path.join(_root, "update/node_modules/@radix-ui"),
@@ -229,7 +233,7 @@ async function buildUmds() {
     await buildUmd(tempDir, "input-otp", "shadcn.min.js");
     await buildUmd(tempDir, "next-themes", "shadcn.min.js");
     await buildUmd(tempDir, "sonner", "shadcn.min.js");
-    await buildUmd(tempDir, "vaul", "shadcn.min.js", {
+    await buildUmd(tempDir, "vaul", "shadcn.min.js", null, {
       "@radix-ui/react-dialog": "@radix-ui/react-dialog",
     });
     await buildUmd(tempDir, "cmdk", "shadcn.min.js", null, {
@@ -244,7 +248,7 @@ async function buildUmds() {
     // Form
     await buildUmd(tempDir, "zod", "form.min.js");
     await buildUmd(tempDir, "react-hook-form", "form.min.js");
-    await buildUmd(tempDir, "@hookform/resolvers/zod", "form.min.js", {
+    await buildUmd(tempDir, "@hookform/resolvers/zod", "form.min.js", null, {
       "react-hook-form": "react-hook-form",
     });
 
@@ -397,6 +401,10 @@ async function buildTypes() {
     await buildType(
       path.join(_root, "update/node_modules/react-hook-form/dist/index.d.ts"),
       path.join(_root, "types/react-hook-form.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/zustand/index.js"),
+      path.join(_root, "types/zustand.d.ts"),
     );
 
     // Copy shadcn dependency types
