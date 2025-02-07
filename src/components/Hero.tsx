@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Hero() {
+export function Hero() {
   const [count, setCount] = useState(0);
 
   return (
