@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import {
-  PreviousMonthButton,
-  PreviousMonthButtonProps,
-  NextMonthButton,
-  NextMonthButtonProps,
+  PreviousMonthButton as BtnPrev,
+  PreviousMonthButtonProps as PrpPrev,
+  NextMonthButton as BtnNext,
+  NextMonthButtonProps as PrpNext,
   DateRange as InnerDateRange,
   DayPicker,
   DropdownProps,
@@ -23,118 +23,106 @@ import {
 } from "./select";
 
 export type DateRange = InnerDateRange;
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  compact?: boolean;
+};
 
 export const NO_BORDER =
   "ring-0 focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none focus-visible:shadow-none outline-none focus:outline-none focus-visible:outline-none border-none focus:border-none focus-visible:border-none";
 
-const CUSTOM_COMPONENTS = {
-  PreviousMonthButton: ({
-    tabIndex,
-    className,
-    ...props
-  }: PreviousMonthButtonProps) => {
-    return (
-      <PreviousMonthButton
-        tabIndex={0}
-        className={cn(
-          className,
-          "focus:underline focus:underline-offset-2 -mx-0.5 sm:mx-0",
-        )}
-        {...props}
-      />
-    );
-  },
-  NextMonthButton: ({
-    tabIndex,
-    className,
-    ...props
-  }: NextMonthButtonProps) => {
-    return (
-      <NextMonthButton
-        tabIndex={0}
-        className={cn(
-          className,
-          "focus:underline focus:underline-offset-2 -mx-0.5 sm:mx-0",
-        )}
-        {...props}
-      />
-    );
-  },
-  Dropdown: ({ value, options, onChange, ...props }: DropdownProps) => {
-    const selected = options?.find((option) => option.value === value);
-    const handleChange = (value: string) => {
-      const changeEvent = {
-        target: { value },
-      } as React.ChangeEvent<HTMLSelectElement>;
-      onChange?.(changeEvent);
-    };
-    return (
-      <Select
-        value={value?.toString()}
-        onValueChange={(value) => {
-          handleChange(value);
-        }}
-      >
-        <SelectTrigger
-          tabIndex={0}
-          className={cn(
-            NO_BORDER,
-            "focus:underline focus:underline-offset-2 pr-0 -mr-3 sm:-mr-2.5 h-7 [&>svg]:opacity-25",
-          )}
-        >
-          <SelectValue>{selected?.label}</SelectValue>
-        </SelectTrigger>
-        <SelectContent position="popper">
-          <ScrollArea className="h-80">
-            {options?.map((option, id: number) => (
-              <SelectItem
-                key={`${option.value}-${id}`}
-                value={option.value?.toString() ?? ""}
-              >
-                {option.label}
-              </SelectItem>
-            ))}
-          </ScrollArea>
-        </SelectContent>
-      </Select>
-    );
-  },
-};
-
-// shadcn calendar is updated for react-day-picker v9 and mobile sizing
+// Updated for react-day-picker v9 and mobile sizing
 function Calendar({
   numberOfMonths = 1,
   showOutsideDays = true,
+  compact = false,
   captionLayout = "dropdown",
   className = "w-fit",
   classNames,
-  components,
   ...props
 }: CalendarProps) {
+  // Custom components for prev/next and date dropdowns
+  const components = React.useMemo(() => {
+    const pnc = compact
+      ? "focus:underline focus:underline-offset-2 -mx-0.5 sm:mx-0"
+      : "focus:underline focus:underline-offset-2 mx-0";
+
+    const customComponents = {
+      PreviousMonthButton: ({ tabIndex, className, ...props }: PrpPrev) => (
+        <BtnPrev tabIndex={0} className={cn(className, pnc)} {...props} />
+      ),
+      NextMonthButton: ({ tabIndex, className, ...props }: PrpNext) => (
+        <BtnNext tabIndex={0} className={cn(className, pnc)} {...props} />
+      ),
+      Dropdown: ({ value, options, onChange }: DropdownProps) => {
+        const selected = options?.find((option) => option.value === value);
+        const handleChange = (value: string) =>
+          onChange?.({ target: { value } } as any);
+        return (
+          <Select value={value?.toString()} onValueChange={handleChange}>
+            <SelectTrigger
+              tabIndex={0}
+              className={cn(
+                NO_BORDER,
+                compact ? "-mr-3 sm:-mr-2.5" : "-mr-2",
+                "focus:underline focus:underline-offset-2 pr-0 h-7 [&>svg]:opacity-25",
+              )}
+            >
+              <SelectValue>{selected?.label}</SelectValue>
+            </SelectTrigger>
+            <SelectContent position="popper">
+              <ScrollArea className="h-56">
+                {options?.map(({ value: v, label }, i: number) => (
+                  <SelectItem key={`${v}-${i}`} value={v?.toString() ?? ""}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </ScrollArea>
+            </SelectContent>
+          </Select>
+        );
+      },
+    };
+    return props.components
+      ? {
+          ...customComponents,
+          ...props.components,
+        }
+      : customComponents;
+  }, [compact, props.components]);
+
+  const prevNextButtonSize = compact ? "h-5 w-5 sm:h-6 sm:w-6" : "h-6 w-6";
+
   return (
     <DayPicker
       mode={props.mode || "single"}
       captionLayout={captionLayout}
       numberOfMonths={numberOfMonths}
       showOutsideDays={showOutsideDays}
+      components={components}
       className={className}
       classNames={{
         months: "flex gap-4 relative",
         month_caption:
           "flex -mx-3 mb-2 relative items-center text-sm font-medium",
-        dropdowns: "flex",
+        dropdowns: "flex ml-1",
         years_dropdown: "after:none",
-        nav: "absolute right-0 z-50 -mr-1 sm:mr-0 flex items-center h-7",
-        button_previous: cn(NO_BORDER, "group h-5 w-5 sm:h-6 sm:w-6"),
-        button_next: cn(NO_BORDER, "group h-5 w-5 sm:h-6 sm:w-6"),
-        chevron:
-          "border-b border-transparent group-focus:border-current h-5 w-5 sm:h-6 sm:w-6",
+        nav: cn(
+          "absolute right-0 z-50 flex items-center h-7",
+          compact ? "-mr-1 sm:mr-0" : "mr-0",
+        ),
+        button_previous: cn(NO_BORDER, prevNextButtonSize, "group"),
+        button_next: cn(NO_BORDER, prevNextButtonSize, "group"),
+        chevron: cn(
+          "border-b border-transparent group-focus:border-current",
+          prevNextButtonSize,
+        ),
         weeks: "w-full border-collapse space-y-1",
         week: "flex w-full mt-2",
         weekdays: "flex",
-        weekday:
-          "text-muted-foreground rounded-md w-6 sm:w-7 text-xs sm:text-sm font-normal text-[0.8rem]",
+        weekday: cn(
+          "text-muted-foreground rounded-md font-normal",
+          compact ? "w-6 sm:w-7 text-xs sm:text-sm" : "w-8 text-sm",
+        ),
         day: cn(
           "relative p-0 focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].outside)]:bg-accent/50",
           props.mode === "range"
@@ -144,7 +132,10 @@ function Calendar({
         day_button: cn(
           buttonVariants({ variant: "ghost" }),
           "[&:hover]:bg-transparent [&:hover]:text-inherit", // Disable the ghost button hover
-          "h-6 w-6 sm:h-7 sm:w-7 p-0 text-xs sm:text-sm text-center font-normal",
+          compact
+            ? "h-6 w-6 sm:h-7 sm:w-7 p-0 text-xs sm:text-sm"
+            : "h-8 w-8 p-0.5 text-sm",
+          "text-center font-normal",
         ),
         range_start: "range-start",
         range_end: "range-end",
@@ -159,14 +150,6 @@ function Calendar({
         hidden: "invisible",
         ...classNames,
       }}
-      components={
-        components
-          ? {
-              ...CUSTOM_COMPONENTS,
-              ...components,
-            }
-          : CUSTOM_COMPONENTS
-      }
       {...props}
     />
   );
