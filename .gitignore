@@ -1,5 +1,6 @@
+node_modules/
+
 update/temp/
-update/node_modules/
 update/package-lock.json
 
 .DS_Store
