@@ -1,4 +1,4 @@
---- react-tsx-app ---
+--- arthropod ---
 
 MIT License
 
