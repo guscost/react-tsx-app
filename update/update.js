@@ -180,7 +180,7 @@ async function buildUmds() {
 
     // 2. Copy Tailwind from CDN
     const tailwindResponse = await fetch(
-      "https://cdn.tailwindcss.com/?plugins=forms,typography,aspect-ratio,container-queries",
+      "https://cdn.tailwindcss.com/?plugins=typography,aspect-ratio,container-queries",
     );
     const tailwindContent = await tailwindResponse.text();
     appendFileSync(
