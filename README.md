@@ -1,4 +1,4 @@
-# water-bear
+# arthropod
 
 React & TSX webapp with no package management or bundling
 
