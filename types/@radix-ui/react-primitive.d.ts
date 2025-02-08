@@ -1,14 +1,32 @@
-import * as React from 'react';
+import * as React from "react";
 
-declare const NODES: readonly ["a", "button", "div", "form", "h2", "h3", "img", "input", "label", "li", "nav", "ol", "p", "span", "svg", "ul"];
+declare const NODES: readonly [
+  "a",
+  "button",
+  "div",
+  "form",
+  "h2",
+  "h3",
+  "img",
+  "input",
+  "label",
+  "li",
+  "nav",
+  "ol",
+  "p",
+  "span",
+  "svg",
+  "ul",
+];
 type Primitives = {
-    [E in (typeof NODES)[number]]: PrimitiveForwardRefComponent<E>;
+  [E in (typeof NODES)[number]]: PrimitiveForwardRefComponent<E>;
 };
-type PrimitivePropsWithRef<E extends React.ElementType> = React.ComponentPropsWithRef<E> & {
+type PrimitivePropsWithRef<E extends React.ElementType> =
+  React.ComponentPropsWithRef<E> & {
     asChild?: boolean;
-};
-interface PrimitiveForwardRefComponent<E extends React.ElementType> extends React.ForwardRefExoticComponent<PrimitivePropsWithRef<E>> {
-}
+  };
+interface PrimitiveForwardRefComponent<E extends React.ElementType>
+  extends React.ForwardRefExoticComponent<PrimitivePropsWithRef<E>> {}
 declare const Primitive: Primitives;
 /**
  * Flush custom event dispatch
@@ -46,7 +64,15 @@ declare const Primitive: Primitives;
  * this utility with them. This is because it's possible for those handlers to be called implicitly during render
  * e.g. when focus is within a component as it is unmounted, or when managing focus on mount.
  */
-declare function dispatchDiscreteCustomEvent<E extends CustomEvent>(target: E['target'], event: E): void;
+declare function dispatchDiscreteCustomEvent<E extends CustomEvent>(
+  target: E["target"],
+  event: E,
+): void;
 declare const Root: Primitives;
 
-export { Primitive, type PrimitivePropsWithRef, Root, dispatchDiscreteCustomEvent };
+export {
+  Primitive,
+  type PrimitivePropsWithRef,
+  Root,
+  dispatchDiscreteCustomEvent,
+};

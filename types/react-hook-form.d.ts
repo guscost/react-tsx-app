@@ -1,36 +1,59 @@
-import * as React from 'react';
-
+import * as React from "react";
 
 declare const VALIDATION_MODE: {
-    readonly onBlur: "onBlur";
-    readonly onChange: "onChange";
-    readonly onSubmit: "onSubmit";
-    readonly onTouched: "onTouched";
-    readonly all: "all";
+  readonly onBlur: "onBlur";
+  readonly onChange: "onChange";
+  readonly onSubmit: "onSubmit";
+  readonly onTouched: "onTouched";
+  readonly all: "all";
 };
 declare const INPUT_VALIDATION_RULES: {
-    readonly max: "max";
-    readonly min: "min";
-    readonly maxLength: "maxLength";
-    readonly minLength: "minLength";
-    readonly pattern: "pattern";
-    readonly required: "required";
-    readonly validate: "validate";
+  readonly max: "max";
+  readonly min: "min";
+  readonly maxLength: "maxLength";
+  readonly minLength: "minLength";
+  readonly pattern: "pattern";
+  readonly required: "required";
+  readonly validate: "validate";
 };
 
 type Observer<T> = {
-    next: (value: T) => void;
+  next: (value: T) => void;
 };
 type Subscription = {
-    unsubscribe: Noop;
+  unsubscribe: Noop;
 };
 type Subject<T> = {
-    readonly observers: Observer<T>[];
-    subscribe: (value: Observer<T>) => Subscription;
-    unsubscribe: Noop;
+  readonly observers: Observer<T>[];
+  subscribe: (value: Observer<T>) => Subscription;
+  unsubscribe: Noop;
 } & Observer<T>;
 
-type EventType = 'focus' | 'blur' | 'change' | 'changeText' | 'valueChange' | 'contentSizeChange' | 'endEditing' | 'keyPress' | 'submitEditing' | 'layout' | 'selectionChange' | 'longPress' | 'press' | 'pressIn' | 'pressOut' | 'momentumScrollBegin' | 'momentumScrollEnd' | 'scroll' | 'scrollBeginDrag' | 'scrollEndDrag' | 'load' | 'error' | 'progress' | 'custom';
+type EventType =
+  | "focus"
+  | "blur"
+  | "change"
+  | "changeText"
+  | "valueChange"
+  | "contentSizeChange"
+  | "endEditing"
+  | "keyPress"
+  | "submitEditing"
+  | "layout"
+  | "selectionChange"
+  | "longPress"
+  | "press"
+  | "pressIn"
+  | "pressOut"
+  | "momentumScrollBegin"
+  | "momentumScrollEnd"
+  | "scroll"
+  | "scrollBeginDrag"
+  | "scrollEndDrag"
+  | "load"
+  | "error"
+  | "progress"
+  | "custom";
 
 /**
  * Type alias to `string` which describes a lodash-like path through an object.
@@ -46,7 +69,9 @@ type PathString = string;
  * IsTuple<number[]> = false
  * ```
  */
-type IsTuple<T extends ReadonlyArray<any>> = number extends T['length'] ? false : true;
+type IsTuple<T extends ReadonlyArray<any>> = number extends T["length"]
+  ? false
+  : true;
 /**
  * Type which can be used to index an array or tuple type.
  */
@@ -66,7 +91,11 @@ type TupleKeys<T extends ReadonlyArray<any>> = Exclude<keyof T, keyof any[]>;
  *
  * See {@link IsEqual}
  */
-type AnyIsEqual<T1, T2> = T1 extends T2 ? IsEqual<T1, T2> extends true ? true : never : never;
+type AnyIsEqual<T1, T2> = T1 extends T2
+  ? IsEqual<T1, T2> extends true
+    ? true
+    : never
+  : never;
 /**
  * Helper type for recursively constructing paths through a type.
  * This actually constructs the strings and recurses into nested
@@ -74,18 +103,29 @@ type AnyIsEqual<T1, T2> = T1 extends T2 ? IsEqual<T1, T2> extends true ? true : 
  *
  * See {@link Path}
  */
-type PathImpl<K extends string | number, V, TraversedTypes> = V extends Primitive | BrowserNativeObject ? `${K}` : true extends AnyIsEqual<TraversedTypes, V> ? `${K}` : `${K}` | `${K}.${PathInternal<V, TraversedTypes | V>}`;
+type PathImpl<K extends string | number, V, TraversedTypes> = V extends
+  | Primitive
+  | BrowserNativeObject
+  ? `${K}`
+  : true extends AnyIsEqual<TraversedTypes, V>
+    ? `${K}`
+    : `${K}` | `${K}.${PathInternal<V, TraversedTypes | V>}`;
 /**
  * Helper type for recursively constructing paths through a type.
  * This obscures the internal type param TraversedTypes from exported contract.
  *
  * See {@link Path}
  */
-type PathInternal<T, TraversedTypes = T> = T extends ReadonlyArray<infer V> ? IsTuple<T> extends true ? {
-    [K in TupleKeys<T>]-?: PathImpl<K & string, T[K], TraversedTypes>;
-}[TupleKeys<T>] : PathImpl<ArrayKey, V, TraversedTypes> : {
-    [K in keyof T]-?: PathImpl<K & string, T[K], TraversedTypes>;
-}[keyof T];
+type PathInternal<T, TraversedTypes = T> =
+  T extends ReadonlyArray<infer V>
+    ? IsTuple<T> extends true
+      ? {
+          [K in TupleKeys<T>]-?: PathImpl<K & string, T[K], TraversedTypes>;
+        }[TupleKeys<T>]
+      : PathImpl<ArrayKey, V, TraversedTypes>
+    : {
+        [K in keyof T]-?: PathImpl<K & string, T[K], TraversedTypes>;
+      }[keyof T];
 /**
  * Type which eagerly collects all paths through a type
  * @typeParam T - type which should be introspected
@@ -106,18 +146,43 @@ type FieldPath<TFieldValues extends FieldValues> = Path<TFieldValues>;
  *
  * See {@link ArrayPath}
  */
-type ArrayPathImpl<K extends string | number, V, TraversedTypes> = V extends Primitive | BrowserNativeObject ? IsAny<V> extends true ? string : never : V extends ReadonlyArray<infer U> ? U extends Primitive | BrowserNativeObject ? IsAny<V> extends true ? string : never : true extends AnyIsEqual<TraversedTypes, V> ? never : `${K}` | `${K}.${ArrayPathInternal<V, TraversedTypes | V>}` : true extends AnyIsEqual<TraversedTypes, V> ? never : `${K}.${ArrayPathInternal<V, TraversedTypes | V>}`;
+type ArrayPathImpl<K extends string | number, V, TraversedTypes> = V extends
+  | Primitive
+  | BrowserNativeObject
+  ? IsAny<V> extends true
+    ? string
+    : never
+  : V extends ReadonlyArray<infer U>
+    ? U extends Primitive | BrowserNativeObject
+      ? IsAny<V> extends true
+        ? string
+        : never
+      : true extends AnyIsEqual<TraversedTypes, V>
+        ? never
+        : `${K}` | `${K}.${ArrayPathInternal<V, TraversedTypes | V>}`
+    : true extends AnyIsEqual<TraversedTypes, V>
+      ? never
+      : `${K}.${ArrayPathInternal<V, TraversedTypes | V>}`;
 /**
  * Helper type for recursively constructing paths through a type.
  * This obscures the internal type param TraversedTypes from exported contract.
  *
  * See {@link ArrayPath}
  */
-type ArrayPathInternal<T, TraversedTypes = T> = T extends ReadonlyArray<infer V> ? IsTuple<T> extends true ? {
-    [K in TupleKeys<T>]-?: ArrayPathImpl<K & string, T[K], TraversedTypes>;
-}[TupleKeys<T>] : ArrayPathImpl<ArrayKey, V, TraversedTypes> : {
-    [K in keyof T]-?: ArrayPathImpl<K & string, T[K], TraversedTypes>;
-}[keyof T];
+type ArrayPathInternal<T, TraversedTypes = T> =
+  T extends ReadonlyArray<infer V>
+    ? IsTuple<T> extends true
+      ? {
+          [K in TupleKeys<T>]-?: ArrayPathImpl<
+            K & string,
+            T[K],
+            TraversedTypes
+          >;
+        }[TupleKeys<T>]
+      : ArrayPathImpl<ArrayKey, V, TraversedTypes>
+    : {
+        [K in keyof T]-?: ArrayPathImpl<K & string, T[K], TraversedTypes>;
+      }[keyof T];
 /**
  * Type which eagerly collects all paths through a type which point to an array
  * type.
@@ -142,15 +207,39 @@ type FieldArrayPath<TFieldValues extends FieldValues> = ArrayPath<TFieldValues>;
  * PathValue<[number, string], '1'> = string
  * ```
  */
-type PathValue<T, P extends Path<T> | ArrayPath<T>> = T extends any ? P extends `${infer K}.${infer R}` ? K extends keyof T ? R extends Path<T[K]> ? PathValue<T[K], R> : never : K extends `${ArrayKey}` ? T extends ReadonlyArray<infer V> ? PathValue<V, R & Path<V>> : never : never : P extends keyof T ? T[P] : P extends `${ArrayKey}` ? T extends ReadonlyArray<infer V> ? V : never : never : never;
+type PathValue<T, P extends Path<T> | ArrayPath<T>> = T extends any
+  ? P extends `${infer K}.${infer R}`
+    ? K extends keyof T
+      ? R extends Path<T[K]>
+        ? PathValue<T[K], R>
+        : never
+      : K extends `${ArrayKey}`
+        ? T extends ReadonlyArray<infer V>
+          ? PathValue<V, R & Path<V>>
+          : never
+        : never
+    : P extends keyof T
+      ? T[P]
+      : P extends `${ArrayKey}`
+        ? T extends ReadonlyArray<infer V>
+          ? V
+          : never
+        : never
+  : never;
 /**
  * See {@link PathValue}
  */
-type FieldPathValue<TFieldValues extends FieldValues, TFieldPath extends FieldPath<TFieldValues>> = PathValue<TFieldValues, TFieldPath>;
+type FieldPathValue<
+  TFieldValues extends FieldValues,
+  TFieldPath extends FieldPath<TFieldValues>,
+> = PathValue<TFieldValues, TFieldPath>;
 /**
  * See {@link PathValue}
  */
-type FieldArrayPathValue<TFieldValues extends FieldValues, TFieldArrayPath extends FieldArrayPath<TFieldValues>> = PathValue<TFieldValues, TFieldArrayPath>;
+type FieldArrayPathValue<
+  TFieldValues extends FieldValues,
+  TFieldArrayPath extends FieldArrayPath<TFieldValues>,
+> = PathValue<TFieldValues, TFieldArrayPath>;
 /**
  * Type to evaluate the type which the given paths point to.
  * @typeParam TFieldValues - field values which are indexed by the paths
@@ -161,8 +250,14 @@ type FieldArrayPathValue<TFieldValues extends FieldValues, TFieldArrayPath exten
  *   = [{bar: string}, string]
  * ```
  */
-type FieldPathValues<TFieldValues extends FieldValues, TPath extends FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[]> = {} & {
-    [K in keyof TPath]: FieldPathValue<TFieldValues, TPath[K] & FieldPath<TFieldValues>>;
+type FieldPathValues<
+  TFieldValues extends FieldValues,
+  TPath extends FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[],
+> = {} & {
+  [K in keyof TPath]: FieldPathValue<
+    TFieldValues,
+    TPath[K] & FieldPath<TFieldValues>
+  >;
 };
 /**
  * Type which eagerly collects all paths through a fieldType that matches a give type
@@ -175,30 +270,63 @@ type FieldPathValues<TFieldValues extends FieldValues, TPath extends FieldPath<T
  * ```
  */
 type FieldPathByValue<TFieldValues extends FieldValues, TValue> = {
-    [Key in FieldPath<TFieldValues>]: FieldPathValue<TFieldValues, Key> extends TValue ? Key : never;
+  [Key in FieldPath<TFieldValues>]: FieldPathValue<
+    TFieldValues,
+    Key
+  > extends TValue
+    ? Key
+    : never;
 }[FieldPath<TFieldValues>];
 
-type UseFieldArrayProps<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>, TKeyName extends string = 'id'> = {
-    name: TFieldArrayName;
-    keyName?: TKeyName;
-    control?: Control<TFieldValues>;
-    rules?: {
-        validate?: Validate<FieldArray<TFieldValues, TFieldArrayName>[], TFieldValues> | Record<string, Validate<FieldArray<TFieldValues, TFieldArrayName>[], TFieldValues>>;
-    } & Pick<RegisterOptions<TFieldValues>, 'maxLength' | 'minLength' | 'required'>;
-    shouldUnregister?: boolean;
+type UseFieldArrayProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TKeyName extends string = "id",
+> = {
+  name: TFieldArrayName;
+  keyName?: TKeyName;
+  control?: Control<TFieldValues>;
+  rules?: {
+    validate?:
+      | Validate<FieldArray<TFieldValues, TFieldArrayName>[], TFieldValues>
+      | Record<
+          string,
+          Validate<FieldArray<TFieldValues, TFieldArrayName>[], TFieldValues>
+        >;
+  } & Pick<
+    RegisterOptions<TFieldValues>,
+    "maxLength" | "minLength" | "required"
+  >;
+  shouldUnregister?: boolean;
 };
 /**
  * `useFieldArray` returned `fields` with unique id
  */
-type FieldArrayWithId<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>, TKeyName extends string = 'id'> = FieldArray<TFieldValues, TFieldArrayName> & Record<TKeyName, string>;
-type FieldArray<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>> = FieldArrayPathValue<TFieldValues, TFieldArrayName> extends ReadonlyArray<infer U> | null | undefined ? U : never;
+type FieldArrayWithId<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TKeyName extends string = "id",
+> = FieldArray<TFieldValues, TFieldArrayName> & Record<TKeyName, string>;
+type FieldArray<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+> =
+  FieldArrayPathValue<TFieldValues, TFieldArrayName> extends
+    | ReadonlyArray<infer U>
+    | null
+    | undefined
+    ? U
+    : never;
 /**
  * `useFieldArray` focus option, ability to toggle focus on and off with `shouldFocus` and setting focus by either field index or name.
  */
 type FieldArrayMethodProps = {
-    shouldFocus?: boolean;
-    focusIndex?: number;
-    focusName?: string;
+  shouldFocus?: boolean;
+  focusIndex?: number;
+  focusName?: string;
 };
 /**
  * Swap field array by supplying from and to index
@@ -251,7 +379,16 @@ type UseFieldArrayMove = (indexA: number, indexB: number) => void;
  * </button>
  * ```
  */
-type UseFieldArrayPrepend<TFieldValues extends FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>> = (value: FieldArray<TFieldValues, TFieldArrayName> | FieldArray<TFieldValues, TFieldArrayName>[], options?: FieldArrayMethodProps) => void;
+type UseFieldArrayPrepend<
+  TFieldValues extends FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+> = (
+  value:
+    | FieldArray<TFieldValues, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldArrayName>[],
+  options?: FieldArrayMethodProps,
+) => void;
 /**
  * Append field/fields to the end of your fields and focus. The input value will be registered during this action.
  *
@@ -273,7 +410,16 @@ type UseFieldArrayPrepend<TFieldValues extends FieldValues, TFieldArrayName exte
  * </button>
  * ```
  */
-type UseFieldArrayAppend<TFieldValues extends FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>> = (value: FieldArray<TFieldValues, TFieldArrayName> | FieldArray<TFieldValues, TFieldArrayName>[], options?: FieldArrayMethodProps) => void;
+type UseFieldArrayAppend<
+  TFieldValues extends FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+> = (
+  value:
+    | FieldArray<TFieldValues, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldArrayName>[],
+  options?: FieldArrayMethodProps,
+) => void;
 /**
  * Remove field/fields at particular position.
  *
@@ -316,7 +462,17 @@ type UseFieldArrayRemove = (index?: number | number[]) => void;
  * </button>
  * ```
  */
-type UseFieldArrayInsert<TFieldValues extends FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>> = (index: number, value: FieldArray<TFieldValues, TFieldArrayName> | FieldArray<TFieldValues, TFieldArrayName>[], options?: FieldArrayMethodProps) => void;
+type UseFieldArrayInsert<
+  TFieldValues extends FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+> = (
+  index: number,
+  value:
+    | FieldArray<TFieldValues, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldArrayName>[],
+  options?: FieldArrayMethodProps,
+) => void;
 /**
  * Update field/fields at particular position.
  *
@@ -337,7 +493,11 @@ type UseFieldArrayInsert<TFieldValues extends FieldValues, TFieldArrayName exten
  * </button>
  * ```
  */
-type UseFieldArrayUpdate<TFieldValues extends FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>> = (index: number, value: FieldArray<TFieldValues, TFieldArrayName>) => void;
+type UseFieldArrayUpdate<
+  TFieldValues extends FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+> = (index: number, value: FieldArray<TFieldValues, TFieldArrayName>) => void;
 /**
  * Replace the entire field array values.
  *
@@ -356,157 +516,205 @@ type UseFieldArrayUpdate<TFieldValues extends FieldValues, TFieldArrayName exten
  * </button>
  * ```
  */
-type UseFieldArrayReplace<TFieldValues extends FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>> = (value: FieldArray<TFieldValues, TFieldArrayName> | FieldArray<TFieldValues, TFieldArrayName>[]) => void;
-type UseFieldArrayReturn<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>, TKeyName extends string = 'id'> = {
-    swap: UseFieldArraySwap;
-    move: UseFieldArrayMove;
-    prepend: UseFieldArrayPrepend<TFieldValues, TFieldArrayName>;
-    append: UseFieldArrayAppend<TFieldValues, TFieldArrayName>;
-    remove: UseFieldArrayRemove;
-    insert: UseFieldArrayInsert<TFieldValues, TFieldArrayName>;
-    update: UseFieldArrayUpdate<TFieldValues, TFieldArrayName>;
-    replace: UseFieldArrayReplace<TFieldValues, TFieldArrayName>;
-    fields: FieldArrayWithId<TFieldValues, TFieldArrayName, TKeyName>[];
+type UseFieldArrayReplace<
+  TFieldValues extends FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+> = (
+  value:
+    | FieldArray<TFieldValues, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldArrayName>[],
+) => void;
+type UseFieldArrayReturn<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TKeyName extends string = "id",
+> = {
+  swap: UseFieldArraySwap;
+  move: UseFieldArrayMove;
+  prepend: UseFieldArrayPrepend<TFieldValues, TFieldArrayName>;
+  append: UseFieldArrayAppend<TFieldValues, TFieldArrayName>;
+  remove: UseFieldArrayRemove;
+  insert: UseFieldArrayInsert<TFieldValues, TFieldArrayName>;
+  update: UseFieldArrayUpdate<TFieldValues, TFieldArrayName>;
+  replace: UseFieldArrayReplace<TFieldValues, TFieldArrayName>;
+  fields: FieldArrayWithId<TFieldValues, TFieldArrayName, TKeyName>[];
 };
 
 type ResolverSuccess<TFieldValues extends FieldValues = FieldValues> = {
-    values: TFieldValues;
-    errors: {};
+  values: TFieldValues;
+  errors: {};
 };
 type ResolverError<TFieldValues extends FieldValues = FieldValues> = {
-    values: {};
-    errors: FieldErrors<TFieldValues>;
+  values: {};
+  errors: FieldErrors<TFieldValues>;
 };
-type ResolverResult<TFieldValues extends FieldValues = FieldValues> = ResolverSuccess<TFieldValues> | ResolverError<TFieldValues>;
+type ResolverResult<TFieldValues extends FieldValues = FieldValues> =
+  | ResolverSuccess<TFieldValues>
+  | ResolverError<TFieldValues>;
 interface ResolverOptions<TFieldValues extends FieldValues> {
-    criteriaMode?: CriteriaMode;
-    fields: Record<InternalFieldName, Field['_f']>;
-    names?: FieldName<TFieldValues>[];
-    shouldUseNativeValidation: boolean | undefined;
+  criteriaMode?: CriteriaMode;
+  fields: Record<InternalFieldName, Field["_f"]>;
+  names?: FieldName<TFieldValues>[];
+  shouldUseNativeValidation: boolean | undefined;
 }
-type Resolver<TFieldValues extends FieldValues = FieldValues, TContext = any> = (values: TFieldValues, context: TContext | undefined, options: ResolverOptions<TFieldValues>) => Promise<ResolverResult<TFieldValues>> | ResolverResult<TFieldValues>;
+type Resolver<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+> = (
+  values: TFieldValues,
+  context: TContext | undefined,
+  options: ResolverOptions<TFieldValues>,
+) => Promise<ResolverResult<TFieldValues>> | ResolverResult<TFieldValues>;
 
 declare const $NestedValue: unique symbol;
 /**
  * @deprecated to be removed in the next major version
  */
 type NestedValue<TValue extends object = object> = {
-    [$NestedValue]: never;
+  [$NestedValue]: never;
 } & TValue;
 /**
  * @deprecated to be removed in the next major version
  */
-type UnpackNestedValue<T> = T extends NestedValue<infer U> ? U : T extends Date | FileList | File | Blob ? T : T extends object ? {
-    [K in keyof T]: UnpackNestedValue<T[K]>;
-} : T;
-type DefaultValues<TFieldValues> = TFieldValues extends AsyncDefaultValues<TFieldValues> ? DeepPartial<Awaited<TFieldValues>> : DeepPartial<TFieldValues>;
+type UnpackNestedValue<T> =
+  T extends NestedValue<infer U>
+    ? U
+    : T extends Date | FileList | File | Blob
+      ? T
+      : T extends object
+        ? {
+            [K in keyof T]: UnpackNestedValue<T[K]>;
+          }
+        : T;
+type DefaultValues<TFieldValues> =
+  TFieldValues extends AsyncDefaultValues<TFieldValues>
+    ? DeepPartial<Awaited<TFieldValues>>
+    : DeepPartial<TFieldValues>;
 type InternalNameSet = Set<InternalFieldName>;
 type ValidationMode = typeof VALIDATION_MODE;
 type Mode = keyof ValidationMode;
 type ValidationModeFlags = {
-    isOnSubmit: boolean;
-    isOnBlur: boolean;
-    isOnChange: boolean;
-    isOnAll: boolean;
-    isOnTouch: boolean;
+  isOnSubmit: boolean;
+  isOnBlur: boolean;
+  isOnChange: boolean;
+  isOnAll: boolean;
+  isOnTouch: boolean;
 };
-type CriteriaMode = 'firstError' | 'all';
-type SubmitHandler<TFieldValues extends FieldValues> = (data: TFieldValues, event?: React.BaseSyntheticEvent) => unknown | Promise<unknown>;
+type CriteriaMode = "firstError" | "all";
+type SubmitHandler<TFieldValues extends FieldValues> = (
+  data: TFieldValues,
+  event?: React.BaseSyntheticEvent,
+) => unknown | Promise<unknown>;
 type FormSubmitHandler<TFieldValues extends FieldValues> = (payload: {
-    data: TFieldValues;
-    event?: React.BaseSyntheticEvent;
-    formData: FormData;
-    formDataJson: string;
-    method?: 'post' | 'put' | 'delete';
+  data: TFieldValues;
+  event?: React.BaseSyntheticEvent;
+  formData: FormData;
+  formDataJson: string;
+  method?: "post" | "put" | "delete";
 }) => unknown | Promise<unknown>;
-type SubmitErrorHandler<TFieldValues extends FieldValues> = (errors: FieldErrors<TFieldValues>, event?: React.BaseSyntheticEvent) => unknown | Promise<unknown>;
+type SubmitErrorHandler<TFieldValues extends FieldValues> = (
+  errors: FieldErrors<TFieldValues>,
+  event?: React.BaseSyntheticEvent,
+) => unknown | Promise<unknown>;
 type SetValueConfig = Partial<{
-    shouldValidate: boolean;
-    shouldDirty: boolean;
-    shouldTouch: boolean;
+  shouldValidate: boolean;
+  shouldDirty: boolean;
+  shouldTouch: boolean;
 }>;
 type TriggerConfig = Partial<{
-    shouldFocus: boolean;
+  shouldFocus: boolean;
 }>;
 type ChangeHandler = (event: {
-    target: any;
-    type?: any;
+  target: any;
+  type?: any;
 }) => Promise<void | boolean>;
 type DelayCallback = (wait: number) => void;
-type AsyncDefaultValues<TFieldValues> = (payload?: unknown) => Promise<TFieldValues>;
-type UseFormProps<TFieldValues extends FieldValues = FieldValues, TContext = any> = Partial<{
-    mode: Mode;
-    disabled: boolean;
-    reValidateMode: Exclude<Mode, 'onTouched' | 'all'>;
-    defaultValues: DefaultValues<TFieldValues> | AsyncDefaultValues<TFieldValues>;
-    values: TFieldValues;
-    errors: FieldErrors<TFieldValues>;
-    resetOptions: Parameters<UseFormReset<TFieldValues>>[1];
-    resolver: Resolver<TFieldValues, TContext>;
-    context: TContext;
-    shouldFocusError: boolean;
-    shouldUnregister: boolean;
-    shouldUseNativeValidation: boolean;
-    progressive: boolean;
-    criteriaMode: CriteriaMode;
-    delayError: number;
+type AsyncDefaultValues<TFieldValues> = (
+  payload?: unknown,
+) => Promise<TFieldValues>;
+type UseFormProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+> = Partial<{
+  mode: Mode;
+  disabled: boolean;
+  reValidateMode: Exclude<Mode, "onTouched" | "all">;
+  defaultValues: DefaultValues<TFieldValues> | AsyncDefaultValues<TFieldValues>;
+  values: TFieldValues;
+  errors: FieldErrors<TFieldValues>;
+  resetOptions: Parameters<UseFormReset<TFieldValues>>[1];
+  resolver: Resolver<TFieldValues, TContext>;
+  context: TContext;
+  shouldFocusError: boolean;
+  shouldUnregister: boolean;
+  shouldUseNativeValidation: boolean;
+  progressive: boolean;
+  criteriaMode: CriteriaMode;
+  delayError: number;
 }>;
-type FieldNamesMarkedBoolean<TFieldValues extends FieldValues> = DeepMap<DeepPartial<TFieldValues>, boolean>;
+type FieldNamesMarkedBoolean<TFieldValues extends FieldValues> = DeepMap<
+  DeepPartial<TFieldValues>,
+  boolean
+>;
 type FormStateProxy<TFieldValues extends FieldValues = FieldValues> = {
-    isDirty: boolean;
-    isValidating: boolean;
-    dirtyFields: FieldNamesMarkedBoolean<TFieldValues>;
-    touchedFields: FieldNamesMarkedBoolean<TFieldValues>;
-    validatingFields: FieldNamesMarkedBoolean<TFieldValues>;
-    errors: boolean;
-    isValid: boolean;
+  isDirty: boolean;
+  isValidating: boolean;
+  dirtyFields: FieldNamesMarkedBoolean<TFieldValues>;
+  touchedFields: FieldNamesMarkedBoolean<TFieldValues>;
+  validatingFields: FieldNamesMarkedBoolean<TFieldValues>;
+  errors: boolean;
+  isValid: boolean;
 };
 type ReadFormState = {
-    [K in keyof FormStateProxy]: boolean | 'all';
+  [K in keyof FormStateProxy]: boolean | "all";
 };
 type FormState<TFieldValues extends FieldValues> = {
-    isDirty: boolean;
-    isLoading: boolean;
-    isSubmitted: boolean;
-    isSubmitSuccessful: boolean;
-    isSubmitting: boolean;
-    isValidating: boolean;
-    isValid: boolean;
-    disabled: boolean;
-    submitCount: number;
-    defaultValues?: undefined | Readonly<DeepPartial<TFieldValues>>;
-    dirtyFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
-    touchedFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
-    validatingFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
-    errors: FieldErrors<TFieldValues>;
+  isDirty: boolean;
+  isLoading: boolean;
+  isSubmitted: boolean;
+  isSubmitSuccessful: boolean;
+  isSubmitting: boolean;
+  isValidating: boolean;
+  isValid: boolean;
+  disabled: boolean;
+  submitCount: number;
+  defaultValues?: undefined | Readonly<DeepPartial<TFieldValues>>;
+  dirtyFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
+  touchedFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
+  validatingFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
+  errors: FieldErrors<TFieldValues>;
 };
 type KeepStateOptions = Partial<{
-    keepDirtyValues: boolean;
-    keepErrors: boolean;
-    keepDirty: boolean;
-    keepValues: boolean;
-    keepDefaultValues: boolean;
-    keepIsSubmitted: boolean;
-    keepIsSubmitSuccessful: boolean;
-    keepTouched: boolean;
-    keepIsValidating: boolean;
-    keepIsValid: boolean;
-    keepSubmitCount: boolean;
+  keepDirtyValues: boolean;
+  keepErrors: boolean;
+  keepDirty: boolean;
+  keepValues: boolean;
+  keepDefaultValues: boolean;
+  keepIsSubmitted: boolean;
+  keepIsSubmitSuccessful: boolean;
+  keepTouched: boolean;
+  keepIsValidating: boolean;
+  keepIsValid: boolean;
+  keepSubmitCount: boolean;
 }>;
 type SetFieldValue<TFieldValues extends FieldValues> = FieldValue<TFieldValues>;
 type RefCallBack = (instance: any) => void;
-type UseFormRegisterReturn<TFieldName extends InternalFieldName = InternalFieldName> = {
-    onChange: ChangeHandler;
-    onBlur: ChangeHandler;
-    ref: RefCallBack;
-    name: TFieldName;
-    min?: string | number;
-    max?: string | number;
-    maxLength?: number;
-    minLength?: number;
-    pattern?: string;
-    required?: boolean;
-    disabled?: boolean;
+type UseFormRegisterReturn<
+  TFieldName extends InternalFieldName = InternalFieldName,
+> = {
+  onChange: ChangeHandler;
+  onBlur: ChangeHandler;
+  ref: RefCallBack;
+  name: TFieldName;
+  min?: string | number;
+  max?: string | number;
+  maxLength?: number;
+  minLength?: number;
+  pattern?: string;
+  required?: boolean;
+  disabled?: boolean;
 };
 /**
  * Register field into hook form with or without the actual DOM ref. You can invoke register anywhere in the component including at `useEffect`.
@@ -541,9 +749,14 @@ type UseFormRegisterReturn<TFieldName extends InternalFieldName = InternalFieldN
  * <input onChange={onChange} onBlur={onBlur} name={name} />
  * ```
  */
-type UseFormRegister<TFieldValues extends FieldValues> = <TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(name: TFieldName, options?: RegisterOptions<TFieldValues, TFieldName>) => UseFormRegisterReturn<TFieldName>;
+type UseFormRegister<TFieldValues extends FieldValues> = <
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  name: TFieldName,
+  options?: RegisterOptions<TFieldValues, TFieldName>,
+) => UseFormRegisterReturn<TFieldName>;
 type SetFocusOptions = Partial<{
-    shouldSelect: boolean;
+  shouldSelect: boolean;
 }>;
 /**
  * Set focus on a registered field. You can start to invoke this method after all fields are mounted to the DOM.
@@ -563,66 +776,75 @@ type SetFocusOptions = Partial<{
  * <button onClick={() => setFocus("name", { shouldSelect: true })}>Focus</button>
  * ```
  */
-type UseFormSetFocus<TFieldValues extends FieldValues> = <TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(name: TFieldName, options?: SetFocusOptions) => void;
+type UseFormSetFocus<TFieldValues extends FieldValues> = <
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  name: TFieldName,
+  options?: SetFocusOptions,
+) => void;
 type UseFormGetValues<TFieldValues extends FieldValues> = {
-    /**
-     * Get the entire form values when no argument is supplied to this function.
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/getvalues) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-getvalues-txsfg)
-     *
-     * @returns form values
-     *
-     * @example
-     * ```tsx
-     * <button onClick={() => getValues()}>getValues</button>
-     *
-     * <input {...register("name", {
-     *   validate: (value, formValues) => formValues.otherField === value;
-     * })} />
-     * ```
-     */
-    (): TFieldValues;
-    /**
-     * Get a single field value.
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/getvalues) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-getvalues-txsfg)
-     *
-     * @param name - the path name to the form field value.
-     *
-     * @returns the single field value
-     *
-     * @example
-     * ```tsx
-     * <button onClick={() => getValues("name")}>getValues</button>
-     *
-     * <input {...register("name", {
-     *   validate: () => getValues('otherField') === "test";
-     * })} />
-     * ```
-     */
-    <TFieldName extends FieldPath<TFieldValues>>(name: TFieldName): FieldPathValue<TFieldValues, TFieldName>;
-    /**
-     * Get an array of field values.
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/getvalues) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-getvalues-txsfg)
-     *
-     * @param names - an array of field names
-     *
-     * @returns An array of field values
-     *
-     * @example
-     * ```tsx
-     * <button onClick={() => getValues(["name", "name1"])}>getValues</button>
-     *
-     * <input {...register("name", {
-     *   validate: () => getValues(["fieldA", "fieldB"]).includes("test");
-     * })} />
-     * ```
-     */
-    <TFieldNames extends FieldPath<TFieldValues>[]>(names: readonly [...TFieldNames]): [...FieldPathValues<TFieldValues, TFieldNames>];
+  /**
+   * Get the entire form values when no argument is supplied to this function.
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/getvalues) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-getvalues-txsfg)
+   *
+   * @returns form values
+   *
+   * @example
+   * ```tsx
+   * <button onClick={() => getValues()}>getValues</button>
+   *
+   * <input {...register("name", {
+   *   validate: (value, formValues) => formValues.otherField === value;
+   * })} />
+   * ```
+   */
+  (): TFieldValues;
+  /**
+   * Get a single field value.
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/getvalues) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-getvalues-txsfg)
+   *
+   * @param name - the path name to the form field value.
+   *
+   * @returns the single field value
+   *
+   * @example
+   * ```tsx
+   * <button onClick={() => getValues("name")}>getValues</button>
+   *
+   * <input {...register("name", {
+   *   validate: () => getValues('otherField') === "test";
+   * })} />
+   * ```
+   */
+  <TFieldName extends FieldPath<TFieldValues>>(
+    name: TFieldName,
+  ): FieldPathValue<TFieldValues, TFieldName>;
+  /**
+   * Get an array of field values.
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/getvalues) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-getvalues-txsfg)
+   *
+   * @param names - an array of field names
+   *
+   * @returns An array of field values
+   *
+   * @example
+   * ```tsx
+   * <button onClick={() => getValues(["name", "name1"])}>getValues</button>
+   *
+   * <input {...register("name", {
+   *   validate: () => getValues(["fieldA", "fieldB"]).includes("test");
+   * })} />
+   * ```
+   */
+  <TFieldNames extends FieldPath<TFieldValues>[]>(
+    names: readonly [...TFieldNames],
+  ): [...FieldPathValues<TFieldValues, TFieldNames>];
 };
 /**
  * This method will return individual field states. It will be useful when you are trying to retrieve the nested value field state in a typesafe approach.
@@ -648,84 +870,98 @@ type UseFormGetValues<TFieldValues extends FieldValues> = {
  * getFieldState('name', formState)
  * ```
  */
-type UseFormGetFieldState<TFieldValues extends FieldValues> = <TFieldName extends FieldPath<TFieldValues>>(name: TFieldName, formState?: FormState<TFieldValues>) => {
-    invalid: boolean;
-    isDirty: boolean;
-    isTouched: boolean;
-    isValidating: boolean;
-    error?: FieldError;
+type UseFormGetFieldState<TFieldValues extends FieldValues> = <
+  TFieldName extends FieldPath<TFieldValues>,
+>(
+  name: TFieldName,
+  formState?: FormState<TFieldValues>,
+) => {
+  invalid: boolean;
+  isDirty: boolean;
+  isTouched: boolean;
+  isValidating: boolean;
+  error?: FieldError;
 };
 type UseFormWatch<TFieldValues extends FieldValues> = {
-    /**
-     * Watch and subscribe to the entire form update/change based on onChange and re-render at the useForm.
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
-     *
-     * @returns return the entire form values
-     *
-     * @example
-     * ```tsx
-     * const formValues = watch();
-     * ```
-     */
-    (): TFieldValues;
-    /**
-     * Watch and subscribe to an array of fields used outside of render.
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
-     *
-     * @param names - an array of field names
-     * @param defaultValue - defaultValues for the entire form
-     *
-     * @returns return an array of field values
-     *
-     * @example
-     * ```tsx
-     * const [name, name1] = watch(["name", "name1"]);
-     * ```
-     */
-    <TFieldNames extends readonly FieldPath<TFieldValues>[]>(names: readonly [...TFieldNames], defaultValue?: DeepPartial<TFieldValues>): FieldPathValues<TFieldValues, TFieldNames>;
-    /**
-     * Watch and subscribe to a single field used outside of render.
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
-     *
-     * @param name - the path name to the form field value.
-     * @param defaultValue - defaultValues for the entire form
-     *
-     * @returns return the single field value
-     *
-     * @example
-     * ```tsx
-     * const name = watch("name");
-     * ```
-     */
-    <TFieldName extends FieldPath<TFieldValues>>(name: TFieldName, defaultValue?: FieldPathValue<TFieldValues, TFieldName>): FieldPathValue<TFieldValues, TFieldName>;
-    /**
-     * Subscribe to field update/change without trigger re-render
-     *
-     * @remarks
-     * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
-     *
-     * @param callback - call back function to subscribe all fields change and return unsubscribe function
-     * @param defaultValues - defaultValues for the entire form
-     *
-     * @returns unsubscribe function
-     *
-     * @example
-     * ```tsx
-     * useEffect(() => {
-     *   const { unsubscribe } = watch((value) => {
-     *     console.log(value);
-     *   });
-     *   return () => unsubscribe();
-     * }, [watch])
-     * ```
-     */
-    (callback: WatchObserver<TFieldValues>, defaultValues?: DeepPartial<TFieldValues>): Subscription;
+  /**
+   * Watch and subscribe to the entire form update/change based on onChange and re-render at the useForm.
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
+   *
+   * @returns return the entire form values
+   *
+   * @example
+   * ```tsx
+   * const formValues = watch();
+   * ```
+   */
+  (): TFieldValues;
+  /**
+   * Watch and subscribe to an array of fields used outside of render.
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
+   *
+   * @param names - an array of field names
+   * @param defaultValue - defaultValues for the entire form
+   *
+   * @returns return an array of field values
+   *
+   * @example
+   * ```tsx
+   * const [name, name1] = watch(["name", "name1"]);
+   * ```
+   */
+  <TFieldNames extends readonly FieldPath<TFieldValues>[]>(
+    names: readonly [...TFieldNames],
+    defaultValue?: DeepPartial<TFieldValues>,
+  ): FieldPathValues<TFieldValues, TFieldNames>;
+  /**
+   * Watch and subscribe to a single field used outside of render.
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
+   *
+   * @param name - the path name to the form field value.
+   * @param defaultValue - defaultValues for the entire form
+   *
+   * @returns return the single field value
+   *
+   * @example
+   * ```tsx
+   * const name = watch("name");
+   * ```
+   */
+  <TFieldName extends FieldPath<TFieldValues>>(
+    name: TFieldName,
+    defaultValue?: FieldPathValue<TFieldValues, TFieldName>,
+  ): FieldPathValue<TFieldValues, TFieldName>;
+  /**
+   * Subscribe to field update/change without trigger re-render
+   *
+   * @remarks
+   * [API](https://react-hook-form.com/docs/useform/watch) • [Demo](https://codesandbox.io/s/react-hook-form-watch-v7-ts-8et1d) • [Video](https://www.youtube.com/watch?v=3qLd69WMqKk)
+   *
+   * @param callback - call back function to subscribe all fields change and return unsubscribe function
+   * @param defaultValues - defaultValues for the entire form
+   *
+   * @returns unsubscribe function
+   *
+   * @example
+   * ```tsx
+   * useEffect(() => {
+   *   const { unsubscribe } = watch((value) => {
+   *     console.log(value);
+   *   });
+   *   return () => unsubscribe();
+   * }, [watch])
+   * ```
+   */
+  (
+    callback: WatchObserver<TFieldValues>,
+    defaultValues?: DeepPartial<TFieldValues>,
+  ): Subscription;
 };
 /**
  * Trigger field or form validation
@@ -751,7 +987,13 @@ type UseFormWatch<TFieldValues extends FieldValues> = {
  *  </button>
  * ```
  */
-type UseFormTrigger<TFieldValues extends FieldValues> = (name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[], options?: TriggerConfig) => Promise<boolean>;
+type UseFormTrigger<TFieldValues extends FieldValues> = (
+  name?:
+    | FieldPath<TFieldValues>
+    | FieldPath<TFieldValues>[]
+    | readonly FieldPath<TFieldValues>[],
+  options?: TriggerConfig,
+) => Promise<boolean>;
 /**
  * Clear the entire form errors.
  *
@@ -768,7 +1010,14 @@ type UseFormTrigger<TFieldValues extends FieldValues> = (name?: FieldPath<TField
  * clearErrors("name2"); // clear a single field error
  * ```
  */
-type UseFormClearErrors<TFieldValues extends FieldValues> = (name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[] | `root.${string}` | 'root') => void;
+type UseFormClearErrors<TFieldValues extends FieldValues> = (
+  name?:
+    | FieldPath<TFieldValues>
+    | FieldPath<TFieldValues>[]
+    | readonly FieldPath<TFieldValues>[]
+    | `root.${string}`
+    | "root",
+) => void;
 /**
  * Set a single field value, or a group of fields value.
  *
@@ -798,7 +1047,13 @@ type UseFormClearErrors<TFieldValues extends FieldValues> = (name?: FieldPath<TF
  * setValue('select', { label: 'test', value: 'Test' });
  * ```
  */
-type UseFormSetValue<TFieldValues extends FieldValues> = <TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(name: TFieldName, value: FieldPathValue<TFieldValues, TFieldName>, options?: SetValueConfig) => void;
+type UseFormSetValue<TFieldValues extends FieldValues> = <
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  name: TFieldName,
+  value: FieldPathValue<TFieldValues, TFieldName>,
+  options?: SetValueConfig,
+) => void;
 /**
  * Set an error for the field. When set an error which is not associated to a field then manual `clearErrors` invoke is required.
  *
@@ -820,9 +1075,13 @@ type UseFormSetValue<TFieldValues extends FieldValues> = <TFieldName extends Fie
  * <button onClick={() => setError("name", { type: "max" }, { shouldFocus: true })} />
  * ```
  */
-type UseFormSetError<TFieldValues extends FieldValues> = (name: FieldPath<TFieldValues> | `root.${string}` | 'root', error: ErrorOption, options?: {
+type UseFormSetError<TFieldValues extends FieldValues> = (
+  name: FieldPath<TFieldValues> | `root.${string}` | "root",
+  error: ErrorOption,
+  options?: {
     shouldFocus: boolean;
-}) => void;
+  },
+) => void;
 /**
  * Unregister a field reference and remove its value.
  *
@@ -841,11 +1100,24 @@ type UseFormSetError<TFieldValues extends FieldValues> = (name: FieldPath<TField
  * <button onClick={() => unregister("name", { keepErrors: true })} />
  * ```
  */
-type UseFormUnregister<TFieldValues extends FieldValues> = (name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[], options?: Omit<KeepStateOptions, 'keepIsSubmitted' | 'keepSubmitCount' | 'keepValues' | 'keepDefaultValues' | 'keepErrors'> & {
+type UseFormUnregister<TFieldValues extends FieldValues> = (
+  name?:
+    | FieldPath<TFieldValues>
+    | FieldPath<TFieldValues>[]
+    | readonly FieldPath<TFieldValues>[],
+  options?: Omit<
+    KeepStateOptions,
+    | "keepIsSubmitted"
+    | "keepSubmitCount"
+    | "keepValues"
+    | "keepDefaultValues"
+    | "keepErrors"
+  > & {
     keepValue?: boolean;
     keepDefaultValue?: boolean;
     keepError?: boolean;
-}) => void;
+  },
+) => void;
 /**
  * Validate the entire form. Handle submit and error callback.
  *
@@ -865,7 +1137,17 @@ type UseFormUnregister<TFieldValues extends FieldValues> = (name?: FieldPath<TFi
  * <form onSubmit={handleSubmit(onSubmit, onError)} />
  * ```
  */
-type UseFormHandleSubmit<TFieldValues extends FieldValues, TTransformedValues extends FieldValues | undefined = undefined> = (onValid: TTransformedValues extends undefined ? SubmitHandler<TFieldValues> : TTransformedValues extends FieldValues ? SubmitHandler<TTransformedValues> : never, onInvalid?: SubmitErrorHandler<TFieldValues>) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+type UseFormHandleSubmit<
+  TFieldValues extends FieldValues,
+  TTransformedValues extends FieldValues | undefined = undefined,
+> = (
+  onValid: TTransformedValues extends undefined
+    ? SubmitHandler<TFieldValues>
+    : TTransformedValues extends FieldValues
+      ? SubmitHandler<TTransformedValues>
+      : never,
+  onInvalid?: SubmitErrorHandler<TFieldValues>,
+) => (e?: React.BaseSyntheticEvent) => Promise<void>;
 /**
  * Reset a field state and reference.
  *
@@ -881,12 +1163,17 @@ type UseFormHandleSubmit<TFieldValues extends FieldValues, TTransformedValues ex
  * <button type="button" onClick={() => resetField("firstName"))}>Reset</button>
  * ```
  */
-type UseFormResetField<TFieldValues extends FieldValues> = <TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(name: TFieldName, options?: Partial<{
+type UseFormResetField<TFieldValues extends FieldValues> = <
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  name: TFieldName,
+  options?: Partial<{
     keepDirty: boolean;
     keepTouched: boolean;
     keepError: boolean;
     defaultValue: FieldPathValue<TFieldValues, TFieldName>;
-}>) => void;
+  }>,
+) => void;
 type ResetAction<TFieldValues> = (formValues: TFieldValues) => TFieldValues;
 /**
  * Reset at the entire form state.
@@ -922,172 +1209,256 @@ type ResetAction<TFieldValues> = (formValues: TFieldValues) => TFieldValues;
  *});
  * ```
  */
-type UseFormReset<TFieldValues extends FieldValues> = (values?: DefaultValues<TFieldValues> | TFieldValues | ResetAction<TFieldValues>, keepStateOptions?: KeepStateOptions) => void;
-type WatchInternal<TFieldValues> = (fieldNames?: InternalFieldName | InternalFieldName[], defaultValue?: DeepPartial<TFieldValues>, isMounted?: boolean, isGlobal?: boolean) => FieldPathValue<FieldValues, InternalFieldName> | FieldPathValues<FieldValues, InternalFieldName[]>;
-type GetIsDirty = <TName extends InternalFieldName, TData>(name?: TName, data?: TData) => boolean;
-type FormStateSubjectRef<TFieldValues extends FieldValues> = Subject<Partial<FormState<TFieldValues>> & {
+type UseFormReset<TFieldValues extends FieldValues> = (
+  values?:
+    | DefaultValues<TFieldValues>
+    | TFieldValues
+    | ResetAction<TFieldValues>,
+  keepStateOptions?: KeepStateOptions,
+) => void;
+type WatchInternal<TFieldValues> = (
+  fieldNames?: InternalFieldName | InternalFieldName[],
+  defaultValue?: DeepPartial<TFieldValues>,
+  isMounted?: boolean,
+  isGlobal?: boolean,
+) =>
+  | FieldPathValue<FieldValues, InternalFieldName>
+  | FieldPathValues<FieldValues, InternalFieldName[]>;
+type GetIsDirty = <TName extends InternalFieldName, TData>(
+  name?: TName,
+  data?: TData,
+) => boolean;
+type FormStateSubjectRef<TFieldValues extends FieldValues> = Subject<
+  Partial<FormState<TFieldValues>> & {
     name?: InternalFieldName;
-}>;
+  }
+>;
 type Subjects<TFieldValues extends FieldValues = FieldValues> = {
-    values: Subject<{
-        name?: InternalFieldName;
-        type?: EventType;
-        values: FieldValues;
-    }>;
-    array: Subject<{
-        name?: InternalFieldName;
-        values?: FieldValues;
-    }>;
-    state: FormStateSubjectRef<TFieldValues>;
+  values: Subject<{
+    name?: InternalFieldName;
+    type?: EventType;
+    values: FieldValues;
+  }>;
+  array: Subject<{
+    name?: InternalFieldName;
+    values?: FieldValues;
+  }>;
+  state: FormStateSubjectRef<TFieldValues>;
 };
 type Names = {
-    mount: InternalNameSet;
-    unMount: InternalNameSet;
-    disabled: InternalNameSet;
-    array: InternalNameSet;
-    watch: InternalNameSet;
-    focus?: InternalFieldName;
-    watchAll?: boolean;
+  mount: InternalNameSet;
+  unMount: InternalNameSet;
+  disabled: InternalNameSet;
+  array: InternalNameSet;
+  watch: InternalNameSet;
+  focus?: InternalFieldName;
+  watchAll?: boolean;
 };
-type BatchFieldArrayUpdate = <T extends Function, TFieldValues extends FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>>(name: InternalFieldName, updatedFieldArrayValues?: Partial<FieldArray<TFieldValues, TFieldArrayName>>[], method?: T, args?: Partial<{
+type BatchFieldArrayUpdate = <
+  T extends Function,
+  TFieldValues extends FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+>(
+  name: InternalFieldName,
+  updatedFieldArrayValues?: Partial<
+    FieldArray<TFieldValues, TFieldArrayName>
+  >[],
+  method?: T,
+  args?: Partial<{
     argA: unknown;
     argB: unknown;
-}>, shouldSetValue?: boolean, shouldUpdateFieldsAndErrors?: boolean) => void;
+  }>,
+  shouldSetValue?: boolean,
+  shouldUpdateFieldsAndErrors?: boolean,
+) => void;
 type Control<TFieldValues extends FieldValues = FieldValues, TContext = any> = {
-    _subjects: Subjects<TFieldValues>;
-    _removeUnmounted: Noop;
-    _names: Names;
-    _state: {
-        mount: boolean;
-        action: boolean;
-        watch: boolean;
-    };
-    _reset: UseFormReset<TFieldValues>;
-    _options: UseFormProps<TFieldValues, TContext>;
-    _getDirty: GetIsDirty;
-    _resetDefaultValues: Noop;
-    _formState: FormState<TFieldValues>;
-    _updateValid: (shouldUpdateValid?: boolean) => void;
-    _updateFormState: (formState: Partial<FormState<TFieldValues>>) => void;
-    _fields: FieldRefs;
-    _formValues: FieldValues;
-    _proxyFormState: ReadFormState;
-    _defaultValues: Partial<DefaultValues<TFieldValues>>;
-    _getWatch: WatchInternal<TFieldValues>;
-    _updateFieldArray: BatchFieldArrayUpdate;
-    _getFieldArray: <TFieldArrayValues>(name: InternalFieldName) => Partial<TFieldArrayValues>[];
-    _setErrors: (errors: FieldErrors<TFieldValues>) => void;
-    _updateDisabledField: (props: {
-        disabled?: boolean;
-        name: FieldName<any>;
-        value?: unknown;
-    } & ({
-        field?: Field;
-        fields?: undefined;
-    } | {
-        field?: undefined;
-        fields?: FieldRefs;
-    })) => void;
-    _executeSchema: (names: InternalFieldName[]) => Promise<{
-        errors: FieldErrors;
-    }>;
-    register: UseFormRegister<TFieldValues>;
-    handleSubmit: UseFormHandleSubmit<TFieldValues>;
-    _disableForm: (disabled?: boolean) => void;
-    unregister: UseFormUnregister<TFieldValues>;
-    getFieldState: UseFormGetFieldState<TFieldValues>;
-    setError: UseFormSetError<TFieldValues>;
+  _subjects: Subjects<TFieldValues>;
+  _removeUnmounted: Noop;
+  _names: Names;
+  _state: {
+    mount: boolean;
+    action: boolean;
+    watch: boolean;
+  };
+  _reset: UseFormReset<TFieldValues>;
+  _options: UseFormProps<TFieldValues, TContext>;
+  _getDirty: GetIsDirty;
+  _resetDefaultValues: Noop;
+  _formState: FormState<TFieldValues>;
+  _updateValid: (shouldUpdateValid?: boolean) => void;
+  _updateFormState: (formState: Partial<FormState<TFieldValues>>) => void;
+  _fields: FieldRefs;
+  _formValues: FieldValues;
+  _proxyFormState: ReadFormState;
+  _defaultValues: Partial<DefaultValues<TFieldValues>>;
+  _getWatch: WatchInternal<TFieldValues>;
+  _updateFieldArray: BatchFieldArrayUpdate;
+  _getFieldArray: <TFieldArrayValues>(
+    name: InternalFieldName,
+  ) => Partial<TFieldArrayValues>[];
+  _setErrors: (errors: FieldErrors<TFieldValues>) => void;
+  _updateDisabledField: (
+    props: {
+      disabled?: boolean;
+      name: FieldName<any>;
+      value?: unknown;
+    } & (
+      | {
+          field?: Field;
+          fields?: undefined;
+        }
+      | {
+          field?: undefined;
+          fields?: FieldRefs;
+        }
+    ),
+  ) => void;
+  _executeSchema: (names: InternalFieldName[]) => Promise<{
+    errors: FieldErrors;
+  }>;
+  register: UseFormRegister<TFieldValues>;
+  handleSubmit: UseFormHandleSubmit<TFieldValues>;
+  _disableForm: (disabled?: boolean) => void;
+  unregister: UseFormUnregister<TFieldValues>;
+  getFieldState: UseFormGetFieldState<TFieldValues>;
+  setError: UseFormSetError<TFieldValues>;
 };
-type WatchObserver<TFieldValues extends FieldValues> = (value: DeepPartial<TFieldValues>, info: {
+type WatchObserver<TFieldValues extends FieldValues> = (
+  value: DeepPartial<TFieldValues>,
+  info: {
     name?: FieldPath<TFieldValues>;
     type?: EventType;
     values?: unknown;
-}) => void;
-type UseFormReturn<TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined> = {
-    watch: UseFormWatch<TFieldValues>;
-    getValues: UseFormGetValues<TFieldValues>;
-    getFieldState: UseFormGetFieldState<TFieldValues>;
-    setError: UseFormSetError<TFieldValues>;
-    clearErrors: UseFormClearErrors<TFieldValues>;
-    setValue: UseFormSetValue<TFieldValues>;
-    trigger: UseFormTrigger<TFieldValues>;
-    formState: FormState<TFieldValues>;
-    resetField: UseFormResetField<TFieldValues>;
-    reset: UseFormReset<TFieldValues>;
-    handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues>;
-    unregister: UseFormUnregister<TFieldValues>;
-    control: Control<TFieldValues, TContext>;
-    register: UseFormRegister<TFieldValues>;
-    setFocus: UseFormSetFocus<TFieldValues>;
+  },
+) => void;
+type UseFormReturn<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+  TTransformedValues extends FieldValues | undefined = undefined,
+> = {
+  watch: UseFormWatch<TFieldValues>;
+  getValues: UseFormGetValues<TFieldValues>;
+  getFieldState: UseFormGetFieldState<TFieldValues>;
+  setError: UseFormSetError<TFieldValues>;
+  clearErrors: UseFormClearErrors<TFieldValues>;
+  setValue: UseFormSetValue<TFieldValues>;
+  trigger: UseFormTrigger<TFieldValues>;
+  formState: FormState<TFieldValues>;
+  resetField: UseFormResetField<TFieldValues>;
+  reset: UseFormReset<TFieldValues>;
+  handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues>;
+  unregister: UseFormUnregister<TFieldValues>;
+  control: Control<TFieldValues, TContext>;
+  register: UseFormRegister<TFieldValues>;
+  setFocus: UseFormSetFocus<TFieldValues>;
 };
 type UseFormStateProps<TFieldValues extends FieldValues> = Partial<{
-    control?: Control<TFieldValues>;
-    disabled?: boolean;
-    name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[];
-    exact?: boolean;
+  control?: Control<TFieldValues>;
+  disabled?: boolean;
+  name?:
+    | FieldPath<TFieldValues>
+    | FieldPath<TFieldValues>[]
+    | readonly FieldPath<TFieldValues>[];
+  exact?: boolean;
 }>;
-type UseFormStateReturn<TFieldValues extends FieldValues> = FormState<TFieldValues>;
+type UseFormStateReturn<TFieldValues extends FieldValues> =
+  FormState<TFieldValues>;
 type UseWatchProps<TFieldValues extends FieldValues = FieldValues> = {
-    defaultValue?: unknown;
-    disabled?: boolean;
-    name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[];
-    control?: Control<TFieldValues>;
-    exact?: boolean;
+  defaultValue?: unknown;
+  disabled?: boolean;
+  name?:
+    | FieldPath<TFieldValues>
+    | FieldPath<TFieldValues>[]
+    | readonly FieldPath<TFieldValues>[];
+  control?: Control<TFieldValues>;
+  exact?: boolean;
 };
-type FormProviderProps<TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined> = {
-    children: React.ReactNode | React.ReactNode[];
+type FormProviderProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+  TTransformedValues extends FieldValues | undefined = undefined,
+> = {
+  children: React.ReactNode | React.ReactNode[];
 } & UseFormReturn<TFieldValues, TContext, TTransformedValues>;
-type FormProps<TFieldValues extends FieldValues, TTransformedValues extends FieldValues | undefined = undefined> = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onError' | 'onSubmit'> & Partial<{
+type FormProps<
+  TFieldValues extends FieldValues,
+  TTransformedValues extends FieldValues | undefined = undefined,
+> = Omit<React.FormHTMLAttributes<HTMLFormElement>, "onError" | "onSubmit"> &
+  Partial<{
     control: Control<TFieldValues>;
     headers: Record<string, string>;
     validateStatus: (status: number) => boolean;
-    onError: ({ response, error, }: {
-        response: Response;
-        error?: undefined;
-    } | {
-        response?: undefined;
-        error: unknown;
-    }) => void;
-    onSuccess: ({ response }: {
-        response: Response;
-    }) => void;
-    onSubmit: TTransformedValues extends FieldValues ? FormSubmitHandler<TTransformedValues> : FormSubmitHandler<TFieldValues>;
-    method: 'post' | 'put' | 'delete';
+    onError: ({
+      response,
+      error,
+    }:
+      | {
+          response: Response;
+          error?: undefined;
+        }
+      | {
+          response?: undefined;
+          error: unknown;
+        }) => void;
+    onSuccess: ({ response }: { response: Response }) => void;
+    onSubmit: TTransformedValues extends FieldValues
+      ? FormSubmitHandler<TTransformedValues>
+      : FormSubmitHandler<TFieldValues>;
+    method: "post" | "put" | "delete";
     children: React.ReactNode | React.ReactNode[];
     render: (props: {
-        submit: (e?: React.FormEvent) => void;
+      submit: (e?: React.FormEvent) => void;
     }) => React.ReactNode | React.ReactNode[];
-    encType: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain' | 'application/json';
-}>;
+    encType:
+      | "application/x-www-form-urlencoded"
+      | "multipart/form-data"
+      | "text/plain"
+      | "application/json";
+  }>;
 
 type Noop = () => void;
 interface File$1 extends Blob {
-    readonly lastModified: number;
-    readonly name: string;
+  readonly lastModified: number;
+  readonly name: string;
 }
 interface FileList$1 {
-    readonly length: number;
-    item(index: number): File$1 | null;
-    [index: number]: File$1;
+  readonly length: number;
+  item(index: number): File$1 | null;
+  [index: number]: File$1;
 }
 type Primitive = null | undefined | string | number | boolean | symbol | bigint;
 type BrowserNativeObject = Date | FileList$1 | File$1;
 type EmptyObject = {
-    [K in string | number]: never;
+  [K in string | number]: never;
 };
 type NonUndefined<T> = T extends undefined ? never : T;
-type LiteralUnion<T extends U, U extends Primitive> = T | (U & {
-    _?: never;
-});
-type ExtractObjects<T> = T extends infer U ? U extends object ? U : never : never;
-type DeepPartial<T> = T extends BrowserNativeObject | NestedValue ? T : {
-    [K in keyof T]?: ExtractObjects<T[K]> extends never ? T[K] : DeepPartial<T[K]>;
-};
-type DeepPartialSkipArrayKey<T> = T extends BrowserNativeObject | NestedValue ? T : T extends ReadonlyArray<any> ? {
-    [K in keyof T]: DeepPartialSkipArrayKey<T[K]>;
-} : {
-    [K in keyof T]?: DeepPartialSkipArrayKey<T[K]>;
-};
+type LiteralUnion<T extends U, U extends Primitive> =
+  | T
+  | (U & {
+      _?: never;
+    });
+type ExtractObjects<T> = T extends infer U
+  ? U extends object
+    ? U
+    : never
+  : never;
+type DeepPartial<T> = T extends BrowserNativeObject | NestedValue
+  ? T
+  : {
+      [K in keyof T]?: ExtractObjects<T[K]> extends never
+        ? T[K]
+        : DeepPartial<T[K]>;
+    };
+type DeepPartialSkipArrayKey<T> = T extends BrowserNativeObject | NestedValue
+  ? T
+  : T extends ReadonlyArray<any>
+    ? {
+        [K in keyof T]: DeepPartialSkipArrayKey<T[K]>;
+      }
+    : {
+        [K in keyof T]?: DeepPartialSkipArrayKey<T[K]>;
+      };
 /**
  * Checks whether the type is any
  * See {@link https://stackoverflow.com/a/49928360/3406963}
@@ -1121,143 +1492,226 @@ type IsNever<T> = [T] extends [never] ? true : false;
  * IsEqual<'foo' | 'bar', 'foo'> = boolean // 'foo' is assignable, but 'bar' is not (true | false) -> boolean
  * ```
  */
-type IsEqual<T1, T2> = T1 extends T2 ? (<G>() => G extends T1 ? 1 : 2) extends <G>() => G extends T2 ? 1 : 2 ? true : false : false;
-type DeepMap<T, TValue> = IsAny<T> extends true ? any : T extends BrowserNativeObject | NestedValue ? TValue : T extends object ? {
-    [K in keyof T]: DeepMap<NonUndefined<T[K]>, TValue>;
-} : TValue;
-type IsFlatObject<T extends object> = Extract<Exclude<T[keyof T], NestedValue | Date | FileList$1>, any[] | object> extends never ? true : false;
+type IsEqual<T1, T2> = T1 extends T2
+  ? (<G>() => G extends T1 ? 1 : 2) extends <G>() => G extends T2 ? 1 : 2
+    ? true
+    : false
+  : false;
+type DeepMap<T, TValue> =
+  IsAny<T> extends true
+    ? any
+    : T extends BrowserNativeObject | NestedValue
+      ? TValue
+      : T extends object
+        ? {
+            [K in keyof T]: DeepMap<NonUndefined<T[K]>, TValue>;
+          }
+        : TValue;
+type IsFlatObject<T extends object> =
+  Extract<
+    Exclude<T[keyof T], NestedValue | Date | FileList$1>,
+    any[] | object
+  > extends never
+    ? true
+    : false;
 type Merge<A, B> = {
-    [K in keyof A | keyof B]?: K extends keyof A & keyof B ? [A[K], B[K]] extends [object, object] ? Merge<A[K], B[K]> : A[K] | B[K] : K extends keyof A ? A[K] : K extends keyof B ? B[K] : never;
+  [K in keyof A | keyof B]?: K extends keyof A & keyof B
+    ? [A[K], B[K]] extends [object, object]
+      ? Merge<A[K], B[K]>
+      : A[K] | B[K]
+    : K extends keyof A
+      ? A[K]
+      : K extends keyof B
+        ? B[K]
+        : never;
 };
 
 type InternalFieldName = string;
-type FieldName<TFieldValues extends FieldValues> = IsFlatObject<TFieldValues> extends true ? Extract<keyof TFieldValues, string> : string;
+type FieldName<TFieldValues extends FieldValues> =
+  IsFlatObject<TFieldValues> extends true
+    ? Extract<keyof TFieldValues, string>
+    : string;
 type CustomElement<TFieldValues extends FieldValues> = Partial<HTMLElement> & {
-    name: FieldName<TFieldValues>;
-    type?: string;
-    value?: any;
-    disabled?: boolean;
-    checked?: boolean;
-    options?: HTMLOptionsCollection;
-    files?: FileList | null;
-    focus?: Noop;
+  name: FieldName<TFieldValues>;
+  type?: string;
+  value?: any;
+  disabled?: boolean;
+  checked?: boolean;
+  options?: HTMLOptionsCollection;
+  files?: FileList | null;
+  focus?: Noop;
 };
-type FieldValue<TFieldValues extends FieldValues> = TFieldValues[InternalFieldName];
+type FieldValue<TFieldValues extends FieldValues> =
+  TFieldValues[InternalFieldName];
 type FieldValues = Record<string, any>;
-type NativeFieldValue = string | number | boolean | null | undefined | unknown[];
-type FieldElement<TFieldValues extends FieldValues = FieldValues> = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | CustomElement<TFieldValues>;
+type NativeFieldValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | unknown[];
+type FieldElement<TFieldValues extends FieldValues = FieldValues> =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement
+  | CustomElement<TFieldValues>;
 type Ref = FieldElement;
 type Field = {
-    _f: {
-        ref: Ref;
-        name: InternalFieldName;
-        refs?: HTMLInputElement[];
-        mount?: boolean;
-    } & RegisterOptions;
+  _f: {
+    ref: Ref;
+    name: InternalFieldName;
+    refs?: HTMLInputElement[];
+    mount?: boolean;
+  } & RegisterOptions;
 };
 type FieldRefs = Partial<{
-    [key: InternalFieldName]: Field | FieldRefs;
+  [key: InternalFieldName]: Field | FieldRefs;
 }>;
 
 type Message = string;
 type MultipleFieldErrors = {
-    [K in keyof RegisterOptions]?: ValidateResult;
+  [K in keyof RegisterOptions]?: ValidateResult;
 } & {
-    [key: string]: ValidateResult;
+  [key: string]: ValidateResult;
 };
 type FieldError = {
-    type: LiteralUnion<keyof RegisterOptions, string>;
-    root?: FieldError;
-    ref?: Ref;
-    types?: MultipleFieldErrors;
-    message?: Message;
+  type: LiteralUnion<keyof RegisterOptions, string>;
+  root?: FieldError;
+  ref?: Ref;
+  types?: MultipleFieldErrors;
+  message?: Message;
 };
 type ErrorOption = {
-    message?: Message;
-    type?: LiteralUnion<keyof RegisterOptions, string>;
-    types?: MultipleFieldErrors;
+  message?: Message;
+  type?: LiteralUnion<keyof RegisterOptions, string>;
+  types?: MultipleFieldErrors;
 };
-type DeepRequired<T> = T extends BrowserNativeObject | Blob ? T : {
-    [K in keyof T]-?: NonNullable<DeepRequired<T[K]>>;
-};
+type DeepRequired<T> = T extends BrowserNativeObject | Blob
+  ? T
+  : {
+      [K in keyof T]-?: NonNullable<DeepRequired<T[K]>>;
+    };
 type FieldErrorsImpl<T extends FieldValues = FieldValues> = {
-    [K in keyof T]?: T[K] extends BrowserNativeObject | Blob ? FieldError : K extends 'root' | `root.${string}` ? GlobalError : T[K] extends object ? Merge<FieldError, FieldErrorsImpl<T[K]>> : FieldError;
+  [K in keyof T]?: T[K] extends BrowserNativeObject | Blob
+    ? FieldError
+    : K extends "root" | `root.${string}`
+      ? GlobalError
+      : T[K] extends object
+        ? Merge<FieldError, FieldErrorsImpl<T[K]>>
+        : FieldError;
 };
 type GlobalError = Partial<{
-    type: string | number;
-    message: Message;
+  type: string | number;
+  message: Message;
 }>;
-type FieldErrors<T extends FieldValues = FieldValues> = Partial<FieldValues extends IsAny<FieldValues> ? any : FieldErrorsImpl<DeepRequired<T>>> & {
-    root?: Record<string, GlobalError> & GlobalError;
+type FieldErrors<T extends FieldValues = FieldValues> = Partial<
+  FieldValues extends IsAny<FieldValues>
+    ? any
+    : FieldErrorsImpl<DeepRequired<T>>
+> & {
+  root?: Record<string, GlobalError> & GlobalError;
 };
 type InternalFieldErrors = Partial<Record<InternalFieldName, FieldError>>;
 
 type ValidationValue = boolean | number | string | RegExp;
-type ValidationRule<TValidationValue extends ValidationValue = ValidationValue> = TValidationValue | ValidationValueMessage<TValidationValue>;
-type ValidationValueMessage<TValidationValue extends ValidationValue = ValidationValue> = {
-    value: TValidationValue;
-    message: Message;
+type ValidationRule<
+  TValidationValue extends ValidationValue = ValidationValue,
+> = TValidationValue | ValidationValueMessage<TValidationValue>;
+type ValidationValueMessage<
+  TValidationValue extends ValidationValue = ValidationValue,
+> = {
+  value: TValidationValue;
+  message: Message;
 };
 type ValidateResult = Message | Message[] | boolean | undefined;
-type Validate<TFieldValue, TFormValues> = (value: TFieldValue, formValues: TFormValues) => ValidateResult | Promise<ValidateResult>;
-type RegisterOptions<TFieldValues extends FieldValues = FieldValues, TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = Partial<{
-    required: Message | ValidationRule<boolean>;
-    min: ValidationRule<number | string>;
-    max: ValidationRule<number | string>;
-    maxLength: ValidationRule<number>;
-    minLength: ValidationRule<number>;
-    validate: Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues> | Record<string, Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>>;
-    value: FieldPathValue<TFieldValues, TFieldName>;
-    setValueAs: (value: any) => any;
-    shouldUnregister?: boolean;
-    onChange?: (event: any) => void;
-    onBlur?: (event: any) => void;
-    disabled: boolean;
-    deps: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
-}> & ({
-    pattern?: ValidationRule<RegExp>;
-    valueAsNumber?: false;
-    valueAsDate?: false;
-} | {
-    pattern?: undefined;
-    valueAsNumber?: false;
-    valueAsDate?: true;
-} | {
-    pattern?: undefined;
-    valueAsNumber?: true;
-    valueAsDate?: false;
-});
+type Validate<TFieldValue, TFormValues> = (
+  value: TFieldValue,
+  formValues: TFormValues,
+) => ValidateResult | Promise<ValidateResult>;
+type RegisterOptions<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = Partial<{
+  required: Message | ValidationRule<boolean>;
+  min: ValidationRule<number | string>;
+  max: ValidationRule<number | string>;
+  maxLength: ValidationRule<number>;
+  minLength: ValidationRule<number>;
+  validate:
+    | Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+    | Record<
+        string,
+        Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+      >;
+  value: FieldPathValue<TFieldValues, TFieldName>;
+  setValueAs: (value: any) => any;
+  shouldUnregister?: boolean;
+  onChange?: (event: any) => void;
+  onBlur?: (event: any) => void;
+  disabled: boolean;
+  deps: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
+}> &
+  (
+    | {
+        pattern?: ValidationRule<RegExp>;
+        valueAsNumber?: false;
+        valueAsDate?: false;
+      }
+    | {
+        pattern?: undefined;
+        valueAsNumber?: false;
+        valueAsDate?: true;
+      }
+    | {
+        pattern?: undefined;
+        valueAsNumber?: true;
+        valueAsDate?: false;
+      }
+  );
 type InputValidationRules = typeof INPUT_VALIDATION_RULES;
-type MaxType = InputValidationRules['max'] | InputValidationRules['maxLength'];
-type MinType = InputValidationRules['min'] | InputValidationRules['minLength'];
+type MaxType = InputValidationRules["max"] | InputValidationRules["maxLength"];
+type MinType = InputValidationRules["min"] | InputValidationRules["minLength"];
 
 type ControllerFieldState = {
-    invalid: boolean;
-    isTouched: boolean;
-    isDirty: boolean;
-    isValidating: boolean;
-    error?: FieldError;
+  invalid: boolean;
+  isTouched: boolean;
+  isDirty: boolean;
+  isValidating: boolean;
+  error?: FieldError;
 };
-type ControllerRenderProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-    onChange: (...event: any[]) => void;
-    onBlur: Noop;
-    value: FieldPathValue<TFieldValues, TName>;
-    disabled?: boolean;
-    name: TName;
-    ref: RefCallBack;
+type ControllerRenderProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
+  onChange: (...event: any[]) => void;
+  onBlur: Noop;
+  value: FieldPathValue<TFieldValues, TName>;
+  disabled?: boolean;
+  name: TName;
+  ref: RefCallBack;
 };
-type UseControllerProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-    name: TName;
-    rules?: Omit<RegisterOptions<TFieldValues, TName>, 'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'>;
-    shouldUnregister?: boolean;
-    defaultValue?: FieldPathValue<TFieldValues, TName>;
-    control?: Control<TFieldValues>;
-    disabled?: boolean;
+type UseControllerProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
+  name: TName;
+  rules?: Omit<
+    RegisterOptions<TFieldValues, TName>,
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
+  >;
+  shouldUnregister?: boolean;
+  defaultValue?: FieldPathValue<TFieldValues, TName>;
+  control?: Control<TFieldValues>;
+  disabled?: boolean;
 };
-type UseControllerReturn<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-    field: ControllerRenderProps<TFieldValues, TName>;
-    formState: UseFormStateReturn<TFieldValues>;
-    fieldState: ControllerFieldState;
+type UseControllerReturn<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
+  field: ControllerRenderProps<TFieldValues, TName>;
+  formState: UseFormStateReturn<TFieldValues>;
+  fieldState: ControllerFieldState;
 };
 /**
  * Render function to provide the control for the field.
@@ -1280,12 +1734,19 @@ type UseControllerReturn<TFieldValues extends FieldValues = FieldValues, TName e
  * />
  * ```
  */
-type ControllerProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-    render: ({ field, fieldState, formState, }: {
-        field: ControllerRenderProps<TFieldValues, TName>;
-        fieldState: ControllerFieldState;
-        formState: UseFormStateReturn<TFieldValues>;
-    }) => React.ReactElement;
+type ControllerProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
+  render: ({
+    field,
+    fieldState,
+    formState,
+  }: {
+    field: ControllerRenderProps<TFieldValues, TName>;
+    fieldState: ControllerFieldState;
+    formState: UseFormStateReturn<TFieldValues>;
+  }) => React.ReactElement;
 } & UseControllerProps<TFieldValues, TName>;
 
 /**
@@ -1330,7 +1791,12 @@ type ControllerProps<TFieldValues extends FieldValues = FieldValues, TName exten
  * }
  * ```
  */
-declare const Controller: <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: ControllerProps<TFieldValues, TName>) => React.ReactElement<unknown, string | React.JSXElementConstructor<any>>;
+declare const Controller: <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  props: ControllerProps<TFieldValues, TName>,
+) => React.ReactElement<unknown, string | React.JSXElementConstructor<any>>;
 //# sourceMappingURL=controller.d.ts.map
 
 /**
@@ -1355,10 +1821,19 @@ declare const Controller: <TFieldValues extends FieldValues = FieldValues, TName
  * }
  * ```
  */
-declare function Form<T extends FieldValues, U extends FieldValues | undefined = undefined>(props: FormProps<T, U>): React.JSX.Element;
+declare function Form<
+  T extends FieldValues,
+  U extends FieldValues | undefined = undefined,
+>(props: FormProps<T, U>): React.JSX.Element;
 //# sourceMappingURL=form.d.ts.map
 
-declare const _default$2: (name: InternalFieldName, validateAllFieldCriteria: boolean, errors: InternalFieldErrors, type: string, message: ValidateResult) => {};
+declare const _default$2: (
+  name: InternalFieldName,
+  validateAllFieldCriteria: boolean,
+  errors: InternalFieldErrors,
+  type: string,
+  message: ValidateResult,
+) => {};
 //# sourceMappingURL=appendErrors.d.ts.map
 
 /**
@@ -1385,7 +1860,12 @@ declare const _default$2: (name: InternalFieldName, validateAllFieldCriteria: bo
  * }
  * ```
  */
-declare function useController<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: UseControllerProps<TFieldValues, TName>): UseControllerReturn<TFieldValues, TName>;
+declare function useController<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  props: UseControllerProps<TFieldValues, TName>,
+): UseControllerReturn<TFieldValues, TName>;
 
 /**
  * A custom hook that exposes convenient methods to perform operations with a list of dynamic inputs that need to be appended, updated, removed etc. • [Demo](https://codesandbox.io/s/react-hook-form-usefieldarray-ssugn) • [Video](https://youtu.be/4MrbfGSFY2A)
@@ -1424,7 +1904,14 @@ declare function useController<TFieldValues extends FieldValues = FieldValues, T
  * }
  * ```
  */
-declare function useFieldArray<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>, TKeyName extends string = 'id'>(props: UseFieldArrayProps<TFieldValues, TFieldArrayName, TKeyName>): UseFieldArrayReturn<TFieldValues, TFieldArrayName, TKeyName>;
+declare function useFieldArray<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldArrayName extends
+    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TKeyName extends string = "id",
+>(
+  props: UseFieldArrayProps<TFieldValues, TFieldArrayName, TKeyName>,
+): UseFieldArrayReturn<TFieldValues, TFieldArrayName, TKeyName>;
 
 /**
  * Custom hook to manage the entire form.
@@ -1455,7 +1942,13 @@ declare function useFieldArray<TFieldValues extends FieldValues = FieldValues, T
  * }
  * ```
  */
-declare function useForm<TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined>(props?: UseFormProps<TFieldValues, TContext>): UseFormReturn<TFieldValues, TContext, TTransformedValues>;
+declare function useForm<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+  TTransformedValues extends FieldValues | undefined = undefined,
+>(
+  props?: UseFormProps<TFieldValues, TContext>,
+): UseFormReturn<TFieldValues, TContext, TTransformedValues>;
 
 /**
  * This custom hook allows you to access the form context. useFormContext is intended to be used in deeply nested structures, where it would become inconvenient to pass the context as a prop. To be used with {@link FormProvider}.
@@ -1487,7 +1980,11 @@ declare function useForm<TFieldValues extends FieldValues = FieldValues, TContex
  * }
  * ```
  */
-declare const useFormContext: <TFieldValues extends FieldValues, TContext = any, TransformedValues extends FieldValues | undefined = undefined>() => UseFormReturn<TFieldValues, TContext, TransformedValues>;
+declare const useFormContext: <
+  TFieldValues extends FieldValues,
+  TContext = any,
+  TransformedValues extends FieldValues | undefined = undefined,
+>() => UseFormReturn<TFieldValues, TContext, TransformedValues>;
 /**
  * A provider component that propagates the `useForm` methods to all children components via [React Context](https://reactjs.org/docs/context.html) API. To be used with {@link useFormContext}.
  *
@@ -1518,7 +2015,13 @@ declare const useFormContext: <TFieldValues extends FieldValues, TContext = any,
  * }
  * ```
  */
-declare const FormProvider: <TFieldValues extends FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined>(props: FormProviderProps<TFieldValues, TContext, TTransformedValues>) => React.JSX.Element;
+declare const FormProvider: <
+  TFieldValues extends FieldValues,
+  TContext = any,
+  TTransformedValues extends FieldValues | undefined = undefined,
+>(
+  props: FormProviderProps<TFieldValues, TContext, TTransformedValues>,
+) => React.JSX.Element;
 
 /**
  * This custom hook allows you to subscribe to each form state, and isolate the re-render at the custom hook level. It has its scope in terms of form state subscription, so it would not affect other useFormState and useForm. Using this hook can reduce the re-render impact on large and complex form application.
@@ -1550,7 +2053,9 @@ declare const FormProvider: <TFieldValues extends FieldValues, TContext = any, T
  * }
  * ```
  */
-declare function useFormState<TFieldValues extends FieldValues = FieldValues>(props?: UseFormStateProps<TFieldValues>): UseFormStateReturn<TFieldValues>;
+declare function useFormState<TFieldValues extends FieldValues = FieldValues>(
+  props?: UseFormStateProps<TFieldValues>,
+): UseFormStateReturn<TFieldValues>;
 //# sourceMappingURL=useFormState.d.ts.map
 
 /**
@@ -1574,11 +2079,13 @@ declare function useFormState<TFieldValues extends FieldValues = FieldValues>(pr
  * })
  * ```
  */
-declare function useWatch<TFieldValues extends FieldValues = FieldValues>(props: {
-    defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
-    control?: Control<TFieldValues>;
-    disabled?: boolean;
-    exact?: boolean;
+declare function useWatch<
+  TFieldValues extends FieldValues = FieldValues,
+>(props: {
+  defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
+  control?: Control<TFieldValues>;
+  disabled?: boolean;
+  exact?: boolean;
 }): DeepPartialSkipArrayKey<TFieldValues>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
@@ -1600,12 +2107,15 @@ declare function useWatch<TFieldValues extends FieldValues = FieldValues>(props:
  * })
  * ```
  */
-declare function useWatch<TFieldValues extends FieldValues = FieldValues, TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: {
-    name: TFieldName;
-    defaultValue?: FieldPathValue<TFieldValues, TFieldName>;
-    control?: Control<TFieldValues>;
-    disabled?: boolean;
-    exact?: boolean;
+declare function useWatch<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(props: {
+  name: TFieldName;
+  defaultValue?: FieldPathValue<TFieldValues, TFieldName>;
+  control?: Control<TFieldValues>;
+  disabled?: boolean;
+  exact?: boolean;
 }): FieldPathValue<TFieldValues, TFieldName>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
@@ -1630,12 +2140,16 @@ declare function useWatch<TFieldValues extends FieldValues = FieldValues, TField
  * })
  * ```
  */
-declare function useWatch<TFieldValues extends FieldValues = FieldValues, TFieldNames extends readonly FieldPath<TFieldValues>[] = readonly FieldPath<TFieldValues>[]>(props: {
-    name: readonly [...TFieldNames];
-    defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
-    control?: Control<TFieldValues>;
-    disabled?: boolean;
-    exact?: boolean;
+declare function useWatch<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldNames extends
+    readonly FieldPath<TFieldValues>[] = readonly FieldPath<TFieldValues>[],
+>(props: {
+  name: readonly [...TFieldNames];
+  defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
+  control?: Control<TFieldValues>;
+  disabled?: boolean;
+  exact?: boolean;
 }): FieldPathValues<TFieldValues, TFieldNames>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
@@ -1650,12 +2164,164 @@ declare function useWatch<TFieldValues extends FieldValues = FieldValues, TField
  * const values = useWatch()
  * ```
  */
-declare function useWatch<TFieldValues extends FieldValues = FieldValues>(): DeepPartialSkipArrayKey<TFieldValues>;
+declare function useWatch<
+  TFieldValues extends FieldValues = FieldValues,
+>(): DeepPartialSkipArrayKey<TFieldValues>;
 
-declare const _default$1: <T>(object: T, path?: string | null, defaultValue?: unknown) => any;
+declare const _default$1: <T>(
+  object: T,
+  path?: string | null,
+  defaultValue?: unknown,
+) => any;
 //# sourceMappingURL=get.d.ts.map
 
-declare const _default: (object: FieldValues, path: FieldPath<FieldValues>, value?: unknown) => FieldValues | undefined;
+declare const _default: (
+  object: FieldValues,
+  path: FieldPath<FieldValues>,
+  value?: unknown,
+) => FieldValues | undefined;
 //# sourceMappingURL=set.d.ts.map
 
-export { type ArrayPath, type BatchFieldArrayUpdate, type BrowserNativeObject, type ChangeHandler, type Control, Controller, type ControllerFieldState, type ControllerProps, type ControllerRenderProps, type CriteriaMode, type CustomElement, type DeepMap, type DeepPartial, type DeepPartialSkipArrayKey, type DeepRequired, type DefaultValues, type DelayCallback, type EmptyObject, type ErrorOption, type EventType, type ExtractObjects, type Field, type FieldArray, type FieldArrayMethodProps, type FieldArrayPath, type FieldArrayPathValue, type FieldArrayWithId, type FieldElement, type FieldError, type FieldErrors, type FieldErrorsImpl, type FieldName, type FieldNamesMarkedBoolean, type FieldPath, type FieldPathByValue, type FieldPathValue, type FieldPathValues, type FieldRefs, type FieldValue, type FieldValues, Form, type FormProps, FormProvider, type FormProviderProps, type FormState, type FormStateProxy, type FormStateSubjectRef, type FormSubmitHandler, type GetIsDirty, type GlobalError, type InputValidationRules, type InternalFieldErrors, type InternalFieldName, type InternalNameSet, type IsAny, type IsEqual, type IsFlatObject, type IsNever, type KeepStateOptions, type LiteralUnion, type MaxType, type Merge, type Message, type MinType, type Mode, type MultipleFieldErrors, type Names, type NativeFieldValue, type NestedValue, type NonUndefined, type Noop, type Path, type PathString, type PathValue, type Primitive, type ReadFormState, type Ref, type RefCallBack, type RegisterOptions, type Resolver, type ResolverError, type ResolverOptions, type ResolverResult, type ResolverSuccess, type SetFieldValue, type SetFocusOptions, type SetValueConfig, type Subjects, type SubmitErrorHandler, type SubmitHandler, type TriggerConfig, type UnpackNestedValue, type UseControllerProps, type UseControllerReturn, type UseFieldArrayAppend, type UseFieldArrayInsert, type UseFieldArrayMove, type UseFieldArrayPrepend, type UseFieldArrayProps, type UseFieldArrayRemove, type UseFieldArrayReplace, type UseFieldArrayReturn, type UseFieldArraySwap, type UseFieldArrayUpdate, type UseFormClearErrors, type UseFormGetFieldState, type UseFormGetValues, type UseFormHandleSubmit, type UseFormProps, type UseFormRegister, type UseFormRegisterReturn, type UseFormReset, type UseFormResetField, type UseFormReturn, type UseFormSetError, type UseFormSetFocus, type UseFormSetValue, type UseFormStateProps, type UseFormStateReturn, type UseFormTrigger, type UseFormUnregister, type UseFormWatch, type UseWatchProps, type Validate, type ValidateResult, type ValidationMode, type ValidationModeFlags, type ValidationRule, type ValidationValue, type ValidationValueMessage, type WatchInternal, type WatchObserver, _default$2 as appendErrors, _default$1 as get, _default as set, useController, useFieldArray, useForm, useFormContext, useFormState, useWatch };
+export {
+  type ArrayPath,
+  type BatchFieldArrayUpdate,
+  type BrowserNativeObject,
+  type ChangeHandler,
+  type Control,
+  Controller,
+  type ControllerFieldState,
+  type ControllerProps,
+  type ControllerRenderProps,
+  type CriteriaMode,
+  type CustomElement,
+  type DeepMap,
+  type DeepPartial,
+  type DeepPartialSkipArrayKey,
+  type DeepRequired,
+  type DefaultValues,
+  type DelayCallback,
+  type EmptyObject,
+  type ErrorOption,
+  type EventType,
+  type ExtractObjects,
+  type Field,
+  type FieldArray,
+  type FieldArrayMethodProps,
+  type FieldArrayPath,
+  type FieldArrayPathValue,
+  type FieldArrayWithId,
+  type FieldElement,
+  type FieldError,
+  type FieldErrors,
+  type FieldErrorsImpl,
+  type FieldName,
+  type FieldNamesMarkedBoolean,
+  type FieldPath,
+  type FieldPathByValue,
+  type FieldPathValue,
+  type FieldPathValues,
+  type FieldRefs,
+  type FieldValue,
+  type FieldValues,
+  Form,
+  type FormProps,
+  FormProvider,
+  type FormProviderProps,
+  type FormState,
+  type FormStateProxy,
+  type FormStateSubjectRef,
+  type FormSubmitHandler,
+  type GetIsDirty,
+  type GlobalError,
+  type InputValidationRules,
+  type InternalFieldErrors,
+  type InternalFieldName,
+  type InternalNameSet,
+  type IsAny,
+  type IsEqual,
+  type IsFlatObject,
+  type IsNever,
+  type KeepStateOptions,
+  type LiteralUnion,
+  type MaxType,
+  type Merge,
+  type Message,
+  type MinType,
+  type Mode,
+  type MultipleFieldErrors,
+  type Names,
+  type NativeFieldValue,
+  type NestedValue,
+  type NonUndefined,
+  type Noop,
+  type Path,
+  type PathString,
+  type PathValue,
+  type Primitive,
+  type ReadFormState,
+  type Ref,
+  type RefCallBack,
+  type RegisterOptions,
+  type Resolver,
+  type ResolverError,
+  type ResolverOptions,
+  type ResolverResult,
+  type ResolverSuccess,
+  type SetFieldValue,
+  type SetFocusOptions,
+  type SetValueConfig,
+  type Subjects,
+  type SubmitErrorHandler,
+  type SubmitHandler,
+  type TriggerConfig,
+  type UnpackNestedValue,
+  type UseControllerProps,
+  type UseControllerReturn,
+  type UseFieldArrayAppend,
+  type UseFieldArrayInsert,
+  type UseFieldArrayMove,
+  type UseFieldArrayPrepend,
+  type UseFieldArrayProps,
+  type UseFieldArrayRemove,
+  type UseFieldArrayReplace,
+  type UseFieldArrayReturn,
+  type UseFieldArraySwap,
+  type UseFieldArrayUpdate,
+  type UseFormClearErrors,
+  type UseFormGetFieldState,
+  type UseFormGetValues,
+  type UseFormHandleSubmit,
+  type UseFormProps,
+  type UseFormRegister,
+  type UseFormRegisterReturn,
+  type UseFormReset,
+  type UseFormResetField,
+  type UseFormReturn,
+  type UseFormSetError,
+  type UseFormSetFocus,
+  type UseFormSetValue,
+  type UseFormStateProps,
+  type UseFormStateReturn,
+  type UseFormTrigger,
+  type UseFormUnregister,
+  type UseFormWatch,
+  type UseWatchProps,
+  type Validate,
+  type ValidateResult,
+  type ValidationMode,
+  type ValidationModeFlags,
+  type ValidationRule,
+  type ValidationValue,
+  type ValidationValueMessage,
+  type WatchInternal,
+  type WatchObserver,
+  _default$2 as appendErrors,
+  _default$1 as get,
+  _default as set,
+  useController,
+  useFieldArray,
+  useForm,
+  useFormContext,
+  useFormState,
+  useWatch,
+};

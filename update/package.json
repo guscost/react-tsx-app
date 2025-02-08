@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "update": "npm install && node update.js"
+    "update": "npm install && node update.js && prettier ../types --write"
   },
   "tsup": {
     "dts": {
