@@ -430,35 +430,31 @@ async function buildTypes() {
 
     // Build @dnd-kit types
     mkdirSync(path.join(_root, "types/@dnd-kit"));
-    await buildType(
-      path.join(
-        _root,
-        "update/node_modules/@dnd-kit/utilities/dist/index.d.ts",
-      ),
+    copyFileSync(
+      path.join(_root, "update/types/@dnd-kit/utilities.d.ts"),
       path.join(_root, "types/@dnd-kit/utilities.d.ts"),
     );
-    await buildType(
-      path.join(
-        _root,
-        "update/node_modules/@dnd-kit/accessibility/dist/index.d.ts",
-      ),
+    copyFileSync(
+      path.join(_root, "update/types/@dnd-kit/accessibility.d.ts"),
       path.join(_root, "types/@dnd-kit/accessibility.d.ts"),
     );
-    await buildType(
-      path.join(_root, "update/node_modules/@dnd-kit/core/dist/index.d.ts"),
+    copyFileSync(
+      path.join(_root, "update/types/@dnd-kit/core.d.ts"),
       path.join(_root, "types/@dnd-kit/core.d.ts"),
     );
-    await buildType(
-      path.join(
-        _root,
-        "update/node_modules/@dnd-kit/modifiers/dist/index.d.ts",
-      ),
+    copyFileSync(
+      path.join(_root, "update/types/@dnd-kit/modifiers.d.ts"),
       path.join(_root, "types/@dnd-kit/modifiers.d.ts"),
     );
-    await buildType(
-      path.join(_root, "update/node_modules/@dnd-kit/sortable/dist/index.d.ts"),
+    copyFileSync(
+      path.join(_root, "update/types/@dnd-kit/sortable.d.ts"),
       path.join(_root, "types/@dnd-kit/sortable.d.ts"),
     );
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/utilities/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/utilities.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/accessibility/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/accessibility.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/core/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/core.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/modifiers/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/modifiers.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/sortable/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/sortable.d.ts"));
 
     // Copy shadcn dependency types
     mkdirSync(path.join(_root, "types/@hookform"));
@@ -482,14 +478,16 @@ async function buildTypes() {
       path.join(_root, "update/node_modules/cmdk/dist/index.d.ts"),
       path.join(_root, "types/cmdk.d.ts"),
     );
-    copyFileSync(
-      path.join(_root, "update/types/react-day-picker.d.ts"),
-      path.join(_root, "types/react-day-picker.d.ts"),
-    );
+
     appendFileSync(
       path.join(_root, "types/react-resizable-panels.d.ts"),
       'declare module "react-resizable-panels";',
     );
+    copyFileSync(
+      path.join(_root, "update/types/react-day-picker.d.ts"),
+      path.join(_root, "types/react-day-picker.d.ts"),
+    );
+    //await buildType(path.join(_root, "update/node_modules/react-day-picker/src/index.ts"), path.join(_root, "types/react-day-picker.d.ts"));
 
     const classVarianceAuthorityContent = readFileSync(
       path.join(
@@ -517,6 +515,7 @@ async function buildTypes() {
       path.join(_root, "update/types/recharts.d.ts"),
       path.join(_root, "types/recharts.d.ts"),
     );
+    //await buildType(path.join(_root, "update/node_modules/recharts/types/index.d.ts"), path.join(_root, "types/recharts.d.ts"));
   } catch (error) {
     console.error("Error during typedef build:", error);
     throw error;
