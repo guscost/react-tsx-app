@@ -5487,6 +5487,21 @@ declare const CircleSlash: react.ForwardRefExoticComponent<
 >;
 
 /**
+ * @component @name CircleSmall
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI2IiAvPgo8L3N2Zz4K) - https://lucide.dev/icons/circle-small
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const CircleSmall: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
  * @component @name CircleStop
  * @description Lucide SVG icon component, renders SVG Element with children.
  *
@@ -13377,6 +13392,36 @@ declare const Map: react.ForwardRefExoticComponent<
 >;
 
 /**
+ * @component @name MarsStroke
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJtMTQgNiA0IDQiIC8+CiAgPHBhdGggZD0iTTE3IDNoNHY0IiAvPgogIDxwYXRoIGQ9Im0yMSAzLTcuNzUgNy43NSIgLz4KICA8Y2lyY2xlIGN4PSI5IiBjeT0iMTUiIHI9IjYiIC8+Cjwvc3ZnPgo=) - https://lucide.dev/icons/mars-stroke
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const MarsStroke: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
+ * @component @name Mars
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTYgM2g1djUiIC8+CiAgPHBhdGggZD0ibTIxIDMtNi43NSA2Ljc1IiAvPgogIDxjaXJjbGUgY3g9IjEwIiBjeT0iMTQiIHI9IjYiIC8+Cjwvc3ZnPgo=) - https://lucide.dev/icons/mars
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const Mars: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
  * @component @name Martini
  * @description Lucide SVG icon component, renders SVG Element with children.
  *
@@ -14847,6 +14892,21 @@ declare const Nfc: react.ForwardRefExoticComponent<
 >;
 
 /**
+ * @component @name NonBinary
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTIgMnYxMCIgLz4KICA8cGF0aCBkPSJtOSA0IDYgNCIgLz4KICA8cGF0aCBkPSJtOSA4IDYtNCIgLz4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjE3IiByPSI1IiAvPgo8L3N2Zz4K) - https://lucide.dev/icons/non-binary
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const NonBinary: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
  * @component @name NotebookPen
  * @description Lucide SVG icon component, renders SVG Element with children.
  *
@@ -15210,7 +15270,7 @@ declare const PackageX: react.ForwardRefExoticComponent<
  * @component @name Package
  * @description Lucide SVG icon component, renders SVG Element with children.
  *
- * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTEgMjEuNzNhMiAyIDAgMCAwIDIgMGw3LTRBMiAyIDAgMCAwIDIxIDE2VjhhMiAyIDAgMCAwLTEtMS43M2wtNy00YTIgMiAwIDAgMC0yIDBsLTcgNEEyIDIgMCAwIDAgMyA4djhhMiAyIDAgMCAwIDEgMS43M3oiIC8+CiAgPHBhdGggZD0iTTEyIDIyVjEyIiAvPgogIDxwb2x5bGluZSBwb2ludHM9IjMuMjkgNyAxMiAxMiAyMC43MSA3Ii8+CiAgPHBhdGggZD0ibTcuNSA0LjI3IDkgNS4xNSIgLz4KPC9zdmc+Cg==) - https://lucide.dev/icons/package
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTEgMjEuNzNhMiAyIDAgMCAwIDIgMGw3LTRBMiAyIDAgMCAwIDIxIDE2VjhhMiAyIDAgMCAwLTEtMS43M2wtNy00YTIgMiAwIDAgMC0yIDBsLTcgNEEyIDIgMCAwIDAgMyA4djhhMiAyIDAgMCAwIDEgMS43M3oiIC8+CiAgPHBhdGggZD0iTTEyIDIyVjEyIiAvPgogIDxwb2x5bGluZSBwb2ludHM9IjMuMjkgNyAxMiAxMiAyMC43MSA3IiAvPgogIDxwYXRoIGQ9Im03LjUgNC4yNyA5IDUuMTUiIC8+Cjwvc3ZnPgo=) - https://lucide.dev/icons/package
  * @see https://lucide.dev/guide/packages/lucide-react - Documentation
  *
  * @param {Object} props - Lucide icons props and any valid SVG attribute
@@ -21507,6 +21567,21 @@ declare const TramFront: react.ForwardRefExoticComponent<
 >;
 
 /**
+ * @component @name Transgender
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTIgMTZ2NiIgLz4KICA8cGF0aCBkPSJNMTQgMjBoLTQiIC8+CiAgPHBhdGggZD0iTTE4IDJoNHY0IiAvPgogIDxwYXRoIGQ9Im0yIDIgNy4xNyA3LjE3IiAvPgogIDxwYXRoIGQ9Ik0yIDUuMzU1VjJoMy4zNTciIC8+CiAgPHBhdGggZD0ibTIyIDItNy4xNyA3LjE3IiAvPgogIDxwYXRoIGQ9Ik04IDUgNSA4IiAvPgogIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjQiIC8+Cjwvc3ZnPgo=) - https://lucide.dev/icons/transgender
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const Transgender: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
  * @component @name Trash2
  * @description Lucide SVG icon component, renders SVG Element with children.
  *
@@ -22463,6 +22538,36 @@ declare const Vegan: react.ForwardRefExoticComponent<
  *
  */
 declare const VenetianMask: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
+ * @component @name VenusAndMars
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTAgMjBoNCIgLz4KICA8cGF0aCBkPSJNMTIgMTZ2NiIgLz4KICA8cGF0aCBkPSJNMTcgMmg0djQiIC8+CiAgPHBhdGggZD0ibTIxIDItNS40NiA1LjQ2IiAvPgogIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTEiIHI9IjUiIC8+Cjwvc3ZnPgo=) - https://lucide.dev/icons/venus-and-mars
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const VenusAndMars: react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
+
+/**
+ * @component @name Venus
+ * @description Lucide SVG icon component, renders SVG Element with children.
+ *
+ * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTIgMTV2NyIgLz4KICA8cGF0aCBkPSJNOSAxOWg2IiAvPgogIDxjaXJjbGUgY3g9IjEyIiBjeT0iOSIgcj0iNiIgLz4KPC9zdmc+Cg==) - https://lucide.dev/icons/venus
+ * @see https://lucide.dev/guide/packages/lucide-react - Documentation
+ *
+ * @param {Object} props - Lucide icons props and any valid SVG attribute
+ * @returns {JSX.Element} JSX Element
+ *
+ */
+declare const Venus: react.ForwardRefExoticComponent<
   Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
 >;
 
@@ -23611,6 +23716,7 @@ declare const index_CirclePlus: typeof CirclePlus;
 declare const index_CirclePower: typeof CirclePower;
 declare const index_CircleSlash: typeof CircleSlash;
 declare const index_CircleSlash2: typeof CircleSlash2;
+declare const index_CircleSmall: typeof CircleSmall;
 declare const index_CircleStop: typeof CircleStop;
 declare const index_CircleUser: typeof CircleUser;
 declare const index_CircleUserRound: typeof CircleUserRound;
@@ -24136,6 +24242,8 @@ declare const index_MapPinX: typeof MapPinX;
 declare const index_MapPinXInside: typeof MapPinXInside;
 declare const index_MapPinned: typeof MapPinned;
 declare const index_MapPlus: typeof MapPlus;
+declare const index_Mars: typeof Mars;
+declare const index_MarsStroke: typeof MarsStroke;
 declare const index_Martini: typeof Martini;
 declare const index_Maximize: typeof Maximize;
 declare const index_Maximize2: typeof Maximize2;
@@ -24234,6 +24342,7 @@ declare const index_NavigationOff: typeof NavigationOff;
 declare const index_Network: typeof Network;
 declare const index_Newspaper: typeof Newspaper;
 declare const index_Nfc: typeof Nfc;
+declare const index_NonBinary: typeof NonBinary;
 declare const index_Notebook: typeof Notebook;
 declare const index_NotebookPen: typeof NotebookPen;
 declare const index_NotebookTabs: typeof NotebookTabs;
@@ -24678,6 +24787,7 @@ declare const index_TrainFront: typeof TrainFront;
 declare const index_TrainFrontTunnel: typeof TrainFrontTunnel;
 declare const index_TrainTrack: typeof TrainTrack;
 declare const index_TramFront: typeof TramFront;
+declare const index_Transgender: typeof Transgender;
 declare const index_Trash: typeof Trash;
 declare const index_Trash2: typeof Trash2;
 declare const index_TreeDeciduous: typeof TreeDeciduous;
@@ -24742,6 +24852,8 @@ declare const index_Variable: typeof Variable;
 declare const index_Vault: typeof Vault;
 declare const index_Vegan: typeof Vegan;
 declare const index_VenetianMask: typeof VenetianMask;
+declare const index_Venus: typeof Venus;
+declare const index_VenusAndMars: typeof VenusAndMars;
 declare const index_Vibrate: typeof Vibrate;
 declare const index_VibrateOff: typeof VibrateOff;
 declare const index_Video: typeof Video;
@@ -25161,6 +25273,7 @@ declare namespace index {
     index_CirclePower as CirclePower,
     index_CircleSlash as CircleSlash,
     index_CircleSlash2 as CircleSlash2,
+    index_CircleSmall as CircleSmall,
     index_CircleStop as CircleStop,
     index_CircleUser as CircleUser,
     index_CircleUserRound as CircleUserRound,
@@ -25686,6 +25799,8 @@ declare namespace index {
     index_MapPinXInside as MapPinXInside,
     index_MapPinned as MapPinned,
     index_MapPlus as MapPlus,
+    index_Mars as Mars,
+    index_MarsStroke as MarsStroke,
     index_Martini as Martini,
     index_Maximize as Maximize,
     index_Maximize2 as Maximize2,
@@ -25784,6 +25899,7 @@ declare namespace index {
     index_Network as Network,
     index_Newspaper as Newspaper,
     index_Nfc as Nfc,
+    index_NonBinary as NonBinary,
     index_Notebook as Notebook,
     index_NotebookPen as NotebookPen,
     index_NotebookTabs as NotebookTabs,
@@ -26228,6 +26344,7 @@ declare namespace index {
     index_TrainFrontTunnel as TrainFrontTunnel,
     index_TrainTrack as TrainTrack,
     index_TramFront as TramFront,
+    index_Transgender as Transgender,
     index_Trash as Trash,
     index_Trash2 as Trash2,
     index_TreeDeciduous as TreeDeciduous,
@@ -26292,6 +26409,8 @@ declare namespace index {
     index_Vault as Vault,
     index_Vegan as Vegan,
     index_VenetianMask as VenetianMask,
+    index_Venus as Venus,
+    index_VenusAndMars as VenusAndMars,
     index_Vibrate as Vibrate,
     index_VibrateOff as VibrateOff,
     index_Video as Video,
@@ -27231,6 +27350,8 @@ export {
   CircleSlash as CircleSlashIcon,
   CircleSlash2 as CircleSlashed,
   CircleSlash2 as CircleSlashedIcon,
+  CircleSmall,
+  CircleSmall as CircleSmallIcon,
   CircleStop,
   CircleStop as CircleStopIcon,
   CircleUser,
@@ -28763,6 +28884,7 @@ export {
   CircleSlash as LucideCircleSlash,
   CircleSlash2 as LucideCircleSlash2,
   CircleSlash2 as LucideCircleSlashed,
+  CircleSmall as LucideCircleSmall,
   CircleStop as LucideCircleStop,
   CircleUser as LucideCircleUser,
   CircleUserRound as LucideCircleUserRound,
@@ -29345,6 +29467,8 @@ export {
   MapPinXInside as LucideMapPinXInside,
   MapPinned as LucideMapPinned,
   MapPlus as LucideMapPlus,
+  Mars as LucideMars,
+  MarsStroke as LucideMarsStroke,
   Martini as LucideMartini,
   Maximize as LucideMaximize,
   Maximize2 as LucideMaximize2,
@@ -29451,6 +29575,7 @@ export {
   Network as LucideNetwork,
   Newspaper as LucideNewspaper,
   Nfc as LucideNfc,
+  NonBinary as LucideNonBinary,
   Notebook as LucideNotebook,
   NotebookPen as LucideNotebookPen,
   NotebookTabs as LucideNotebookTabs,
@@ -29953,6 +30078,7 @@ export {
   TrainFrontTunnel as LucideTrainFrontTunnel,
   TrainTrack as LucideTrainTrack,
   TramFront as LucideTramFront,
+  Transgender as LucideTransgender,
   Trash as LucideTrash,
   Trash2 as LucideTrash2,
   TreeDeciduous as LucideTreeDeciduous,
@@ -30032,6 +30158,8 @@ export {
   Vault as LucideVault,
   Vegan as LucideVegan,
   VenetianMask as LucideVenetianMask,
+  Venus as LucideVenus,
+  VenusAndMars as LucideVenusAndMars,
   BadgeCheck as LucideVerified,
   Vibrate as LucideVibrate,
   VibrateOff as LucideVibrateOff,
@@ -30146,6 +30274,10 @@ export {
   MapPinned as MapPinnedIcon,
   MapPlus,
   MapPlus as MapPlusIcon,
+  Mars,
+  Mars as MarsIcon,
+  MarsStroke,
+  MarsStroke as MarsStrokeIcon,
   Martini,
   Martini as MartiniIcon,
   Maximize,
@@ -30358,6 +30490,8 @@ export {
   Newspaper as NewspaperIcon,
   Nfc,
   Nfc as NfcIcon,
+  NonBinary,
+  NonBinary as NonBinaryIcon,
   Notebook,
   Notebook as NotebookIcon,
   NotebookPen,
@@ -31361,6 +31495,8 @@ export {
   TrainTrack as TrainTrackIcon,
   TramFront,
   TramFront as TramFrontIcon,
+  Transgender,
+  Transgender as TransgenderIcon,
   Trash,
   Trash2,
   Trash2 as Trash2Icon,
@@ -31519,6 +31655,10 @@ export {
   Vegan as VeganIcon,
   VenetianMask,
   VenetianMask as VenetianMaskIcon,
+  Venus,
+  VenusAndMars,
+  VenusAndMars as VenusAndMarsIcon,
+  Venus as VenusIcon,
   BadgeCheck as Verified,
   BadgeCheck as VerifiedIcon,
   Vibrate,
