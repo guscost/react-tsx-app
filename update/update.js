@@ -179,7 +179,7 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/chart.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/form.min.js"), { force: true });
 
-    // 2. Copy Tailwind from CDN
+    // 2. tailwindcss
     const tailwindResponse = await fetch(
       "https://cdn.tailwindcss.com/?plugins=typography,aspect-ratio,container-queries",
     );
@@ -192,11 +192,11 @@ async function buildUmds() {
       ),
     );
 
-    // 3. Build React and other dependencies
+    // 3. build react and other dependencies
     await buildUmd(tempDir, "react", "react.min.js");
     await buildUmd(tempDir, "react/jsx-runtime", "react.min.js");
 
-    // React 19 added react-dom/client which we need to merge back into react-dom
+    // react 19 added react-dom/client which we need to merge back into react-dom
     await buildUmd(
       tempDir,
       "react-dom",
@@ -204,11 +204,32 @@ async function buildUmds() {
       await generateReactDomEntryFile(tempDir),
     );
 
-    // Lucide icons
+    // lucide icons
     await buildUmd(tempDir, "lucide-react", "lucide-react.min.js");
 
-    // Zustand
+    // zustand
     await buildUmd(tempDir, "zustand", "zustand.min.js");
+
+    // dnd-kit
+    await buildUmd(tempDir, "@dnd-kit/utilities", "dnd-kit.min.js"); // includes tslib
+    await buildUmd(tempDir, "@dnd-kit/accessibility", "dnd-kit.min.js", null, {
+      tslib: "tslib",
+    });
+    await buildUmd(tempDir, "@dnd-kit/core", "dnd-kit.min.js", null, {
+      tslib: "tslib",
+      "@dnd-kit/accessibility": "@dnd-kit/accessibility",
+      "@dnd-kit/utilities": "@dnd-kit/utilities",
+    });
+    await buildUmd(tempDir, "@dnd-kit/modifiers", "dnd-kit.min.js", null, {
+      tslib: "tslib",
+      "@dnd-kit/core": "@dnd-kit/core",
+      "@dnd-kit/utilities": "@dnd-kit/utilities",
+    });
+    await buildUmd(tempDir, "@dnd-kit/sortable", "dnd-kit.min.js", null, {
+      tslib: "tslib",
+      "@dnd-kit/core": "@dnd-kit/core",
+      "@dnd-kit/utilities": "@dnd-kit/utilities",
+    });
 
     // Aggregate all Radix UI modules into one big file
     const radixUiSources = readdirSync(
@@ -405,6 +426,38 @@ async function buildTypes() {
     await buildType(
       path.join(_root, "update/node_modules/zustand/index.js"),
       path.join(_root, "types/zustand.d.ts"),
+    );
+
+    // Build @dnd-kit types
+    mkdirSync(path.join(_root, "types/@dnd-kit"));
+    await buildType(
+      path.join(
+        _root,
+        "update/node_modules/@dnd-kit/utilities/dist/index.d.ts",
+      ),
+      path.join(_root, "types/@dnd-kit/utilities.d.ts"),
+    );
+    await buildType(
+      path.join(
+        _root,
+        "update/node_modules/@dnd-kit/accessibility/dist/index.d.ts",
+      ),
+      path.join(_root, "types/@dnd-kit/accessibility.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/@dnd-kit/core/dist/index.d.ts"),
+      path.join(_root, "types/@dnd-kit/core.d.ts"),
+    );
+    await buildType(
+      path.join(
+        _root,
+        "update/node_modules/@dnd-kit/modifiers/dist/index.d.ts",
+      ),
+      path.join(_root, "types/@dnd-kit/modifiers.d.ts"),
+    );
+    await buildType(
+      path.join(_root, "update/node_modules/@dnd-kit/sortable/dist/index.d.ts"),
+      path.join(_root, "types/@dnd-kit/sortable.d.ts"),
     );
 
     // Copy shadcn dependency types
