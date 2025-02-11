@@ -3,7 +3,7 @@ import { Github, Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 
 export function Title() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <div className="flex justify-between mb-8">
@@ -26,9 +26,9 @@ export function Title() {
         <Button
           size="icon"
           variant="ghost"
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
         >
-          {theme === "light" ? (
+          {resolvedTheme === "light" ? (
             <Moon fill="currentColor" />
           ) : (
             <Sun fill="currentColor" />
