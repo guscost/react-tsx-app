@@ -85,8 +85,8 @@ const define = (...args: any) => {
         )
       ) {
         const dynamicScript = document.createElement("script");
-        dynamicScript.src = dep + ".js";
         dynamicScript.type = "text/javascript";
+        dynamicScript.src = dep + ".js";
         document.body.appendChild(dynamicScript);
       }
     }

@@ -19,13 +19,13 @@ export function Title() {
       </div>
       <div className="flex gap-1">
         <a href="https://github.com/guscost/arthropod" target="_blank">
-          <Button variant="ghost" className="w-10">
+          <Button size="icon" variant="ghost">
             <Github fill="currentColor" />
           </Button>
         </a>
         <Button
+          size="icon"
           variant="ghost"
-          className="w-10"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
           {theme === "light" ? (
