@@ -7,6 +7,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  touch-action: manipulation;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
