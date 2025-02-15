@@ -98,6 +98,7 @@ const FormSchema = z.object({
 
 export function FormDemo() {
   const form = useForm<z.infer<typeof FormSchema>>({
+    // @ts-ignore
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
