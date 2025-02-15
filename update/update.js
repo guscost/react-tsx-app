@@ -521,7 +521,7 @@ async function buildTypes() {
       path.join(_root, "update/types/react-day-picker.d.ts"),
       path.join(_root, "types/react-day-picker.d.ts"),
     );
-    //await buildType(path.join(_root, "update/node_modules/react-day-picker/dist/esm/index.js"), path.join(_root, "types/react-day-picker.d.ts"));
+    //await buildType(path.join(_root, "update/node_modules/react-day-picker/dist/esm/index.js"), path.join(_root, "update/types/react-day-picker.d.ts"));
 
     const classVarianceAuthorityContent = readFileSync(
       path.join(
