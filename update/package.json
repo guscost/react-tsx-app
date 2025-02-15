@@ -9,7 +9,9 @@
       "resolve": true
     },
     "external": [
-      "react"
+      "react",
+      "react-hook-form",
+      "zod"
     ],
     "outDir": "."
   },
