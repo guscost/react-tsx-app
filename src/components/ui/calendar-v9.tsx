@@ -75,7 +75,7 @@ function Calendar({
             &nbsp;&nbsp;
             <ChevronIcon
               className={cn(
-                compact ? "absolute top-[3px]" : "absolute top-[1px]",
+                compact ? "absolute top-1 sm:top-[3px]" : "absolute top-[1px]",
                 className,
               )}
               opacity={disabled ? 0.5 : 1}
@@ -121,8 +121,7 @@ function Calendar({
       : customComponents;
   }, [compact, props.components]);
 
-  const btnOffset = compact ? "-mx-0.5 sm:mx-0" : "mx-0";
-  const btnSize = compact ? "h-5 w-5 text-sm" : "h-6 w-6 text-md";
+  const btnSize = compact ? "h-5 w-4 sm:w-5 text-sm" : "h-6 w-6 text-md";
   const isLabel = captionLayout === "label";
 
   return (
@@ -144,8 +143,8 @@ function Calendar({
         dropdowns: compact ? "flex sm:ml-0.5" : "flex ml-0.5",
         years_dropdown: "after:none",
         nav: "absolute right-0 z-50 flex items-center h-7",
-        button_previous: cn(NO_BORDER, btnOffset, btnSize),
-        button_next: cn(NO_BORDER, btnOffset, btnSize),
+        button_previous: cn(NO_BORDER, btnSize),
+        button_next: cn(NO_BORDER, btnSize),
         chevron: btnSize,
         weeks: "w-full border-collapse space-y-1",
         week: "flex w-full mt-2",
