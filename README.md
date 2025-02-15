@@ -8,7 +8,7 @@ To watch for TypeScript changes and serve the app:
 
 ```
 npm install -g typescript serve
-tsc --watch & serve www &
+tsc -w & serve -s www &
 ```
 
 Changes will compile on save, but you will need to refresh the browser manually.

@@ -1,12 +1,12 @@
 import { useTheme } from "next-themes";
 import { Github, Moon, Sun } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 export function Title() {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <div className="flex justify-between mb-8">
+    <div className="flex justify-between mb-4">
       <div>
         <h1 className="text-2xl">Arthropod</h1>
         <p>

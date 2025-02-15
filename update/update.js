@@ -460,6 +460,10 @@ async function buildTypes() {
     // Copy wouter types
     mkdirSync(path.join(_root, "types/wouter"));
     copyFileSync(
+      path.join(_root, "update/node_modules/regexparam/index.d.ts"),
+      path.join(_root, "types/regexparam.d.ts"),
+    );
+    copyFileSync(
       path.join(_root, "update/node_modules/wouter/types/index.d.ts"),
       path.join(_root, "types/wouter/index.d.ts"),
     );
