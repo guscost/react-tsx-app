@@ -185,6 +185,14 @@ interface ResolverOptions<TFieldValues extends FieldValues> {
   names?: FieldName<TFieldValues>[];
   shouldUseNativeValidation: boolean | undefined;
 }
+type Resolver<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+> = (
+  values: TFieldValues,
+  context: TContext | undefined,
+  options: ResolverOptions<TFieldValues>,
+) => Promise<ResolverResult<TFieldValues>> | ResolverResult<TFieldValues>;
 
 declare const $NestedValue: unique symbol;
 /**
@@ -881,6 +889,7 @@ interface RefinementCtx {
   path: (string | number)[];
 }
 type ZodTypeAny = ZodType<any, any, any>;
+type TypeOf<T extends ZodType<any, any, any>> = T["_output"];
 type input<T extends ZodType<any, any, any>> = T["_input"];
 type output<T extends ZodType<any, any, any>> = T["_output"];
 
@@ -1344,26 +1353,32 @@ declare enum ZodFirstPartyTypeKind {
   ZodReadonly = "ZodReadonly",
 }
 
-type Resolver = <T extends ZodType<any, any>>(
-  schema: T,
+/**
+ * Creates a resolver function for react-hook-form that validates form data using a Zod schema
+ * @param {z.ZodSchema<TFieldValues>} schema - The Zod schema used to validate the form data
+ * @param {Partial<z.ParseParams>} [schemaOptions] - Optional configuration options for Zod parsing
+ * @param {Object} [resolverOptions] - Optional resolver-specific configuration
+ * @param {('async'|'sync')} [resolverOptions.mode='async'] - Validation mode. Use 'sync' for synchronous validation
+ * @param {boolean} [resolverOptions.raw=false] - If true, returns the raw form values instead of the parsed data
+ * @returns {Resolver<z.infer<typeof schema>>} A resolver function compatible with react-hook-form
+ * @throws {Error} Throws if validation fails with a non-Zod error
+ * @example
+ * const schema = z.object({
+ *   name: z.string().min(2),
+ *   age: z.number().min(18)
+ * });
+ *
+ * useForm({
+ *   resolver: zodResolver(schema)
+ * });
+ */
+declare function zodResolver<TFieldValues extends FieldValues>(
+  schema: ZodType<TFieldValues, any, any>,
   schemaOptions?: Partial<ParseParams>,
-  factoryOptions?: {
-    /**
-     * @default async
-     */
+  resolverOptions?: {
     mode?: "async" | "sync";
-    /**
-     * Return the raw input values rather than the parsed values.
-     * @default false
-     */
     raw?: boolean;
   },
-) => <TFieldValues extends FieldValues, TContext>(
-  values: TFieldValues,
-  context: TContext | undefined,
-  options: ResolverOptions<TFieldValues>,
-) => Promise<ResolverResult<TFieldValues>>;
+): Resolver<TypeOf<typeof schema>>;
 
-declare const zodResolver: Resolver;
-
-export { type Resolver, zodResolver };
+export { zodResolver };
