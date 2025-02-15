@@ -2,13 +2,21 @@
 
 import * as React from "react";
 import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  LucideProps,
+} from "lucide-react";
+import {
+  DayPicker,
+  ChevronProps,
+  DropdownProps,
   PreviousMonthButton as BtnPrev,
   PreviousMonthButtonProps as PrpPrev,
   NextMonthButton as BtnNext,
   NextMonthButtonProps as PrpNext,
   DateRange as InnerDateRange,
-  DayPicker,
-  DropdownProps,
 } from "react-day-picker";
 
 import { cn } from "../../lib/utils";
@@ -27,8 +35,19 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   compact?: boolean;
 };
 
+export const FOCUS = "focus:underline focus:underline-offset-2";
 export const NO_BORDER =
   "ring-0 focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none focus-visible:shadow-none outline-none focus:outline-none focus-visible:outline-none border-none focus:border-none focus-visible:border-none";
+
+const CHEVRONS: Record<
+  ChevronProps["orientation"],
+  React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>
+> = {
+  up: ChevronUpIcon,
+  down: ChevronDownIcon,
+  left: ChevronLeftIcon,
+  right: ChevronRightIcon,
+};
 
 // Updated for react-day-picker v9 and mobile sizing
 function Calendar({
@@ -42,17 +61,28 @@ function Calendar({
 }: CalendarProps) {
   // Custom components for prev/next and date dropdowns
   const components = React.useMemo(() => {
-    const pnc = compact
-      ? "focus:underline focus:underline-offset-2 -mx-0.5 sm:mx-0"
-      : "focus:underline focus:underline-offset-2 mx-0";
-
     const customComponents = {
       PreviousMonthButton: ({ tabIndex, className, ...props }: PrpPrev) => (
-        <BtnPrev tabIndex={0} className={cn(className, pnc)} {...props} />
+        <BtnPrev tabIndex={0} className={cn(FOCUS, className)} {...props} />
       ),
       NextMonthButton: ({ tabIndex, className, ...props }: PrpNext) => (
-        <BtnNext tabIndex={0} className={cn(className, pnc)} {...props} />
+        <BtnNext tabIndex={0} className={cn(FOCUS, className)} {...props} />
       ),
+      Chevron: ({ className, orientation, disabled = false }: ChevronProps) => {
+        const ChevronIcon = CHEVRONS[orientation];
+        return (
+          <div>
+            &nbsp;&nbsp;
+            <ChevronIcon
+              className={cn(
+                compact ? "absolute top-[3px]" : "absolute top-[1px]",
+                className,
+              )}
+              opacity={disabled ? 0.5 : 1}
+            />
+          </div>
+        );
+      },
       Dropdown: ({ value, options, onChange }: DropdownProps) => {
         const selected = options?.find((option) => option.value === value);
         const handleChange = (value: string) =>
@@ -62,9 +92,10 @@ function Calendar({
             <SelectTrigger
               tabIndex={0}
               className={cn(
+                FOCUS,
                 NO_BORDER,
                 compact ? "[&>svg]:-ml-[1px]" : "text-md",
-                "focus:underline focus:underline-offset-2 h-7 -mr-2.5 pr-0 [&>svg]:opacity-15",
+                "h-7 -mr-2.5 pr-0 [&>svg]:opacity-25",
               )}
             >
               <SelectValue>{selected?.label}</SelectValue>
@@ -90,7 +121,8 @@ function Calendar({
       : customComponents;
   }, [compact, props.components]);
 
-  const btnSize = compact ? "h-5 w-5" : "h-6 w-6";
+  const btnOffset = compact ? "-mx-0.5 sm:mx-0" : "mx-0";
+  const btnSize = compact ? "h-5 w-5 text-sm" : "h-6 w-6 text-md";
   const isLabel = captionLayout === "label";
 
   return (
@@ -100,7 +132,7 @@ function Calendar({
       numberOfMonths={numberOfMonths}
       showOutsideDays={showOutsideDays}
       components={components}
-      className={className}
+      className={cn("p-3", className)}
       classNames={{
         months: "flex gap-4 relative",
         month_grid: compact ? undefined : isLabel ? "mt-2.5" : "mt-2",
@@ -112,12 +144,9 @@ function Calendar({
         dropdowns: compact ? "flex sm:ml-0.5" : "flex ml-0.5",
         years_dropdown: "after:none",
         nav: "absolute right-0 z-50 flex items-center h-7",
-        button_previous: cn(NO_BORDER, btnSize, "group [&>svg]:fill-primary"),
-        button_next: cn(NO_BORDER, btnSize, "group [&>svg]:fill-primary"),
-        chevron: cn(
-          "border-b border-transparent group-focus:border-current",
-          btnSize,
-        ),
+        button_previous: cn(NO_BORDER, btnOffset, btnSize),
+        button_next: cn(NO_BORDER, btnOffset, btnSize),
+        chevron: btnSize,
         weeks: "w-full border-collapse space-y-1",
         week: "flex w-full mt-2",
         weekdays: "flex",
