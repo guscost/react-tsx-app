@@ -182,7 +182,7 @@ async function buildUmds() {
 
     // 2. tailwindcss
     const tailwindResponse = await fetch(
-      "https://cdn.tailwindcss.com/?plugins=typography,aspect-ratio,line-clamp,container-queries",
+      "https://cdn.tailwindcss.com/?plugins=typography,aspect-ratio,container-queries",
     );
     const tailwindContent = await tailwindResponse.text();
     appendFileSync(
