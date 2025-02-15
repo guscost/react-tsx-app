@@ -173,7 +173,7 @@ async function buildUmds() {
     rmSync(path.join(_root, "www/js/lib/lucide-react.min.js"), {
       force: true,
     });
-    rmSync(path.join(_root, "www/js/lib/zustand.min.js"), { force: true });
+    rmSync(path.join(_root, "www/js/lib/extras.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/dnd-kit.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
@@ -208,8 +208,9 @@ async function buildUmds() {
     // lucide icons
     await buildUmd(tempDir, "lucide-react", "lucide-react.min.js");
 
-    // zustand
-    await buildUmd(tempDir, "zustand", "zustand.min.js");
+    // wouter and zustand
+    await buildUmd(tempDir, "wouter", "extras.min.js");
+    await buildUmd(tempDir, "zustand", "extras.min.js");
 
     // dnd-kit
     await buildUmd(tempDir, "@dnd-kit/utilities", "dnd-kit.min.js"); // includes tslib
@@ -350,7 +351,6 @@ async function buildTypes() {
 
     // Copy all radix-ui types
     mkdirSync(path.join(_root, "types/@radix-ui"));
-
     const radixUiFolders = readdirSync(
       path.join(_root, "update/node_modules/@radix-ui"),
       {
@@ -429,7 +429,7 @@ async function buildTypes() {
       path.join(_root, "types/zustand.d.ts"),
     );
 
-    // Build @dnd-kit types
+    // Copy @dnd-kit types
     mkdirSync(path.join(_root, "types/@dnd-kit"));
     copyFileSync(
       path.join(_root, "update/types/@dnd-kit/utilities.d.ts"),
@@ -451,11 +451,44 @@ async function buildTypes() {
       path.join(_root, "update/types/@dnd-kit/sortable.d.ts"),
       path.join(_root, "types/@dnd-kit/sortable.d.ts"),
     );
-    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/utilities/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/utilities.d.ts"));
-    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/accessibility/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/accessibility.d.ts"));
-    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/core/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/core.d.ts"));
-    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/modifiers/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/modifiers.d.ts"));
-    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/sortable/dist/index.d.ts"), path.join(_root, "types/@dnd-kit/sortable.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/utilities/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/utilities.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/accessibility/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/accessibility.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/core/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/core.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/modifiers/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/modifiers.d.ts"));
+    // await buildType(path.join(_root, "update/node_modules/@dnd-kit/sortable/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/sortable.d.ts"));
+
+    // Copy wouter types
+    mkdirSync(path.join(_root, "types/wouter"));
+    copyFileSync(
+      path.join(_root, "update/node_modules/wouter/types/index.d.ts"),
+      path.join(_root, "types/wouter/index.d.ts"),
+    );
+    copyFileSync(
+      path.join(_root, "update/node_modules/wouter/types/location-hook.d.ts"),
+      path.join(_root, "types/wouter/location-hook.d.ts"),
+    );
+    copyFileSync(
+      path.join(_root, "update/node_modules/wouter/types/memory-location.d.ts"),
+      path.join(_root, "types/wouter/memory-location.d.ts"),
+    );
+    copyFileSync(
+      path.join(_root, "update/node_modules/wouter/types/router.d.ts"),
+      path.join(_root, "types/wouter/router.d.ts"),
+    );
+    copyFileSync(
+      path.join(
+        _root,
+        "update/node_modules/wouter/types/use-browser-location.d.ts",
+      ),
+      path.join(_root, "types/wouter/use-browser-location.d.ts"),
+    );
+    copyFileSync(
+      path.join(
+        _root,
+        "update/node_modules/wouter/types/use-hash-location.d.ts",
+      ),
+      path.join(_root, "types/wouter/use-hash-location.d.ts"),
+    );
 
     // Copy shadcn dependency types
     mkdirSync(path.join(_root, "types/@hookform"));
@@ -516,7 +549,7 @@ async function buildTypes() {
       path.join(_root, "update/types/recharts.d.ts"),
       path.join(_root, "types/recharts.d.ts"),
     );
-    //await buildType(path.join(_root, "update/node_modules/recharts/types/index.d.ts"), path.join(_root, "types/recharts.d.ts"));
+    //await buildType(path.join(_root, "update/node_modules/recharts/types/index.d.ts"), path.join(_root, "update/types/recharts.d.ts"));
   } catch (error) {
     console.error("Error during typedef build:", error);
     throw error;

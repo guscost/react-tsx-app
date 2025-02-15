@@ -2093,7 +2093,7 @@ type CustomParams = CustomErrorParams & {
 };
 declare function custom<T>(
   check?: (data: any) => any,
-  params?: string | CustomParams | ((input: any) => CustomParams),
+  _params?: string | CustomParams | ((input: any) => CustomParams),
   /**
    * @deprecated
    *
