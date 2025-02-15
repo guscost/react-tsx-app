@@ -392,6 +392,15 @@ async function buildTypes() {
       ),
       path.join(_root, "types/@tanstack/react-table.d.ts"),
     );
+    mkdirSync(path.join(_root, "types/@hookform"));
+    mkdirSync(path.join(_root, "types/@hookform/resolvers"));
+    await buildType(
+      path.join(
+        _root,
+        "update/node_modules/@hookform/resolvers/zod/dist/index.d.ts",
+      ),
+      path.join(_root, "types/@hookform/resolvers/zod.d.ts"),
+    );
     await buildType(
       path.join(_root, "update/node_modules/date-fns/index.js"),
       path.join(_root, "types/date-fns.d.ts"),
@@ -495,15 +504,6 @@ async function buildTypes() {
     );
 
     // Copy shadcn dependency types
-    mkdirSync(path.join(_root, "types/@hookform"));
-    mkdirSync(path.join(_root, "types/@hookform/resolvers"));
-    copyFileSync(
-      path.join(
-        _root,
-        "update/node_modules/@hookform/resolvers/zod/src/types.ts",
-      ),
-      path.join(_root, "types/@hookform/resolvers/zod.d.ts"),
-    );
     copyFileSync(
       path.join(_root, "update/node_modules/clsx/clsx.d.ts"),
       path.join(_root, "types/clsx.d.ts"),
