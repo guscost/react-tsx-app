@@ -157,14 +157,105 @@ async function buildUmd(tempDir, moduleName, fileName, entry, externals) {
   );
 }
 
-// Build all UMD bundles for the project
+async function buildRadixUmds(tempDir) {
+  rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
+
+  // Get all Radix UI modules to aggregate into one big UMD file
+  const radixUiSources = readdirSync(
+    path.join(_root, "update/node_modules/@radix-ui"),
+    {
+      withFileTypes: true,
+    },
+  );
+
+  // First, build a dependency graph and sort topologically
+  const dependencyGraph = new Map();
+  const packageJsonCache = new Map();
+
+  // Build dependency graph
+  for (const folder of radixUiSources.filter((f) => f.isDirectory())) {
+    const packagePath = path.join(
+      _root,
+      "update/node_modules/@radix-ui",
+      folder.name,
+      "package.json",
+    );
+    const packageJson = JSON.parse(readFileSync(packagePath, "utf8"));
+    packageJsonCache.set(folder.name, packageJson);
+
+    const radixDeps = Object.keys({
+      ...packageJson.dependencies,
+      ...packageJson.peerDependencies,
+    })
+      .filter((dep) => dep.startsWith("@radix-ui/"))
+      .map((dep) => dep.replace("@radix-ui/", ""));
+
+    dependencyGraph.set(folder.name, radixDeps);
+  }
+
+  // Topological sort function
+  function topologicalSort(graph) {
+    const visited = new Set();
+    const temp = new Set();
+    const order = [];
+
+    function visit(node) {
+      if (temp.has(node)) throw new Error("Circular dependency detected");
+      if (visited.has(node)) return;
+
+      temp.add(node);
+      const deps = graph.get(node) || [];
+      for (const dep of deps) {
+        visit(dep);
+      }
+      temp.delete(node);
+      visited.add(node);
+      order.push(node);
+    }
+
+    for (const node of graph.keys()) {
+      if (!visited.has(node)) {
+        visit(node);
+      }
+    }
+
+    return order;
+  }
+
+  // Build packages in dependency order
+  const buildOrder = topologicalSort(dependencyGraph);
+  for (const packageName of buildOrder) {
+    const packageJson = packageJsonCache.get(packageName);
+    const radixDeps = Object.keys({
+      ...packageJson.dependencies,
+      ...packageJson.peerDependencies,
+    }).filter((dep) => dep.startsWith("@radix-ui/"));
+
+    const radixExternals = Object.fromEntries(
+      radixDeps.map((dep) => [dep, dep]),
+    );
+
+    await buildUmd(
+      tempDir,
+      `@radix-ui/${packageName}`,
+      "radix-ui.min.js",
+      null,
+      radixExternals,
+    );
+  }
+}
+
+// Build all other UMD bundles for the project
 async function buildUmds() {
   try {
     const tempDir = path.join(_root, "update/temp");
     rmSync(tempDir, { recursive: true, force: true });
     mkdirSync(tempDir, { recursive: true });
 
-    // 1. Clean up old files
+    // @radix-ui packages have a complicated dependency graph, build separately
+    buildRadixUmds(tempDir);
+
+    // Clean up old files
     rmSync(path.join(_root, "www/js/lib/tailwind.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/react.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/react-dom.min.js"), {
@@ -175,12 +266,11 @@ async function buildUmds() {
     });
     rmSync(path.join(_root, "www/js/lib/extras.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/dnd-kit.min.js"), { force: true });
-    rmSync(path.join(_root, "www/js/lib/radix-ui.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/shadcn.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/chart.min.js"), { force: true });
     rmSync(path.join(_root, "www/js/lib/form.min.js"), { force: true });
 
-    // 2. tailwindcss
+    // tailwindcss
     const tailwindResponse = await fetch(
       "https://cdn.tailwindcss.com/?plugins=typography,aspect-ratio,container-queries",
     );
@@ -193,7 +283,7 @@ async function buildUmds() {
       ),
     );
 
-    // 3. build react and other dependencies
+    // react and other dependencies
     await buildUmd(tempDir, "react", "react.min.js");
     await buildUmd(tempDir, "react/jsx-runtime", "react.min.js");
 
@@ -205,14 +295,14 @@ async function buildUmds() {
       await generateReactDomEntryFile(tempDir),
     );
 
-    // lucide icons
+    // lucide-react icons
     await buildUmd(tempDir, "lucide-react", "lucide-react.min.js");
 
     // wouter and zustand
     await buildUmd(tempDir, "wouter", "extras.min.js");
     await buildUmd(tempDir, "zustand", "extras.min.js");
 
-    // dnd-kit
+    // @dnd-kit
     await buildUmd(tempDir, "@dnd-kit/utilities", "dnd-kit.min.js"); // includes tslib
     await buildUmd(tempDir, "@dnd-kit/accessibility", "dnd-kit.min.js", null, {
       tslib: "tslib",
@@ -233,18 +323,7 @@ async function buildUmds() {
       "@dnd-kit/utilities": "@dnd-kit/utilities",
     });
 
-    // Aggregate all Radix UI modules into one big file
-    const radixUiSources = readdirSync(
-      path.join(_root, "update/node_modules/@radix-ui"),
-      {
-        withFileTypes: true,
-      },
-    );
-    for (const folder of radixUiSources.filter((f) => f.isDirectory())) {
-      await buildUmd(tempDir, `@radix-ui/${folder.name}`, "radix-ui.min.js");
-    }
-
-    // Build shadcn deps
+    // shadcn deps
     await buildUmd(tempDir, "date-fns", "shadcn.min.js");
     await buildUmd(tempDir, "tailwind-merge", "shadcn.min.js");
     await buildUmd(tempDir, "clsx", "shadcn.min.js");
@@ -265,10 +344,10 @@ async function buildUmds() {
       "@radix-ui/react-primitive": "@radix-ui/react-primitive",
     });
 
-    // Recharts
+    // shadcn chart
     await buildUmd(tempDir, "recharts", "chart.min.js"); //clsx
 
-    // Form
+    // shadcn form
     await buildUmd(tempDir, "zod", "form.min.js");
     await buildUmd(tempDir, "react-hook-form", "form.min.js");
     await buildUmd(tempDir, "@hookform/resolvers/zod", "form.min.js", null, {
