@@ -49,7 +49,7 @@ import { TooltipDemo } from "@/components/demo-v4/tooltip-demo";
 
 export function SinkPage() {
   return (
-    <div className="grid gap-4 p-4">
+    <div className="grid gap-4">
       <ComponentWrapper name="chart" className="w-full">
         <ChartDemo />
       </ComponentWrapper>
