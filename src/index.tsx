@@ -4,6 +4,8 @@ import { ThemeProvider } from "next-themes";
 import { Link, Route, Switch } from "wouter";
 
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
+
 import { Title } from "@/components/title";
 import { CardsDemo } from "@/components/demo-cards/index";
 import { FormDemo } from "@/components/demo-form/index";
@@ -49,6 +51,7 @@ createRoot(document.getElementById("root")).render(
           </Route>
         </Switch>
       </div>
+      <Toaster />
     </ThemeProvider>
   </StrictMode>,
 );
