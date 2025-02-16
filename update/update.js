@@ -460,6 +460,7 @@ async function buildTypes() {
       path.join(_root, "update/types/@dnd-kit/sortable.d.ts"),
       path.join(_root, "types/@dnd-kit/sortable.d.ts"),
     );
+    // Uncomment, run, and fix imports to build updated @dnd-kit types:
     // await buildType(path.join(_root, "update/node_modules/@dnd-kit/utilities/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/utilities.d.ts"));
     // await buildType(path.join(_root, "update/node_modules/@dnd-kit/accessibility/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/accessibility.d.ts"));
     // await buildType(path.join(_root, "update/node_modules/@dnd-kit/core/dist/index.d.ts"), path.join(_root, "update/types/@dnd-kit/core.d.ts"));
@@ -517,15 +518,26 @@ async function buildTypes() {
       path.join(_root, "types/cmdk.d.ts"),
     );
 
-    appendFileSync(
+    copyFileSync(
+      path.join(_root, "update/types/react-resizable-panels.d.ts"),
       path.join(_root, "types/react-resizable-panels.d.ts"),
-      'declare module "react-resizable-panels";',
     );
+    // Replace all .js extensions in declarations folder, uncomment, and run to build updated react-resizable-panels types:
+    //await buildType(path.join(_root, "update/node_modules/react-resizable-panels/dist/declarations/src/index.d.ts"), path.join(_root, "update/types/react-resizable-panels.d.ts"));
+
     copyFileSync(
       path.join(_root, "update/types/react-day-picker.d.ts"),
       path.join(_root, "types/react-day-picker.d.ts"),
     );
+    // Uncomment, run, and fix imports to build updated react-day-picker types:
     //await buildType(path.join(_root, "update/node_modules/react-day-picker/dist/esm/index.js"), path.join(_root, "update/types/react-day-picker.d.ts"));
+
+    copyFileSync(
+      path.join(_root, "update/types/recharts.d.ts"),
+      path.join(_root, "types/recharts.d.ts"),
+    );
+    // Uncomment, run, and fix imports to build updated recharts types:
+    //await buildType(path.join(_root, "update/node_modules/recharts/types/index.d.ts"), path.join(_root, "update/types/recharts.d.ts"));
 
     const classVarianceAuthorityContent = readFileSync(
       path.join(
@@ -548,12 +560,6 @@ async function buildTypes() {
         classVarianceAuthorityTypesContent,
       ) + "\n",
     );
-
-    copyFileSync(
-      path.join(_root, "update/types/recharts.d.ts"),
-      path.join(_root, "types/recharts.d.ts"),
-    );
-    //await buildType(path.join(_root, "update/node_modules/recharts/types/index.d.ts"), path.join(_root, "update/types/recharts.d.ts"));
   } catch (error) {
     console.error("Error during typedef build:", error);
     throw error;
