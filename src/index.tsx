@@ -28,12 +28,6 @@ createRoot(document.getElementById("root")).render(
         </div>
 
         <Switch>
-          <Route path="/">
-            <SinkPage />
-          </Route>
-          <Route path="/form">
-            <FormDemo />
-          </Route>
           <Route path="/drag-n-drop">
             <KanbanBoard />
             <h2 className="my-2">
@@ -46,6 +40,12 @@ createRoot(document.getElementById("root")).render(
               </a>
               .
             </h2>
+          </Route>
+          <Route path="/form">
+            <FormDemo />
+          </Route>
+          <Route path="*">
+            <SinkPage />
           </Route>
         </Switch>
       </div>
