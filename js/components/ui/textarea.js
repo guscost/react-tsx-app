@@ -1,0 +1,11 @@
+define(["require", "exports", "react/jsx-runtime", "react", "@/lib/utils"], function (require, exports, jsx_runtime_1, React, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Textarea = void 0;
+    const Textarea = React.forwardRef(({ className, ...props }, ref) => {
+        return ((0, jsx_runtime_1.jsx)("textarea", { className: (0, utils_1.cn)("flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className), ref: ref, ...props }));
+    });
+    exports.Textarea = Textarea;
+    Textarea.displayName = "Textarea";
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidGV4dGFyZWEuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS90ZXh0YXJlYS50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztJQUlBLE1BQU0sUUFBUSxHQUFHLEtBQUssQ0FBQyxVQUFVLENBRy9CLENBQUMsRUFBRSxTQUFTLEVBQUUsR0FBRyxLQUFLLEVBQUUsRUFBRSxHQUFHLEVBQUUsRUFBRTtRQUNqQyxPQUFPLENBQ0wscUNBQ0UsU0FBUyxFQUFFLElBQUEsVUFBRSxFQUNYLDJRQUEyUSxFQUMzUSxTQUFTLENBQ1YsRUFDRCxHQUFHLEVBQUUsR0FBRyxLQUNKLEtBQUssR0FDVCxDQUNILENBQUM7SUFDSixDQUFDLENBQUMsQ0FBQztJQUdNLDRCQUFRO0lBRmpCLFFBQVEsQ0FBQyxXQUFXLEdBQUcsVUFBVSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICogYXMgUmVhY3QgZnJvbSBcInJlYWN0XCI7XG5cbmltcG9ydCB7IGNuIH0gZnJvbSBcIkAvbGliL3V0aWxzXCI7XG5cbmNvbnN0IFRleHRhcmVhID0gUmVhY3QuZm9yd2FyZFJlZjxcbiAgSFRNTFRleHRBcmVhRWxlbWVudCxcbiAgUmVhY3QuQ29tcG9uZW50UHJvcHM8XCJ0ZXh0YXJlYVwiPlxuPigoeyBjbGFzc05hbWUsIC4uLnByb3BzIH0sIHJlZikgPT4ge1xuICByZXR1cm4gKFxuICAgIDx0ZXh0YXJlYVxuICAgICAgY2xhc3NOYW1lPXtjbihcbiAgICAgICAgXCJmbGV4IG1pbi1oLVs2MHB4XSB3LWZ1bGwgcm91bmRlZC1tZCBib3JkZXIgYm9yZGVyLWlucHV0IGJnLXRyYW5zcGFyZW50IHB4LTMgcHktMiB0ZXh0LWJhc2Ugc2hhZG93LXNtIHBsYWNlaG9sZGVyOnRleHQtbXV0ZWQtZm9yZWdyb3VuZCBmb2N1cy12aXNpYmxlOm91dGxpbmUtbm9uZSBmb2N1cy12aXNpYmxlOnJpbmctMSBmb2N1cy12aXNpYmxlOnJpbmctcmluZyBkaXNhYmxlZDpjdXJzb3Itbm90LWFsbG93ZWQgZGlzYWJsZWQ6b3BhY2l0eS01MCBtZDp0ZXh0LXNtXCIsXG4gICAgICAgIGNsYXNzTmFtZSxcbiAgICAgICl9XG4gICAgICByZWY9e3JlZn1cbiAgICAgIHsuLi5wcm9wc31cbiAgICAvPlxuICApO1xufSk7XG5UZXh0YXJlYS5kaXNwbGF5TmFtZSA9IFwiVGV4dGFyZWFcIjtcblxuZXhwb3J0IHsgVGV4dGFyZWEgfTtcbiJdfQ==

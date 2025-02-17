@@ -1,0 +1,13 @@
+define(["require", "exports", "@radix-ui/react-collapsible"], function (require, exports, CollapsiblePrimitive) {
+    "use client";
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.CollapsibleContent = exports.CollapsibleTrigger = exports.Collapsible = void 0;
+    const Collapsible = CollapsiblePrimitive.Root;
+    exports.Collapsible = Collapsible;
+    const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger;
+    exports.CollapsibleTrigger = CollapsibleTrigger;
+    const CollapsibleContent = CollapsiblePrimitive.CollapsibleContent;
+    exports.CollapsibleContent = CollapsibleContent;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sbGFwc2libGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9zcmMvY29tcG9uZW50cy91aS9jb2xsYXBzaWJsZS50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtJQUFBLFlBQVksQ0FBQzs7OztJQUliLE1BQU0sV0FBVyxHQUFHLG9CQUFvQixDQUFDLElBQUksQ0FBQztJQU1yQyxrQ0FBVztJQUpwQixNQUFNLGtCQUFrQixHQUFHLG9CQUFvQixDQUFDLGtCQUFrQixDQUFDO0lBSTdDLGdEQUFrQjtJQUZ4QyxNQUFNLGtCQUFrQixHQUFHLG9CQUFvQixDQUFDLGtCQUFrQixDQUFDO0lBRXpCLGdEQUFrQiIsInNvdXJjZXNDb250ZW50IjpbIlwidXNlIGNsaWVudFwiO1xuXG5pbXBvcnQgKiBhcyBDb2xsYXBzaWJsZVByaW1pdGl2ZSBmcm9tIFwiQHJhZGl4LXVpL3JlYWN0LWNvbGxhcHNpYmxlXCI7XG5cbmNvbnN0IENvbGxhcHNpYmxlID0gQ29sbGFwc2libGVQcmltaXRpdmUuUm9vdDtcblxuY29uc3QgQ29sbGFwc2libGVUcmlnZ2VyID0gQ29sbGFwc2libGVQcmltaXRpdmUuQ29sbGFwc2libGVUcmlnZ2VyO1xuXG5jb25zdCBDb2xsYXBzaWJsZUNvbnRlbnQgPSBDb2xsYXBzaWJsZVByaW1pdGl2ZS5Db2xsYXBzaWJsZUNvbnRlbnQ7XG5cbmV4cG9ydCB7IENvbGxhcHNpYmxlLCBDb2xsYXBzaWJsZVRyaWdnZXIsIENvbGxhcHNpYmxlQ29udGVudCB9O1xuIl19
