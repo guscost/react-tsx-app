@@ -1,6 +1,6 @@
 # Arthropod
 
-React & TSX webapp with no package management or bundling. The `src` folder transpiles to `www` for a [demo](https://guscost.github.io/arthropod/www/).
+React & TSX webapp with no package management or bundling. The `src` folder transpiles to `www` for a [demo](https://arthropod.dev/).
 
 ## Development
 
