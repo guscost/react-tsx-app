@@ -21,7 +21,7 @@ type OptionalParams<R extends readonly string[]> = Partial<
 >;
 
 export function useRoutes<T extends string, R extends readonly T[]>(
-  routes: [...R],
+  routes: readonly [...R],
 ) {
   const [initialRoutes] = useState(routes);
   const [matched, setMatched] = useState<[R[number] | null, OptionalParams<R>]>(
@@ -48,6 +48,11 @@ export function useRoutes<T extends string, R extends readonly T[]>(
         setMatched([route, params as OptionalParams<R>]);
       }
     }
+  }
+
+  // If no route matched, reset the matched route
+  if (!found && matched[0]) {
+    setMatched([null, {}]);
   }
 
   return matched;
