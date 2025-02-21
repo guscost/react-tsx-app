@@ -56,7 +56,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   };
 
   const variants = cva(
-    "h-[500px] max-h-[500px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
+    "h-[500px] max-h-[500px] lg:w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
     {
       variants: {
         dragging: {
@@ -104,7 +104,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
 export function BoardContainer({ children }: { children: React.ReactNode }) {
   const dndContext = useDndContext();
 
-  const variations = cva("px-2 md:px-0 flex lg:justify-center pb-4", {
+  const variations = cva("flex lg:justify-center pb-4", {
     variants: {
       dragging: {
         default: "snap-x snap-mandatory",
@@ -119,7 +119,9 @@ export function BoardContainer({ children }: { children: React.ReactNode }) {
         dragging: dndContext.active ? "active" : "default",
       })}
     >
-      <div className="flex gap-4 items-center flex-row">{children}</div>
+      <div className="flex gap-4 flex-col lg:flex-row lg:items-center">
+        {children}
+      </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );

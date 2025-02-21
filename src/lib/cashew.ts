@@ -2,6 +2,8 @@
 const __MODULES__: {
   cache: { [name: string]: any };
   pending: { [name: string]: { unmetDeps: string[]; load: () => void } };
+  hasCycle: boolean;
+  checkCycles: () => void;
   get: (name: string) => any;
   set: (name: string, value: any) => void;
   resolve: (dep: string, current: string) => string;
@@ -9,6 +11,52 @@ const __MODULES__: {
 } = {
   cache: {},
   pending: {},
+  hasCycle: false,
+  checkCycles: () => {
+    const visited = new Set<string>();
+    const recursionStack = new Set<string>();
+
+    // Recursive depth-first search to trace dependency cycles
+    function trace(module: string): string[] {
+      if (recursionStack.has(module)) {
+        return [module];
+      }
+      if (visited.has(module)) {
+        return [];
+      }
+
+      visited.add(module);
+      recursionStack.add(module);
+
+      const deps = __MODULES__.pending[module]?.unmetDeps || [];
+      for (const dep of deps) {
+        const cycle = trace(dep);
+        if (cycle.length > 0) {
+          cycle.push(module);
+          return cycle;
+        }
+      }
+
+      recursionStack.delete(module);
+      return [];
+    }
+
+    for (const module of Object.keys(__MODULES__.pending)) {
+      if (!visited.has(module)) {
+        const cycle = trace(module);
+
+        if (cycle.length > 0) {
+          __MODULES__.hasCycle = true;
+          const firstNode = cycle[0];
+          const lastIndex = cycle.lastIndexOf(firstNode);
+          const minimalCycle = cycle.slice(0, lastIndex + 1);
+          throw new Error(
+            "Circular dependency " + minimalCycle.reverse().join(" -> "),
+          );
+        }
+      }
+    }
+  },
   get: (name: string) => __MODULES__.cache[name],
   set: (name: string, value: any) => (__MODULES__.cache[name] = value),
   resolve: (name: string, from: string) => {
@@ -32,6 +80,7 @@ const __MODULES__: {
     return name;
   },
   refresh: () => {
+    if (__MODULES__.hasCycle) return;
     for (const [key, { unmetDeps, load }] of Object.entries(
       __MODULES__.pending,
     )) {
@@ -40,6 +89,7 @@ const __MODULES__: {
         load();
       }
     }
+    __MODULES__.checkCycles();
   },
 };
 
